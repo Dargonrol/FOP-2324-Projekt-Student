@@ -9,10 +9,7 @@ import projekt.Config;
 import projekt.model.buildings.Port;
 import projekt.model.buildings.Settlement;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static projekt.Config.MAX_CITIES;
 import static projekt.Config.MAX_ROADS;
@@ -98,8 +95,12 @@ public class PlayerImpl implements Player {
     @Override
     @StudentImplementationRequired("H1.1")
     public boolean hasResources(final Map<ResourceType, Integer> resources) {
-        // TODO: H1.1
-        return org.tudalgo.algoutils.student.Student.crash("H1.1 - Remove if implemented");
+        for(ResourceType value : resources.keySet()) { // über alle ResourcesTypes im Parameter
+            if(this.resources.get(value) < resources.get(value)) { // wenn mehr gefragt ist als vorhanden
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
