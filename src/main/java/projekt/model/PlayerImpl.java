@@ -6,10 +6,12 @@ import org.jetbrains.annotations.Nullable;
 import org.tudalgo.algoutils.student.annotation.DoNotTouch;
 import org.tudalgo.algoutils.student.annotation.StudentImplementationRequired;
 import projekt.Config;
+import projekt.model.buildings.Port;
 import projekt.model.buildings.Settlement;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static projekt.Config.MAX_CITIES;
@@ -120,8 +122,29 @@ public class PlayerImpl implements Player {
     @Override
     @StudentImplementationRequired("H1.1")
     public int getTradeRatio(final ResourceType resourceType) {
-        // TODO: H1.1
-        return org.tudalgo.algoutils.student.Student.crash("H1.1 - Remove if implemented");
+        List<Port> ports = this.getSettlements().stream()
+            .map(Settlement::intersection)
+            .filter(x -> x.getPort() != null) // alle wo ein Hafen ist
+            .map(Intersection::getPort)
+            .toList(); // Liste aller Häfen des Spielers
+
+        boolean anyPort = false;
+        boolean generalPort = false;
+        boolean specificResourcePort = false;
+
+        if(!ports.isEmpty()) { // Einen Hafen?
+            anyPort = true;
+        }
+
+        for(Port value : ports) {
+            if(value.resourceType() == null) { // Einen generellen Hafen?
+                generalPort = true;
+            }
+            if(value.resourceType() == resourceType) { // Den richtigen Hafen?
+                specificResourcePort = true;
+            }
+        }
+        return anyPort ? (specificResourcePort ? 2 : (generalPort ? 3 : 4)) : 4;
     }
 
     @Override
