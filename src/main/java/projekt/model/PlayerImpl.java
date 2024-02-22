@@ -116,8 +116,14 @@ public class PlayerImpl implements Player {
     @Override
     @StudentImplementationRequired("H1.1")
     public boolean removeResources(final Map<ResourceType, Integer> resources) {
-        // TODO: H1.1
-        return org.tudalgo.algoutils.student.Student.crash("H1.1 - Remove if implemented");
+        if(!this.hasResources(resources)) { // Sind genug vorhanden?
+            return false;
+        }
+
+        for(ResourceType value : resources.keySet()) { // für jeden ResourceType im Parameter
+            this.resources.replace(value, this.resources.get(value) - resources.get(value));
+        }
+        return true;
     }
 
     @Override
