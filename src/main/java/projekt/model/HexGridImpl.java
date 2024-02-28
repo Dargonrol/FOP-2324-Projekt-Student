@@ -237,6 +237,7 @@ public class HexGridImpl implements HexGrid {
         final TilePosition position0, final TilePosition position1, final Player player,
         final boolean checkVillages
     ) {
+        // checking if a road is already present or if there is a village too close
         if(checkVillages) {
             if(this.getEdge(position0, position1).getIntersections().stream().filter(x -> x.playerHasSettlement(player)).toList().isEmpty()) {
                 return false;
@@ -251,8 +252,11 @@ public class HexGridImpl implements HexGrid {
             }
         }
         //TODO: Actually adding the road
+
+        // Edges are a record, so it has to be replaced. Managed to get all properties except the owning player
         this.edges.replace(this.getEdge(position0, position1).getAdjacentTilePositions(),
-            new EdgeImpl(this, position0, position1,  // player
+            new EdgeImpl(this, position0, position1,
+                // TODO: Passing the player, no idea how or what exactly
                 , this.getEdge(position0, position1).getPort()));
             // NOT FINISHED
         // TODO: H1.3
