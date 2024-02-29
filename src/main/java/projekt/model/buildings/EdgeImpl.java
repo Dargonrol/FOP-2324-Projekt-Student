@@ -52,9 +52,13 @@ public record EdgeImpl(
     @Override
     @StudentImplementationRequired("H1.3")
     public boolean connectsTo(final Edge other) {
-        // TODO: H1.3
-        return org.tudalgo.algoutils.student.Student.crash("H1.3 - Remove if implemented");
-    }
+        return !this.getIntersections().stream()
+            .filter(x -> x.getConnectedEdges()
+                .stream()
+                .anyMatch(y -> y.equals(other)))
+            .toList()
+            .isEmpty();
+       }
 
     @Override
     @StudentImplementationRequired("H1.3")
@@ -78,7 +82,8 @@ public record EdgeImpl(
     @Override
     @StudentImplementationRequired("H1.3")
     public Set<Edge> getConnectedRoads(final Player player) {
-        // TODO: H1.3
-        return org.tudalgo.algoutils.student.Student.crash("H1.3 - Remove if implemented");
-    }
+       return this.getConnectedEdges().stream()
+           .filter(Edge::hasRoad)// filter for edges with roads, since getRoadOwner() has undefined behaviour if there is no road build
+           .filter(x -> x.getRoadOwner().equals(player)).collect(Collectors.toSet());
+        }
 }
