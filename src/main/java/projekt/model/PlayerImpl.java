@@ -73,13 +73,13 @@ public class PlayerImpl implements Player {
     }
 
     @Override
-    @StudentImplementationRequired("H1.1")
+    @StudentImplementationRequired("H1.1") // ✅
     public Map<ResourceType, Integer> getResources() {
         return Collections.unmodifiableMap(this.resources);
     }
 
     @Override
-    @StudentImplementationRequired("H1.1")
+    @StudentImplementationRequired("H1.1") // ✅
     public void addResource(final ResourceType resourceType, final int amount) {
         if(amount > 0) {
             this.resources.put(resourceType, amount);
@@ -87,13 +87,13 @@ public class PlayerImpl implements Player {
     }
 
     @Override
-    @StudentImplementationRequired("H1.1")
+    @StudentImplementationRequired("H1.1") // ✅
     public void addResources(final Map<ResourceType, Integer> resources) {
         this.resources.putAll(resources);
     }
 
     @Override
-    @StudentImplementationRequired("H1.1")
+    @StudentImplementationRequired("H1.1") // ✅
     public boolean hasResources(final Map<ResourceType, Integer> resources) {
         for(ResourceType value : resources.keySet()) { // über alle ResourcesTypes im Parameter
             if(this.resources.get(value) < resources.get(value)) { // wenn mehr gefragt ist als vorhanden
@@ -104,7 +104,7 @@ public class PlayerImpl implements Player {
     }
 
     @Override
-    @StudentImplementationRequired("H1.1")
+    @StudentImplementationRequired("H1.1") // ✅
     public boolean removeResource(final ResourceType resourceType, final int amount) {
         if(this.resources.get(resourceType) >= amount) {
             this.resources.replace(resourceType, amount);
@@ -114,7 +114,7 @@ public class PlayerImpl implements Player {
         }
 
     @Override
-    @StudentImplementationRequired("H1.1")
+    @StudentImplementationRequired("H1.1") // ✅
     public boolean removeResources(final Map<ResourceType, Integer> resources) {
         if(!this.hasResources(resources)) { // Sind genug vorhanden?
             return false;
@@ -127,7 +127,7 @@ public class PlayerImpl implements Player {
     }
 
     @Override
-    @StudentImplementationRequired("H1.1")
+    @StudentImplementationRequired("H1.1") // ✅
     public int getTradeRatio(final ResourceType resourceType) {
         List<Port> ports = this.getSettlements().stream()
             .map(Settlement::intersection)
@@ -176,19 +176,19 @@ public class PlayerImpl implements Player {
     }
 
     @Override
-    @StudentImplementationRequired("H1.2")
+    @StudentImplementationRequired("H1.2") // ✅
     public Map<DevelopmentCardType, Integer> getDevelopmentCards() {
         return Collections.unmodifiableMap(this.developmentCards);
         }
 
     @Override
-    @StudentImplementationRequired("H1.2")
+    @StudentImplementationRequired("H1.2") // ✅
     public void addDevelopmentCard(final DevelopmentCardType developmentCardType) {
         this.developmentCards.put(developmentCardType, 1);
         }
 
     @Override
-    @StudentImplementationRequired("H1.2")
+    @StudentImplementationRequired("H1.2") // ✅
     public boolean removeDevelopmentCard(final DevelopmentCardType developmentCardType) {
         if(this.developmentCards.get(developmentCardType) > 0) {
             this.developmentCards.replace(developmentCardType, this.developmentCards.get(developmentCardType) - 1);
@@ -199,13 +199,13 @@ public class PlayerImpl implements Player {
     }
 
     @Override
-    @StudentImplementationRequired("H1.2")
+    @StudentImplementationRequired("H1.2") // ✅
     public int getTotalDevelopmentCards() {
         return this.developmentCards.size();
     }
 
     @Override
-    @StudentImplementationRequired("H1.2")
+    @StudentImplementationRequired("H1.2") // ✅
     public int getKnightsPlayed() {
         return this.playedDevelopmentCards.get(DevelopmentCardType.KNIGHT);
     }

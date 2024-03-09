@@ -86,7 +86,7 @@ public class IntersectionImpl implements Intersection {
     }
 
     @Override
-    @StudentImplementationRequired("H1.4")
+    @StudentImplementationRequired("H1.4") // ✅
     public boolean placeVillage(final Player player, final boolean ignoreRoadCheck) {
         if(this.hasSettlement()) {
             return false;
@@ -102,7 +102,7 @@ public class IntersectionImpl implements Intersection {
     }
 
     @Override
-    @StudentImplementationRequired("H1.4")
+    @StudentImplementationRequired("H1.4") // ✅
     public boolean upgradeSettlement(final Player player) {
         if(!this.hasSettlement()) { // is there a settlement
             return false;

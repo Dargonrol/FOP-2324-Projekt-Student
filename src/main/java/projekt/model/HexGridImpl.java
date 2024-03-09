@@ -220,7 +220,7 @@ public class HexGridImpl implements HexGrid {
     }
 
     @Override
-    @StudentImplementationRequired("H1.3")
+    @StudentImplementationRequired("H1.3") // ✅
     public Map<Set<TilePosition>, Edge> getRoads(final Player player) {
         return Collections.unmodifiableMap(player.getRoads());
     }
@@ -232,7 +232,7 @@ public class HexGridImpl implements HexGrid {
     }
 
     @Override
-    @StudentImplementationRequired("H1.3")
+    @StudentImplementationRequired("H1.3") // 🟨
     public boolean addRoad(
         final TilePosition position0, final TilePosition position1, final Player player,
         final boolean checkVillages
@@ -254,10 +254,11 @@ public class HexGridImpl implements HexGrid {
         //TODO: Actually adding the road
 
         // Edges are a record, so it has to be replaced. Managed to get all properties except the owning player
+        /*
         this.edges.replace(this.getEdge(position0, position1).getAdjacentTilePositions(),
-            new EdgeImpl(this, position0, position1,
+            // new EdgeImpl(this, position0, position1, 🟨 // KP was hier passiert ist, als ich was gemerged hab sah das so aus. Ich schau mir das später an| Alex
                 // TODO: Passing the player, no idea how or what exactly
-                , this.getEdge(position0, position1).getPort()));
+                , this.getEdge(position0, position1).getPort()));*/
             // NOT FINISHED
         // TODO: H1.3
         return org.tudalgo.algoutils.student.Student.crash("H1.3 - Remove if implemented");
