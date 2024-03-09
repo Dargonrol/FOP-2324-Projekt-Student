@@ -7,7 +7,10 @@ import projekt.model.Intersection;
 import projekt.model.Player;
 import projekt.model.TilePosition;
 
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Default implementation of {@link Edge}.
@@ -49,15 +52,26 @@ public record EdgeImpl(
     @Override
     @StudentImplementationRequired("H1.3")
     public boolean connectsTo(final Edge other) {
-        // TODO: H1.3
-        return org.tudalgo.algoutils.student.Student.crash("H1.3 - Remove if implemented");
-    }
+        return !this.getIntersections().stream()
+            .filter(x -> x.getConnectedEdges()
+                .stream()
+                .anyMatch(y -> y.equals(other)))
+            .toList()
+            .isEmpty();
+       }
 
     @Override
     @StudentImplementationRequired("H1.3")
     public Set<Intersection> getIntersections() {
-        // TODO: H1.3
-        return org.tudalgo.algoutils.student.Student.crash("H1.3 - Remove if implemented");
+        List<Set<TilePosition>> tilePos = this.grid.getIntersections().keySet().stream()
+            .filter(x -> x.contains(this.position1) && x.contains(this.position2))
+            .toList(); // list of the keys that map to the needed intersections
+
+        // New set of the values mapped to the needed intersections
+        Set<Intersection> ret = new HashSet<>();
+        ret.add(this.grid.getIntersections().get(tilePos.get(0)));
+        ret.add(this.grid.getIntersections().get(tilePos.get(1)));
+        return ret;
     }
 
     @Override
@@ -68,7 +82,8 @@ public record EdgeImpl(
     @Override
     @StudentImplementationRequired("H1.3")
     public Set<Edge> getConnectedRoads(final Player player) {
-        // TODO: H1.3
-        return org.tudalgo.algoutils.student.Student.crash("H1.3 - Remove if implemented");
-    }
+       return this.getConnectedEdges().stream()
+           .filter(Edge::hasRoad)// filter for edges with roads, since getRoadOwner() has undefined behaviour if there is no road build
+           .filter(x -> x.getRoadOwner().equals(player)).collect(Collectors.toSet());
+        }
 }

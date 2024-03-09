@@ -2,6 +2,7 @@ package projekt.model;
 
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.Property;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableDoubleValue;
@@ -14,12 +15,7 @@ import projekt.model.buildings.Port;
 import projekt.model.tiles.Tile;
 import projekt.model.tiles.TileImpl;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.function.BiFunction;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -226,8 +222,7 @@ public class HexGridImpl implements HexGrid {
     @Override
     @StudentImplementationRequired("H1.3")
     public Map<Set<TilePosition>, Edge> getRoads(final Player player) {
-        // TODO: H1.3
-        return org.tudalgo.algoutils.student.Student.crash("H1.3 - Remove if implemented");
+        return Collections.unmodifiableMap(player.getRoads());
     }
 
     @Override
@@ -242,6 +237,28 @@ public class HexGridImpl implements HexGrid {
         final TilePosition position0, final TilePosition position1, final Player player,
         final boolean checkVillages
     ) {
+        // checking if a road is already present or if there is a village too close
+        if(checkVillages) {
+            if(this.getEdge(position0, position1).getIntersections().stream().filter(x -> x.playerHasSettlement(player)).toList().isEmpty()) {
+                return false;
+            }
+        } else {
+            if (this.getEdge(position0, position1).hasRoad()) {
+                return false;
+            }
+
+            if (this.getEdge(position0, position1).getConnectedRoads(player).isEmpty()) {
+                return false;
+            }
+        }
+        //TODO: Actually adding the road
+
+        // Edges are a record, so it has to be replaced. Managed to get all properties except the owning player
+        this.edges.replace(this.getEdge(position0, position1).getAdjacentTilePositions(),
+            new EdgeImpl(this, position0, position1,
+                // TODO: Passing the player, no idea how or what exactly
+                , this.getEdge(position0, position1).getPort()));
+            // NOT FINISHED
         // TODO: H1.3
         return org.tudalgo.algoutils.student.Student.crash("H1.3 - Remove if implemented");
     }
