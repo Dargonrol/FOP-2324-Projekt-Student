@@ -82,7 +82,11 @@ public class PlayerImpl implements Player {
     @StudentImplementationRequired("H1.1") // ✅
     public void addResource(final ResourceType resourceType, final int amount) {
         if(amount > 0) {
-            this.resources.put(resourceType, amount + this.resources.get(resourceType));
+            if (this.resources.containsKey(resourceType)) {
+                this.resources.put(resourceType, amount + this.resources.get(resourceType));
+            } else {
+                this.resources.put(resourceType, amount);
+            }
         }
     }
 
@@ -90,8 +94,8 @@ public class PlayerImpl implements Player {
     @StudentImplementationRequired("H1.1") // ✅
     public void addResources(final Map<ResourceType, Integer> resources) {
         resources.keySet().stream()
-            .filter(y -> resources.get(y) >= 0) // filter for negatives
-            .forEach(x ->this.resources.put(x, resources.get(x) + this.resources.get(x)));
+            .filter(key -> resources.get(key) >= 0) // filter for negatives
+            .forEach(key -> this.addResource(key, resources.get(key)));
     }
 
     @Override
