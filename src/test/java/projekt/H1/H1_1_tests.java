@@ -30,7 +30,7 @@ public class H1_1_tests {
     void H1_1_addResources() {
         PlayerImpl.Builder playerBuilder = new PlayerImpl.Builder(0);
         Player player = playerBuilder.build(null);
-        player.addResources(resources.randomResources1);
+        player.addResources(data.randomResources1);
 
         assertEquals(player.getResources().get(ResourceType.CLAY), 10);
 
@@ -51,9 +51,9 @@ public class H1_1_tests {
         PlayerImpl.Builder playerBuilder = new PlayerImpl.Builder(0);
         Player player = playerBuilder.build(null);
 
-        player.addResources(resources.randomResources1);
-        Assertions.assertTrue(player.hasResources(resources.randomResources1));
-        Assertions.assertFalse(player.hasResources(resources.randomResources2));
+        player.addResources(data.randomResources1);
+        Assertions.assertTrue(player.hasResources(data.randomResources1));
+        Assertions.assertFalse(player.hasResources(data.randomResources2));
     }
 
     @Test
@@ -61,7 +61,7 @@ public class H1_1_tests {
         PlayerImpl.Builder playerBuilder = new PlayerImpl.Builder(0);
         Player player = playerBuilder.build(null);
 
-        player.addResources(resources.randomResources1);
+        player.addResources(data.randomResources1);
         assertTrue(player.removeResource(ResourceType.CLAY, 5));
         assertEquals(player.getResources().get(ResourceType.CLAY), 5);
 
@@ -81,12 +81,12 @@ public class H1_1_tests {
         PlayerImpl.Builder playerBuilder = new PlayerImpl.Builder(0);
         Player player = playerBuilder.build(null);
 
-        player.addResources(resources.randomResources1);
-        assertFalse(player.removeResources(resources.randomResources2));
-        assertTrue(player.hasResources(resources.randomResources1)); // player inv changed! if False
+        player.addResources(data.randomResources1);
+        assertFalse(player.removeResources(data.randomResources2));
+        assertTrue(player.hasResources(data.randomResources1)); // player inv changed! if False
 
-        assertTrue(player.removeResources(resources.randomResources1));
-        resources.randomResources1.forEach((key, value) -> {
+        assertTrue(player.removeResources(data.randomResources1));
+        data.randomResources1.forEach((key, value) -> {
             Integer playerResourceValue = player.getResources().get(key);
             assertTrue(playerResourceValue == null || playerResourceValue == 0);
         });

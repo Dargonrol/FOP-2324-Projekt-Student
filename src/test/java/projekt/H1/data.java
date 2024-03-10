@@ -5,7 +5,7 @@ import projekt.model.ResourceType;
 import java.util.HashMap;
 import java.util.Map;
 
-public class resources {
+public class data {
     public static final Map<ResourceType, Integer> randomResources1 = new HashMap<>(){{
         put(ResourceType.CLAY, 10);
         put(ResourceType.ORE, 5);
