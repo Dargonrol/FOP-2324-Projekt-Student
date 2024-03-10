@@ -89,7 +89,9 @@ public class PlayerImpl implements Player {
     @Override
     @StudentImplementationRequired("H1.1") // ✅
     public void addResources(final Map<ResourceType, Integer> resources) {
-        resources.keySet().forEach(x ->this.resources.put(x, resources.get(x) + this.resources.get(x)));
+        resources.keySet().stream()
+            .filter(y -> resources.get(y) >= 0) // filter for negatives
+            .forEach(x ->this.resources.put(x, resources.get(x) + this.resources.get(x)));
     }
 
     @Override
