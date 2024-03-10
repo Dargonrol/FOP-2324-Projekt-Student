@@ -12,4 +12,11 @@ public class resources {
         put(ResourceType.GRAIN, -5);
         put(ResourceType.WOOD, 0);
     }};
+
+    public static final Map<ResourceType, Integer> randomResources2 = new HashMap<>(){{
+        put(ResourceType.CLAY, 1);
+        put(ResourceType.ORE, 104);
+        put(ResourceType.GRAIN, 60);
+        put(ResourceType.WOOD, 0);
+    }};
 }
