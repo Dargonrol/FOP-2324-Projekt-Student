@@ -10,6 +10,7 @@ import projekt.model.buildings.Port;
 import projekt.model.buildings.Settlement;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static projekt.Config.MAX_CITIES;
 import static projekt.Config.MAX_ROADS;
@@ -101,10 +102,13 @@ public class PlayerImpl implements Player {
     @Override
     @StudentImplementationRequired("H1.1") // ✅
     public boolean hasResources(final Map<ResourceType, Integer> resources) {
-        for(ResourceType value : resources.keySet()) { // über alle ResourcesTypes im Parameter
-            if(this.resources.get(value) < resources.get(value)) { // wenn mehr gefragt ist als vorhanden
+        for (ResourceType key: resources.keySet()) {
+            if (!(resources.get(key) > 0))
+                continue;
+            if (!this.resources.containsKey(key))
                 return false;
-            }
+            if (!(this.resources.get(key) >= resources.get(key)))
+                    return false;
         }
         return true;
     }
@@ -112,8 +116,10 @@ public class PlayerImpl implements Player {
     @Override
     @StudentImplementationRequired("H1.1") // ✅
     public boolean removeResource(final ResourceType resourceType, final int amount) {
+        if (!this.resources.containsKey(resourceType) || amount < 0)
+            return false;
         if(this.resources.get(resourceType) >= amount) {
-            this.resources.replace(resourceType, amount);
+            this.resources.replace(resourceType, this.resources.get(resourceType) - amount);
             return true;
         }
         return false;
@@ -126,9 +132,7 @@ public class PlayerImpl implements Player {
             return false;
         }
 
-        for(ResourceType value : resources.keySet()) { // für jeden ResourceType im Parameter
-            this.resources.replace(value, this.resources.get(value) - resources.get(value));
-        }
+        resources.forEach(this::removeResource);
         return true;
     }
 
