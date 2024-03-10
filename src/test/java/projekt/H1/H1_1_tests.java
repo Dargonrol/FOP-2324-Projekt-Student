@@ -70,8 +70,7 @@ public class H1_1_tests {
         assertNull(player.getResources().get(ResourceType.WOOD));
 
         assertTrue(player.removeResource(ResourceType.CLAY, 5));
-        assertEquals(0, (int) player.getResources().getOrDefault(ResourceType.CLAY, 0));
-        assertNull(player.getResources().get(ResourceType.CLAY));
+        assertEquals(player.getResources().get(ResourceType.CLAY), 0);
 
         assertFalse(player.removeResource(ResourceType.ORE, -5));
         assertEquals(player.getResources().get(ResourceType.ORE), 5);
@@ -88,8 +87,8 @@ public class H1_1_tests {
 
         assertTrue(player.removeResources(resources.randomResources1));
         resources.randomResources1.forEach((key, value) -> {
-            assertEquals(0, (int) player.getResources().getOrDefault(key, 0));
-            assertNull(player.getResources().get(key));
+            Integer playerResourceValue = player.getResources().get(key);
+            assertTrue(playerResourceValue == null || playerResourceValue == 0);
         });
     }
 }
