@@ -82,7 +82,7 @@ public class PlayerImpl implements Player {
     @StudentImplementationRequired("H1.1") // ✅
     public void addResource(final ResourceType resourceType, final int amount) {
         if(amount > 0) {
-            this.resources.put(resourceType, amount);
+            this.resources.put(resourceType, amount + this.resources.get(resourceType));
         }
     }
 
