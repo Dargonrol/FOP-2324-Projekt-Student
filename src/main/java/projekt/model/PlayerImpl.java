@@ -186,7 +186,7 @@ public class PlayerImpl implements Player {
     @Override
     @StudentImplementationRequired("H1.2") // ✅
     public void addDevelopmentCard(final DevelopmentCardType developmentCardType) {
-        this.developmentCards.put(developmentCardType, 1);
+        this.developmentCards.put(developmentCardType, this.developmentCards.get(developmentCardType) + 1);
         }
 
     @Override
