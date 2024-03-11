@@ -295,8 +295,11 @@ public class PlayerActionsController implements Controller {
      */
     @StudentImplementationRequired("H3.1")
     private void updateUpgradeVillageButtonState() {
-        // TODO: H3.1
-        org.tudalgo.algoutils.student.Student.crash("H3.1 - Remove if implemented");
+        if(getPlayerObjective().getAllowedActions().contains(UpgradeVillageAction.class) && !getPlayerState().upgradableVillageIntersections().isEmpty()) {
+            this.builder.enableUpgradeVillageButton();
+        } else {
+            this.builder.disableUpgradeVillageButton();
+        }
     }
 
     /**
@@ -322,8 +325,11 @@ public class PlayerActionsController implements Controller {
      */
     @StudentImplementationRequired("H3.1")
     private void updateBuildRoadButtonState() {
-        // TODO: H3.1
-        org.tudalgo.algoutils.student.Student.crash("H3.1 - Remove if implemented");
+        if(getPlayerObjective().getAllowedActions().contains(BuildRoadAction.class) && !getPlayerState().buildableRoadEdges().isEmpty()) {
+            this.builder.enableBuildRoadButton();
+        } else {
+            this.builder.disableBuildRoadButton();
+        }
     }
 
     /**
