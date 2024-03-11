@@ -117,10 +117,47 @@ public class PlayerActionsController implements Controller {
      *
      * @param objective the objective to check
      */
-    @StudentImplementationRequired("H3.2")
+    @StudentImplementationRequired("H3.2") // 🟨
     private void updateUIBasedOnObjective(final PlayerObjective objective) {
         // TODO: H3.2
-        org.tudalgo.algoutils.student.Student.crash("H3.2 - Remove if implemented");
+        removeAllHighlights();
+
+        getHexGridController().drawEdges();
+        getHexGridController().drawIntersections();
+        getHexGridController().drawTiles();
+
+        this.builder.disableAllButtons();
+
+        updatePlayerInformation();
+
+        if (this.getPlayer().isAi()) { return; }
+
+        this.builder.enableEndTurnButton();
+        this.builder.enableRollDiceButton();
+        this.builder.enableTradeButton();
+        this.updateBuildRoadButtonState();
+        this.updateBuildVillageButtonState();
+        this.updateUpgradeVillageButtonState();
+        this.updateBuyDevelopmentCardButtonState();
+        this.updateUseDevelopmentCardButtonState();
+
+        // TODO: selectRobberTileAction
+        if (objective.getAllowedActions().contains(SelectRobberTileAction.class)) {
+            // TODO: Herausfinden, was man hier machen muss
+            //getHexGridController().highlightTiles(buildActionWrapper(event -> getPlayerController().triggerAction(new SelectRobberTileAction())));
+        }
+
+        // TODO: selectCardToStealAction
+        if (objective.getAllowedActions().contains(StealCardAction.class)) {
+            selectCardToStealAction();
+        }
+
+        // TODO: selectResources
+
+        // TODO: acceptTradeOffer
+        if (objective.getAllowedActions().contains(AcceptTradeAction.class)) {
+            acceptTradeOffer();
+        }
     }
 
     /**
