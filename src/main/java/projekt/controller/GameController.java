@@ -7,18 +7,15 @@ import javafx.beans.property.SimpleObjectProperty;
 import org.tudalgo.algoutils.student.annotation.DoNotTouch;
 import org.tudalgo.algoutils.student.annotation.StudentImplementationRequired;
 import projekt.Config;
+import projekt.controller.actions.EndTurnAction;
 import projekt.model.DevelopmentCardType;
 import projekt.model.GameState;
 import projekt.model.HexGridImpl;
 import projekt.model.Player;
 import projekt.model.ResourceType;
+import projekt.model.buildings.Settlement;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -285,9 +282,9 @@ public class GameController {
      * his turn.
      */
     @StudentImplementationRequired("H2.1")
-    private void regularTurn() {
-        // TODO: H2.1
-        org.tudalgo.algoutils.student.Student.crash("H2.1 - Remove if implemented");
+    private void regularTurn() { // ✅
+        // H2.1
+        while (this.getActivePlayerController().waitForNextAction(PlayerObjective.REGULAR_TURN) instanceof EndTurnAction);
     }
 
     /**
@@ -296,9 +293,14 @@ public class GameController {
      * Each player places two villages and two roads.
      */
     @StudentImplementationRequired("H2.1")
-    private void firstRound() {
-        // TODO: H2.1
-        org.tudalgo.algoutils.student.Student.crash("H2.1 - Remove if implemented");
+    private void firstRound() { // ✅
+        // H2.1
+        this.playerControllers.forEach((player, controller) -> {
+            controller.waitForNextAction(PlayerObjective.PLACE_VILLAGE);
+            controller.waitForNextAction(PlayerObjective.PLACE_VILLAGE);
+            controller.waitForNextAction(PlayerObjective.PLACE_ROAD);
+            controller.waitForNextAction(PlayerObjective.PLACE_ROAD);
+        });
     }
 
     /**
@@ -326,9 +328,15 @@ public class GameController {
      * steal a card from a player next to the robber.
      */
     @StudentImplementationRequired("H2.1")
-    private void diceRollSeven() {
-        // TODO: H2.1
-        org.tudalgo.algoutils.student.Student.crash("H2.1 - Remove if implemented");
+    private void diceRollSeven() { // ✅
+        // H2.1
+        this.playerControllers.forEach((player, controller) -> {
+            if (player.getResources().values().stream().mapToInt(Integer::intValue).sum() > 7) {
+                controller.waitForNextAction(PlayerObjective.DROP_CARDS);
+            }
+        });
+        this.getActivePlayerController().waitForNextAction(PlayerObjective.SELECT_ROBBER_TILE);
+        this.getActivePlayerController().waitForNextAction(PlayerObjective.SELECT_CARD_TO_STEAL);
     }
 
     /**
@@ -337,8 +345,20 @@ public class GameController {
      * @param diceRoll The dice roll to distribute the resources for.
      */
     @StudentImplementationRequired("H2.2")
-    public void distributeResources(final int diceRoll) {
+    public void distributeResources(final int diceRoll) { // ✅
         // TODO: H2.2
-        org.tudalgo.algoutils.student.Student.crash("H2.2 - Remove if implemented");
+        this.getState().getGrid().getTiles(diceRoll).forEach(tile -> {
+            if (!tile.hasRobber()) {
+                tile.getIntersections().forEach(intersection -> {
+                    if (intersection.hasSettlement()) {
+                        if (intersection.getSettlement().type() == Settlement.Type.VILLAGE) {
+                            intersection.getSettlement().owner().addResource(tile.getType().resourceType, 2);
+                        } else {
+                            intersection.getSettlement().owner().addResource(tile.getType().resourceType, 4);
+                        }
+                    }
+                });
+            }
+        });
     }
 }

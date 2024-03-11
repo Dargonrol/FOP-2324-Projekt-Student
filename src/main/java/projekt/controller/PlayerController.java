@@ -642,6 +642,7 @@ public class PlayerController {
     @StudentImplementationRequired("H2.3")
     public void acceptTradeOffer(final boolean accepted) throws IllegalActionException {
         // TODO: H2.3
+
         org.tudalgo.algoutils.student.Student.crash("H2.3 - Remove if implemented");
     }
 
