@@ -285,8 +285,11 @@ public class PlayerActionsController implements Controller {
      */
     @StudentImplementationRequired("H3.1")
     private void buildVillageButtonAction(final ActionEvent event) {
-        // TODO: H3.1
-        org.tudalgo.algoutils.student.Student.crash("H3.1 - Remove if implemented");
+            this.getHexGridController().getIntersectionControllers().stream() // all intersection controllers
+                .filter(x -> getPlayerState().buildableVillageIntersections().contains(x.getIntersection())) // only the buildable ones
+                .forEach(y -> y.highlight(buildActionWrapper( // manages the highlighting
+                    c -> getPlayerController().triggerAction(new BuildVillageAction(y.getIntersection())) // passing the 'action after clicking'
+                )));
     }
 
     /**
@@ -315,8 +318,11 @@ public class PlayerActionsController implements Controller {
      */
     @StudentImplementationRequired("H3.1")
     private void upgradeVillageButtonAction(final ActionEvent event) {
-        // TODO: H3.1
-        org.tudalgo.algoutils.student.Student.crash("H3.1 - Remove if implemented");
+        this.getHexGridController().getIntersectionControllers().stream() // all intersection controllers
+            .filter(x -> getPlayerState().upgradableVillageIntersections().contains(x.getIntersection())) // only the upgradeable ones
+            .forEach(y -> y.highlight(buildActionWrapper( // manages the highlighting
+                c -> getPlayerController().triggerAction(new UpgradeVillageAction(y.getIntersection())) // passing the 'action after clicking'
+            )));
     }
 
     /**
@@ -345,8 +351,11 @@ public class PlayerActionsController implements Controller {
      */
     @StudentImplementationRequired("H3.1")
     private void buildRoadButtonAction(final ActionEvent event) {
-        // TODO: H3.1
-        org.tudalgo.algoutils.student.Student.crash("H3.1 - Remove if implemented");
+        this.getHexGridController().getEdgeControllers().stream() // all edge controllers
+            .filter(x -> getPlayerState().buildableRoadEdges().contains(x.getEdge())) // only the buildable ones
+            .forEach(y -> y.highlight(buildActionWrapper( // manages the highlighting
+                c -> getPlayerController().triggerAction(new BuildRoadAction(y.getEdge())) // passing the 'action after clicking'
+            )));
     }
 
     /**
