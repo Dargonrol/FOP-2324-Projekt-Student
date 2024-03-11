@@ -12,15 +12,7 @@ import org.tudalgo.algoutils.student.annotation.DoNotTouch;
 import org.tudalgo.algoutils.student.annotation.StudentImplementationRequired;
 import projekt.controller.PlayerController;
 import projekt.controller.PlayerObjective;
-import projekt.controller.actions.AcceptTradeAction;
-import projekt.controller.actions.BuyDevelopmentCardAction;
-import projekt.controller.actions.EndTurnAction;
-import projekt.controller.actions.PlayDevelopmentCardAction;
-import projekt.controller.actions.RollDiceAction;
-import projekt.controller.actions.SelectCardsAction;
-import projekt.controller.actions.SelectRobberTileAction;
-import projekt.controller.actions.StealCardAction;
-import projekt.controller.actions.TradeAction;
+import projekt.controller.actions.*;
 import projekt.model.DevelopmentCardType;
 import projekt.model.Player;
 import projekt.model.PlayerState;
@@ -273,8 +265,11 @@ public class PlayerActionsController implements Controller {
      */
     @StudentImplementationRequired("H3.1")
     private void updateBuildVillageButtonState() {
-        // TODO: H3.1
-        org.tudalgo.algoutils.student.Student.crash("H3.1 - Remove if implemented");
+        if(getPlayerObjective().getAllowedActions().contains(BuildVillageAction.class) && !getPlayerState().buildableVillageIntersections().isEmpty()) {
+            this.builder.enableBuildVillageButton();
+        } else {
+            this.builder.disableBuildVillageButton();
+        }
     }
 
     /**
