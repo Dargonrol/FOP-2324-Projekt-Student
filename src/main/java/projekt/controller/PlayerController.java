@@ -331,9 +331,15 @@ public class PlayerController {
      * @return whether the {@link Player} can build a village.
      */
     @StudentImplementationRequired("H2.4")
-    public boolean canBuildVillage() {
-        // TODO: H2.4
-        return org.tudalgo.algoutils.student.Student.crash("H2.4 - Remove if implemented");
+    public boolean canBuildVillage() { // ✅
+        // H2.4
+        if ((this.playerObjectiveProperty.getValue() == PlayerObjective.PLACE_VILLAGE ||
+            this.player.hasResources(Config.SETTLEMENT_BUILDING_COST.get(Settlement.Type.VILLAGE))) &&
+            this.player.getRemainingVillages() > 0)
+        {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -347,9 +353,24 @@ public class PlayerController {
      * @throws IllegalActionException if the village cannot be built
      */
     @StudentImplementationRequired("H2.4")
-    public void buildVillage(final Intersection intersection) throws IllegalActionException {
-        // TODO: H2.4
-        org.tudalgo.algoutils.student.Student.crash("H2.4 - Remove if implemented");
+    public void buildVillage(final Intersection intersection) throws IllegalActionException { // ✅
+        // H2.4
+        if (intersection.hasSettlement()) { throw new IllegalActionException("Cannot built Village: Space already occupied"); }
+        if (!this.canBuildVillage()) { throw new IllegalActionException(this.player.getName() + " cannot build a Village"); }
+        if (!this.isFirstRound()) {
+            boolean hasConnectedRoad = false;
+            for (Edge edge: intersection.getConnectedEdges()) {
+                if (edge.hasRoad())
+                    if (edge.getRoadOwner() == this.player)
+                        hasConnectedRoad = true; break;
+            }
+            if (!hasConnectedRoad) { throw new IllegalActionException(this.player.getName() + " | A road you own is required to build a Village."); }
+        }
+        intersection.placeVillage(this.player, true);
+
+        if (!(this.playerObjectiveProperty.getValue() == PlayerObjective.PLACE_VILLAGE)) {
+            this.player.removeResources(Config.SETTLEMENT_BUILDING_COST.get(Settlement.Type.VILLAGE));
+        }
     }
 
     /**
@@ -390,9 +411,13 @@ public class PlayerController {
      * @throws IllegalActionException if the village cannot be upgraded
      */
     @StudentImplementationRequired("H2.5")
-    public void upgradeVillage(final Intersection intersection) throws IllegalActionException {
-        // TODO: H2.5
-        org.tudalgo.algoutils.student.Student.crash("H2.5 - Remove if implemented");
+    public void upgradeVillage(final Intersection intersection) throws IllegalActionException { // ✅
+        // H2.5
+        if (this.player.getRemainingCities() > 0 ) { throw new IllegalActionException(this.player.getName() + " You cannot build any more Cities."); }
+        if (!intersection.hasSettlement()) { throw new IllegalActionException(this.player.getName() + " there is no Settlement here."); }
+        if (!this.player.hasResources(Config.SETTLEMENT_BUILDING_COST.get(Settlement.Type.CITY))) { throw new IllegalActionException(this.player.getName() + " you don't have enough resources to upgrade."); }
+
+        this.player.removeResources(Config.SETTLEMENT_BUILDING_COST.get(Settlement.Type.CITY));
     }
 
     /**
@@ -431,9 +456,14 @@ public class PlayerController {
      * @return whether the {@link Player} can build a road.
      */
     @StudentImplementationRequired("H2.4")
-    public boolean canBuildRoad() {
-        // TODO: H2.4
-        return org.tudalgo.algoutils.student.Student.crash("H2.4 - Remove if implemented");
+    public boolean canBuildRoad() { // ✅
+        // H2.4
+        if ((this.playerObjectiveProperty.getValue() == PlayerObjective.PLACE_ROAD ||
+            this.player.hasResources(Config.ROAD_BUILDING_COST)) && this.player.getRemainingRoads() > 0)
+        {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -461,9 +491,25 @@ public class PlayerController {
      * @throws IllegalActionException if the road cannot be built
      */
     @StudentImplementationRequired("H2.4")
-    public void buildRoad(final TilePosition position0, final TilePosition position1) throws IllegalActionException {
-        // TODO: H2.4
-        org.tudalgo.algoutils.student.Student.crash("H2.4 - Remove if implemented");
+    public void buildRoad(final TilePosition position0, final TilePosition position1) throws IllegalActionException { // ✅
+        // H2.4
+        if (!(this.player.getRemainingRoads() > 0)) { throw new IllegalActionException(this.player.getName() + " you cannot any more roads"); }
+        if (!this.canBuildRoad()) { throw new IllegalActionException(this.player.getName() + " you cannot build a road"); }
+        if (this.gameController.getState().getGrid().getEdge(position0, position1).hasRoad()) {
+            throw new IllegalActionException("There is already a road here!"); }
+
+        if (this.isFirstRound()) {
+            boolean adjustmentSettlement = false;
+            for (Intersection intersection: this.gameController.getState().getGrid().getEdge(position0, position1).getIntersections()) {
+                if (intersection.hasSettlement())
+                    if (intersection.getSettlement().owner() == this.player)
+                        adjustmentSettlement = true;
+            }
+            if (!adjustmentSettlement) { throw new IllegalActionException(this.player.getName() + " in the first round a road needs to be connected to a settlement!"); }
+        }
+
+        if (this.playerObjectiveProperty.getValue() != PlayerObjective.PLACE_ROAD)
+            this.player.removeResources(Config.ROAD_BUILDING_COST);
     }
 
     // Development card methods
