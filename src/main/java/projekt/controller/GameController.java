@@ -7,7 +7,9 @@ import javafx.beans.property.SimpleObjectProperty;
 import org.tudalgo.algoutils.student.annotation.DoNotTouch;
 import org.tudalgo.algoutils.student.annotation.StudentImplementationRequired;
 import projekt.Config;
+import projekt.controller.actions.AcceptTradeAction;
 import projekt.controller.actions.EndTurnAction;
+import projekt.controller.actions.IllegalActionException;
 import projekt.model.DevelopmentCardType;
 import projekt.model.GameState;
 import projekt.model.HexGridImpl;
@@ -312,12 +314,32 @@ public class GameController {
      * @param request        The resources the offering player requests.
      */
     @StudentImplementationRequired("H2.3")
-    public void offerTrade(
+    public void offerTrade( // ✅
         final Player offeringPlayer, final Map<ResourceType, Integer> offer,
         final Map<ResourceType, Integer> request
     ) {
-        // TODO: H2.3
-        org.tudalgo.algoutils.student.Student.crash("H2.3 - Remove if implemented");
+        // H2.3
+        this.playerControllers.forEach((player, controller) -> {
+            if (controller.canAcceptTradeOffer(offeringPlayer, request)) {
+
+                controller.setPlayerTradeOffer(offeringPlayer, offer, request);
+                controller.setPlayerObjective(PlayerObjective.ACCEPT_TRADE);
+
+                if (controller.waitForNextAction() instanceof AcceptTradeAction) { // TODO: not sure if that works either
+                    try {
+                        controller.acceptTradeOffer(true);
+                        this.setActivePlayerControllerProperty(offeringPlayer);
+                        return;
+                    } catch (IllegalActionException ignored) {
+                        controller.setPlayerTradeOffer(null, null, null);
+                        controller.setPlayerObjective(PlayerObjective.IDLE);
+                    }
+                } else {
+                    controller.setPlayerTradeOffer(null, null, null);
+                    controller.setPlayerObjective(PlayerObjective.IDLE);
+                }
+            }
+        });
     }
 
     /**
@@ -352,9 +374,9 @@ public class GameController {
                 tile.getIntersections().forEach(intersection -> {
                     if (intersection.hasSettlement()) {
                         if (intersection.getSettlement().type() == Settlement.Type.VILLAGE) {
-                            intersection.getSettlement().owner().addResource(tile.getType().resourceType, 2);
+                            intersection.getSettlement().owner().addResource(tile.getType().resourceType, 1);
                         } else {
-                            intersection.getSettlement().owner().addResource(tile.getType().resourceType, 4);
+                            intersection.getSettlement().owner().addResource(tile.getType().resourceType, 2);
                         }
                     }
                 });

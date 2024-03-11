@@ -19,10 +19,7 @@ import projekt.model.buildings.Port;
 import projekt.model.buildings.Settlement;
 import projekt.model.tiles.Tile;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.function.Predicate;
@@ -560,10 +557,19 @@ public class PlayerController {
      * @see Port
      */
     @StudentImplementationRequired("H2.3")
-    public void tradeWithBank(final ResourceType offerType, final int offerAmount, final ResourceType request)
+    public void tradeWithBank(final ResourceType offerType, final int offerAmount, final ResourceType request) // ✅
     throws IllegalActionException {
-        // TODO: H2.3
-        org.tudalgo.algoutils.student.Student.crash("H2.3 - Remove if implemented");
+        // H2.3
+        if (offerAmount % this.player.getTradeRatio(request) != 0) {
+            throw new IllegalActionException(this.player.getName() + " wrong trading Ratio. Ratio is: " + this.player.getTradeRatio(request) + ":1");
+        }
+        if (!this.player.hasResources(Collections.singletonMap(offerType, offerAmount))) {
+            throw new IllegalActionException(this.player.getName() + " does not have enough resources for this offer");
+        }
+
+        // do trade
+        this.player.removeResource(offerType, offerAmount);
+        this.player.addResource(request, offerAmount / this.player.getTradeRatio(request));
     }
 
     /**
@@ -640,10 +646,26 @@ public class PlayerController {
      *                                resources
      */
     @StudentImplementationRequired("H2.3")
-    public void acceptTradeOffer(final boolean accepted) throws IllegalActionException {
-        // TODO: H2.3
+    public void acceptTradeOffer(final boolean accepted) throws IllegalActionException { // ✅
+        // H2.3
+        if (this.playerTradingOffer.isEmpty()) { throw new IllegalActionException("No trade offer to accept"); } // TODO: not sure if this is correct
+        if (!accepted) { this.setPlayerObjective(PlayerObjective.IDLE); return; }
 
-        org.tudalgo.algoutils.student.Student.crash("H2.3 - Remove if implemented");
+        // check if both player have enough resources to trade
+        if (!this.tradingPlayer.hasResources(this.playerTradingOffer)) {
+            throw new IllegalActionException(this.tradingPlayer.getName() + " does not have the offered resources");
+        }
+        if (!this.player.hasResources(this.playerTradingRequest)) {
+            throw new IllegalActionException(this.player.getName() + " does not have the requested resources");
+        }
+
+        // transfer resources
+        this.tradingPlayer.removeResources(this.playerTradingOffer);
+        this.player.addResources(this.playerTradingOffer);
+        this.player.removeResources(this.playerTradingRequest);
+        this.tradingPlayer.addResources(this.playerTradingRequest);
+
+        this.setPlayerObjective(PlayerObjective.IDLE);
     }
 
     // Robber methods
