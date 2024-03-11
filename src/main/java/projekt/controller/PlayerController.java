@@ -262,7 +262,7 @@ public class PlayerController {
     }
 
     /**
-     * Waits for a action to be triggered, checks if the action is allowed and then
+     * Waits for an action to be triggered, checks if the action is allowed and then
      * executes it.
      * If a {@link IllegalActionException} is thrown, the action is ignored and the
      * next action is awaited. This is done to ensure only allowed actions are
@@ -302,7 +302,7 @@ public class PlayerController {
      * Returns all intersections where a village can be built.
      * During a regular turn, a village can only be built next to an existing road.
      * In the first round the village can be built anywhere.
-     *
+     * <p>
      * <b>A village can never be built on an intersection that is adjacent to
      * another settlement or already has a settlement.</b>
      *
@@ -333,13 +333,9 @@ public class PlayerController {
     @StudentImplementationRequired("H2.4")
     public boolean canBuildVillage() { // ✅
         // H2.4
-        if ((this.playerObjectiveProperty.getValue() == PlayerObjective.PLACE_VILLAGE ||
-            this.player.hasResources(Config.SETTLEMENT_BUILDING_COST.get(Settlement.Type.VILLAGE))) &&
-            this.player.getRemainingVillages() > 0)
-        {
-            return true;
-        }
-        return false;
+        return (this.playerObjectiveProperty.getValue() == PlayerObjective.PLACE_VILLAGE ||
+                this.player.hasResources(Config.SETTLEMENT_BUILDING_COST.get(Settlement.Type.VILLAGE))) &&
+                this.player.getRemainingVillages() > 0;
     }
 
     /**
@@ -393,6 +389,7 @@ public class PlayerController {
      *
      * @return whether the {@link Player} can upgrade a village to a city.
      */
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public boolean canUpgradeVillage() {
         final var requiredResources = Config.SETTLEMENT_BUILDING_COST.get(Settlement.Type.CITY);
         return player.hasResources(requiredResources) && player.getSettlements().stream()
@@ -425,7 +422,7 @@ public class PlayerController {
      * During a regular turn, a road can only be built next to an existing road.
      * In the first round the road can only be built next to a village with no
      * adjacent roads.
-     *
+     * <p>
      * <b>A road can never be built on an edge that already has a road.</b>
      *
      * @return all edges where a road can be built.
@@ -458,12 +455,8 @@ public class PlayerController {
     @StudentImplementationRequired("H2.4")
     public boolean canBuildRoad() { // ✅
         // H2.4
-        if ((this.playerObjectiveProperty.getValue() == PlayerObjective.PLACE_ROAD ||
-            this.player.hasResources(Config.ROAD_BUILDING_COST)) && this.player.getRemainingRoads() > 0)
-        {
-            return true;
-        }
-        return false;
+        return (this.playerObjectiveProperty.getValue() == PlayerObjective.PLACE_ROAD ||
+                this.player.hasResources(Config.ROAD_BUILDING_COST)) && this.player.getRemainingRoads() > 0;
     }
 
     /**
