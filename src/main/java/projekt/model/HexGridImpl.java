@@ -232,7 +232,7 @@ public class HexGridImpl implements HexGrid {
     }
 
     @Override
-    @StudentImplementationRequired("H1.3") // 🟨
+    @StudentImplementationRequired("H1.3") // ✅
     public boolean addRoad(
         final TilePosition position0, final TilePosition position1, final Player player,
         final boolean checkVillages
@@ -243,26 +243,13 @@ public class HexGridImpl implements HexGrid {
                 return false;
             }
         } else {
-            if (this.getEdge(position0, position1).hasRoad()) {
-                return false;
-            }
-
-            if (this.getEdge(position0, position1).getConnectedRoads(player).isEmpty()) {
+            if (this.getEdge(position0, position1).hasRoad() || this.getEdge(position0, position1).getConnectedRoads(player).isEmpty()) {
                 return false;
             }
         }
-        //TODO: Actually adding the road
-
-        // Edges are a record, so it has to be replaced. Managed to get all properties except the owning player
-        /*
-        this.edges.replace(this.getEdge(position0, position1).getAdjacentTilePositions(),
-            // new EdgeImpl(this, position0, position1, 🟨
-                // TODO: Passing the player, no idea how or what exactly
-                , this.getEdge(position0, position1).getPort()));
-                */
-            // NOT FINISHED
-        // TODO: H1.3
-        return org.tudalgo.algoutils.student.Student.crash("H1.3 - Remove if implemented");
+        // Actually adding the road
+        this.getEdge(position0, position1).getRoadOwnerProperty().setValue(player);
+        return true;
     }
 
     @Override

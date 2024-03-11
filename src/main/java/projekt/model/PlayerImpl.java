@@ -83,11 +83,7 @@ public class PlayerImpl implements Player {
     @StudentImplementationRequired("H1.1") // ✅
     public void addResource(final ResourceType resourceType, final int amount) {
         if(amount > 0) {
-            if (this.resources.containsKey(resourceType)) {
-                this.resources.put(resourceType, amount + this.resources.get(resourceType));
-            } else {
-                this.resources.put(resourceType, amount);
-            }
+            this.resources.merge(resourceType, amount, Integer::sum);
         }
     }
 
@@ -141,8 +137,8 @@ public class PlayerImpl implements Player {
     public int getTradeRatio(final ResourceType resourceType) {
         List<Port> ports = this.getSettlements().stream()
             .map(Settlement::intersection)
-            .filter(x -> x.getPort() != null) // alle wo ein Hafen ist
-            .map(Intersection::getPort)
+            .map(Intersection::getPort) // alle wo ein Hafen ist
+            .filter(Objects::nonNull)
             .toList(); // Liste aller Häfen des Spielers
 
         boolean anyPort = false;
@@ -194,16 +190,18 @@ public class PlayerImpl implements Player {
     @Override
     @StudentImplementationRequired("H1.2") // ✅
     public void addDevelopmentCard(final DevelopmentCardType developmentCardType) {
-        this.developmentCards.put(developmentCardType, this.developmentCards.get(developmentCardType) + 1);
-        }
+        this.developmentCards.merge(developmentCardType, 1, Integer::sum);
+    }
 
     @Override
     @StudentImplementationRequired("H1.2") // ✅
     public boolean removeDevelopmentCard(final DevelopmentCardType developmentCardType) {
-        if(this.developmentCards.get(developmentCardType) > 0) {
-            this.developmentCards.replace(developmentCardType, this.developmentCards.get(developmentCardType) - 1);
-            this.playedDevelopmentCards.put(developmentCardType, this.playedDevelopmentCards.get(developmentCardType) + 1);
-            return true;
+        if (this.developmentCards.containsKey(developmentCardType)) {
+            if (this.developmentCards.get(developmentCardType) > 0) {
+                this.developmentCards.replace(developmentCardType, this.developmentCards.get(developmentCardType) - 1);
+                this.playedDevelopmentCards.merge(developmentCardType, 1, Integer::sum);
+                return true;
+            }
         }
         return false;
     }
@@ -217,7 +215,7 @@ public class PlayerImpl implements Player {
     @Override
     @StudentImplementationRequired("H1.2") // ✅
     public int getKnightsPlayed() {
-        return this.playedDevelopmentCards.get(DevelopmentCardType.KNIGHT);
+        return this.playedDevelopmentCards.getOrDefault(DevelopmentCardType.KNIGHT, 0);
     }
 
     /**

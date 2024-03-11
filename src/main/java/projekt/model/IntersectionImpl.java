@@ -104,13 +104,7 @@ public class IntersectionImpl implements Intersection {
     @Override
     @StudentImplementationRequired("H1.4") // ✅
     public boolean upgradeSettlement(final Player player) {
-        if(!this.hasSettlement()) { // is there a settlement
-            return false;
-        }
-        if(this.settlement.type() != VILLAGE) { // is it a village
-            return false;
-        }
-        if(!this.settlement.owner().equals(player)) { // does it belong to the given player
+        if(!this.hasSettlement() || this.settlement.type() != VILLAGE || !this.settlement.owner().equals(player)) {
             return false;
         }
 
