@@ -279,6 +279,7 @@ public class PlayerController {
 
             System.out.println("TRIGGER " + action + " [" + player.getName() + "]");
 
+
             if (!playerObjectiveProperty.getValue().allowedActions.contains(action.getClass())) {
                 throw new IllegalActionException(String.format("Illegal Action %s performed. Allowed Actions: %s",
                                                                action, playerObjectiveProperty.getValue().getAllowedActions()
