@@ -493,15 +493,15 @@ public class PlayerController {
             throw new IllegalActionException("There is already a road here!"); }
 
         if (this.isFirstRound()) {
-            boolean adjustmentSettlement = false;
+            boolean adjacentSettlement = false;
             for (Intersection intersection: this.gameController.getState().getGrid().getEdge(position0, position1).getIntersections()) {
                 if (intersection.hasSettlement())
                     if (intersection.getSettlement().owner() == this.player)
-                        adjustmentSettlement = true;
+                        adjacentSettlement = true;
             }
-            if (!adjustmentSettlement) { throw new IllegalActionException(this.player.getName() + " in the first round a road needs to be connected to a settlement!"); }
+            if (!adjacentSettlement) { throw new IllegalActionException(this.player.getName() + " in the first round a road needs to be connected to a settlement!"); }
         }
-
+        this.gameController.getState().getGrid().addRoad(position0, position1, this.player, false);
         if (this.playerObjectiveProperty.getValue() != PlayerObjective.PLACE_ROAD)
             this.player.removeResources(Config.ROAD_BUILDING_COST);
     }
