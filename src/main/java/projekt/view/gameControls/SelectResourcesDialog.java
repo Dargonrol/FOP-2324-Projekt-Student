@@ -8,6 +8,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleMapProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableIntegerValue;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -93,7 +94,7 @@ public class SelectResourcesDialog extends Dialog<Map<ResourceType, Integer>> {
 
         ArrayList<Spinner<Integer>> spinners = new ArrayList<>();
         totalSelectedResources = new SimpleIntegerProperty(0);
-        MapProperty<ResourceType, Integer> resultResources = new SimpleMapProperty<>();
+        MapProperty<ResourceType, Integer> resultResources = new SimpleMapProperty<>(FXCollections.observableHashMap());
 
         ChangeListener<Integer> spinnerChangeListener = ((observable, oldValue, newValue) -> {
             int sum = 0;

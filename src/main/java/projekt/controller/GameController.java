@@ -357,8 +357,11 @@ public class GameController {
         // H2.1
         this.playerControllers.forEach((player, controller) -> {
             if (player.getResources().values().stream().mapToInt(Integer::intValue).sum() > 7) {
-                this.getActivePlayerController().setCardsToSelect(4);
+                // get active pc to set it later again, cause withActivePlayer resets is
+                PlayerController activePc = this.getActivePlayerController();
+                controller.setCardsToSelect(4);
                 withActivePlayer(controller, () -> controller.waitForNextAction(PlayerObjective.DROP_CARDS));
+                this.setActivePlayerControllerProperty(activePc.getPlayer());
             }
         });
         this.getActivePlayerController().waitForNextAction(PlayerObjective.SELECT_ROBBER_TILE);
