@@ -4,9 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.tudalgo.algoutils.student.annotation.DoNotTouch;
@@ -115,8 +113,17 @@ public class CreateGameBuilder extends MenuBuilder {
      */
     @StudentImplementationRequired("H3.4")
     private Node createPlayerColorPicker(final Builder playerBuilder) {
-        // TODO: H3.4
-        return org.tudalgo.algoutils.student.Student.crash("H3.4 - Remove if implemented");
+        ColorPicker picker = new ColorPicker(playerBuilder.getColor());
+        Alert alert = new Alert(Alert.AlertType.ERROR, "Another Player already picked this colour");
+
+        picker.setOnAction(event -> {
+            if(!observablePlayers.stream().map(Builder::getColor).filter(x -> x == picker.getValue()).toList().isEmpty()) { // another player already has the colour?
+                alert.showAndWait();
+            } else { // no-one already has the colour
+                playerBuilder.color(picker.getValue());
+            }
+        });
+        return picker;
     }
 
     /**
