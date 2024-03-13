@@ -120,6 +120,7 @@ public class PlayerActionsController implements Controller {
     @StudentImplementationRequired("H3.2") // 🟨
     private void updateUIBasedOnObjective(final PlayerObjective objective) {
         // TODO: H3.2
+        System.out.println("entered funktion: updateUIBasedOnObjective. Player is: " + this.getPlayer().getName() + "Objective is: " + this.playerObjectiveProperty.getName());
         removeAllHighlights();
 
         getHexGridController().drawEdges();

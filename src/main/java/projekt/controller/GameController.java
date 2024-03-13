@@ -8,7 +8,6 @@ import org.tudalgo.algoutils.student.annotation.DoNotTouch;
 import org.tudalgo.algoutils.student.annotation.StudentImplementationRequired;
 import projekt.Config;
 import projekt.controller.actions.AcceptTradeAction;
-import projekt.controller.actions.EndTurnAction;
 import projekt.controller.actions.IllegalActionException;
 import projekt.model.DevelopmentCardType;
 import projekt.model.GameState;
@@ -18,6 +17,7 @@ import projekt.model.ResourceType;
 import projekt.model.buildings.Settlement;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -286,7 +286,7 @@ public class GameController {
     @StudentImplementationRequired("H2.1")
     private void regularTurn() { // ✅
         // H2.1
-        while (this.getActivePlayerController().waitForNextAction(PlayerObjective.REGULAR_TURN) instanceof EndTurnAction);
+        withActivePlayer(this.getActivePlayerController(), () -> this.getActivePlayerController().waitForNextAction(PlayerObjective.REGULAR_TURN));
     }
 
     /**
@@ -298,10 +298,10 @@ public class GameController {
     private void firstRound() { // ✅
         // H2.1
         this.playerControllers.forEach((player, controller) -> {
-            controller.waitForNextAction(PlayerObjective.PLACE_VILLAGE);
-            controller.waitForNextAction(PlayerObjective.PLACE_VILLAGE);
-            controller.waitForNextAction(PlayerObjective.PLACE_ROAD);
-            controller.waitForNextAction(PlayerObjective.PLACE_ROAD);
+            withActivePlayer(controller, () -> controller.waitForNextAction(PlayerObjective.PLACE_VILLAGE));
+            withActivePlayer(controller, () -> controller.waitForNextAction(PlayerObjective.PLACE_VILLAGE));
+            withActivePlayer(controller, () -> controller.waitForNextAction(PlayerObjective.PLACE_ROAD));
+            withActivePlayer(controller, () -> controller.waitForNextAction(PlayerObjective.PLACE_ROAD));
         });
     }
 
@@ -319,27 +319,30 @@ public class GameController {
         final Map<ResourceType, Integer> request
     ) {
         // H2.3
-        this.playerControllers.forEach((player, controller) -> {
+        for (Map.Entry<Player, PlayerController> entry: this.playerControllers.entrySet()) {
+            Player player = entry.getKey();
+            PlayerController controller = entry.getValue();
             if (controller.canAcceptTradeOffer(offeringPlayer, request)) {
 
                 controller.setPlayerTradeOffer(offeringPlayer, offer, request);
                 controller.setPlayerObjective(PlayerObjective.ACCEPT_TRADE);
 
-                if (controller.waitForNextAction() instanceof AcceptTradeAction) { // TODO: not sure if that works either
-                    try {
-                        controller.acceptTradeOffer(true);
-                        this.setActivePlayerControllerProperty(offeringPlayer);
-                        return;
-                    } catch (IllegalActionException ignored) {
-                        controller.setPlayerTradeOffer(null, null, null);
-                        controller.setPlayerObjective(PlayerObjective.IDLE);
+                this.setActivePlayerControllerProperty(player);
+                AtomicBoolean hasAccepted = new AtomicBoolean(false);
+                withActivePlayer(controller, () -> {
+                    if (controller.waitForNextAction(PlayerObjective.ACCEPT_TRADE) instanceof AcceptTradeAction) {
+                        try {
+                            controller.acceptTradeOffer(true);
+                            this.setActivePlayerControllerProperty(offeringPlayer);
+                        } catch (IllegalActionException e) {
+                            System.out.println(e + "\n Something went wrong in Trade: offerTrade(): H2.3");
+                        }
+                        hasAccepted.set(true);
                     }
-                } else {
-                    controller.setPlayerTradeOffer(null, null, null);
-                    controller.setPlayerObjective(PlayerObjective.IDLE);
-                }
+                });
+                if (hasAccepted.get()) { return; }
             }
-        });
+        }
     }
 
     /**
@@ -354,11 +357,11 @@ public class GameController {
         // H2.1
         this.playerControllers.forEach((player, controller) -> {
             if (player.getResources().values().stream().mapToInt(Integer::intValue).sum() > 7) {
-                controller.waitForNextAction(PlayerObjective.DROP_CARDS);
+                withActivePlayer(controller, () -> controller.waitForNextAction(PlayerObjective.DROP_CARDS));
             }
         });
-        this.getActivePlayerController().waitForNextAction(PlayerObjective.SELECT_ROBBER_TILE);
-        this.getActivePlayerController().waitForNextAction(PlayerObjective.SELECT_CARD_TO_STEAL);
+        withActivePlayer(this.getActivePlayerController(), () -> this.getActivePlayerController().waitForNextAction(PlayerObjective.SELECT_ROBBER_TILE));
+        withActivePlayer(this.getActivePlayerController(), () -> this.getActivePlayerController().waitForNextAction(PlayerObjective.SELECT_CARD_TO_STEAL));
     }
 
     /**
