@@ -357,11 +357,12 @@ public class GameController {
         // H2.1
         this.playerControllers.forEach((player, controller) -> {
             if (player.getResources().values().stream().mapToInt(Integer::intValue).sum() > 7) {
+                this.getActivePlayerController().setCardsToSelect(4);
                 withActivePlayer(controller, () -> controller.waitForNextAction(PlayerObjective.DROP_CARDS));
             }
         });
-        withActivePlayer(this.getActivePlayerController(), () -> this.getActivePlayerController().waitForNextAction(PlayerObjective.SELECT_ROBBER_TILE));
-        withActivePlayer(this.getActivePlayerController(), () -> this.getActivePlayerController().waitForNextAction(PlayerObjective.SELECT_CARD_TO_STEAL));
+        this.getActivePlayerController().waitForNextAction(PlayerObjective.SELECT_ROBBER_TILE);
+        this.getActivePlayerController().waitForNextAction(PlayerObjective.SELECT_CARD_TO_STEAL);
     }
 
     /**
@@ -371,7 +372,7 @@ public class GameController {
      */
     @StudentImplementationRequired("H2.2")
     public void distributeResources(final int diceRoll) { // ✅
-        // TODO: H2.2
+        // H2.2
         this.getState().getGrid().getTiles(diceRoll).forEach(tile -> {
             if (!tile.hasRobber()) {
                 tile.getIntersections().forEach(intersection -> {

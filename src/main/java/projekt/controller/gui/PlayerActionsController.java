@@ -13,11 +13,7 @@ import org.tudalgo.algoutils.student.annotation.StudentImplementationRequired;
 import projekt.controller.PlayerController;
 import projekt.controller.PlayerObjective;
 import projekt.controller.actions.*;
-import projekt.model.DevelopmentCardType;
-import projekt.model.Player;
-import projekt.model.PlayerState;
-import projekt.model.ResourceType;
-import projekt.model.TradePayload;
+import projekt.model.*;
 import projekt.model.tiles.Tile;
 import projekt.view.gameControls.AcceptTradeDialog;
 import projekt.view.gameControls.PlayerActionsBuilder;
@@ -120,7 +116,6 @@ public class PlayerActionsController implements Controller {
     @StudentImplementationRequired("H3.2") // 🟨
     private void updateUIBasedOnObjective(final PlayerObjective objective) {
         // TODO: H3.2
-        System.out.println("entered funktion: updateUIBasedOnObjective. Player is: " + this.getPlayer().getName() + "Objective is: " + this.playerObjectiveProperty.getName());
         removeAllHighlights();
 
         getHexGridController().drawEdges();
@@ -142,25 +137,18 @@ public class PlayerActionsController implements Controller {
         this.updateBuyDevelopmentCardButtonState();
         this.updateUseDevelopmentCardButtonState();
 
-
-        // TODO: selectRobberTileAction
         if (objective.getAllowedActions().contains(SelectRobberTileAction.class)) {
-            // TODO: Herausfinden, was man hier machen muss
-            //getHexGridController().highlightTiles(buildActionWrapper(event -> getPlayerController().triggerAction(new SelectRobberTileAction())));
+            getHexGridController().highlightTiles(this::selectRobberTileAction);
         }
 
-        // TODO: selectCardToStealAction
         if (objective.getAllowedActions().contains(StealCardAction.class)) {
             selectCardToStealAction();
         }
 
-        // TODO: selectResources
-        // muss das noch highlighted werden?
-        if(objective.getAllowedActions().contains(SelectResourcesDialog.class)) {
+        if(objective.getAllowedActions().contains(SelectCardsAction.class)) {
             selectResources(getPlayerState().cardsToSelect());
         }
 
-        // TODO: acceptTradeOffer
         if (objective.getAllowedActions().contains(AcceptTradeAction.class)) {
             acceptTradeOffer();
         }

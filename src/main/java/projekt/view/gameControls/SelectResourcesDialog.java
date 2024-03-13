@@ -42,7 +42,7 @@ public class SelectResourcesDialog extends Dialog<Map<ResourceType, Integer>> {
     // OWN MODIFICATIONS TO MAKE MY DESIGN WORK!!!!!!! All class variables where not there before.
     BooleanBinding AllResourcesSelected;
     IntegerProperty totalSelectedResources;
-    Button confirmButton = new Button("confirm");
+    final DialogPane dialogPane;
 
     /**
      * Creates a new SelectResourcesDialog for the given player and resources.
@@ -58,20 +58,9 @@ public class SelectResourcesDialog extends Dialog<Map<ResourceType, Integer>> {
         final int amountToSelect, final Player player,
         final Map<ResourceType, Integer> resourcesToSelectFrom, final boolean dropCards
     ) {
-        final DialogPane dialogPane = getDialogPane();
-        // OWN MODIFICATIONS TO MAKE MY DESIGN WORK!!!!!!! OLD CODE BELOW:
-        /*
+        this.dialogPane = getDialogPane(); // modded -alex
         dialogPane.getButtonTypes().add(ButtonType.OK);
         dialogPane.setContent(init(amountToSelect, player, resourcesToSelectFrom, dropCards));
-        */
-        // own code:
-        dialogPane.setContent(this.init(amountToSelect, player, resourcesToSelectFrom, dropCards));
-
-        HBox buttonBox = new HBox();
-        buttonBox.setAlignment(Pos.CENTER);
-        buttonBox.getChildren().add(confirmButton);
-
-        dialogPane.getChildren().add(buttonBox);
     }
 
     @StudentImplementationRequired("H3.4")
@@ -133,8 +122,9 @@ public class SelectResourcesDialog extends Dialog<Map<ResourceType, Integer>> {
 
         for (int i = 0; i < Config.NUMBER_TYPES_RESOURCES; i++) {
             spinners.add(new Spinner<>(0, amountToSelect, 0));
-            spinners.get(i).editableProperty().setValue(false);
-            spinners.get(i).getValueFactory().wrapAroundProperty().setValue(true);
+            spinners.get(i).editableProperty().setValue(true);
+            //spinners.get(i).setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, amountToSelect, 0, 1));
+            //spinners.get(i).getValueFactory().wrapAroundProperty().setValue(true);
             spinners.get(i).valueProperty().addListener(spinnerChangeListener);
 
             stackPanes.add(new StackPane());
@@ -159,11 +149,13 @@ public class SelectResourcesDialog extends Dialog<Map<ResourceType, Integer>> {
 
         AllResourcesSelected = Bindings.lessThan(totalSelectedResources, amountToSelect);
 
-        confirmButton.setBackground(Background.fill(Color.DARKGRAY));
-        confirmButton.setTextFill(Color.WHITE);
-        confirmButton.setDisable(true);
-        confirmButton.disableProperty().bind(AllResourcesSelected);
-        confirmButton.setOnAction(event -> {
+        Button okButton = (Button) dialogPane.lookupButton(ButtonType.OK);
+        okButton.disableProperty().bind(AllResourcesSelected);
+
+        okButton.setBackground(Background.fill(Color.DARKGRAY));
+        okButton.setTextFill(Color.WHITE);
+        okButton.disableProperty().bind(AllResourcesSelected);
+        okButton.setOnAction(event -> {
             setResult(resultResources.getValue());
         });
 
