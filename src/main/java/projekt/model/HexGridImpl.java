@@ -222,7 +222,7 @@ public class HexGridImpl implements HexGrid {
     @Override
     @StudentImplementationRequired("H1.3") // ✅
     public Map<Set<TilePosition>, Edge> getRoads(final Player player) {
-        return Collections.unmodifiableMap(player.getRoads());
+        return Collections.unmodifiableMap(this.edges.entrySet().stream().filter(entry -> entry.getValue().getRoadOwner() == player).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)));
     }
 
     @Override
