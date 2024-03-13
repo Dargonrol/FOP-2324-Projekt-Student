@@ -141,6 +141,7 @@ public class PlayerActionsController implements Controller {
         this.updateBuyDevelopmentCardButtonState();
         this.updateUseDevelopmentCardButtonState();
 
+
         // TODO: selectRobberTileAction
         if (objective.getAllowedActions().contains(SelectRobberTileAction.class)) {
             // TODO: Herausfinden, was man hier machen muss
@@ -153,6 +154,10 @@ public class PlayerActionsController implements Controller {
         }
 
         // TODO: selectResources
+        // muss das noch highlighted werden?
+        if(objective.getAllowedActions().contains(SelectResourcesDialog.class)) {
+            selectResources(getPlayerState().cardsToSelect());
+        }
 
         // TODO: acceptTradeOffer
         if (objective.getAllowedActions().contains(AcceptTradeAction.class)) {
