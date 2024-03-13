@@ -163,6 +163,7 @@ public class PlayerActionsController implements Controller {
         if (objective.getAllowedActions().contains(AcceptTradeAction.class)) {
             acceptTradeOffer();
         }
+
     }
 
     /**

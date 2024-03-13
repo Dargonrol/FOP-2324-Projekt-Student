@@ -1,5 +1,6 @@
 package projekt.view.menus;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -99,8 +100,9 @@ public class CreateGameBuilder extends MenuBuilder {
      */
     @StudentImplementationRequired("H3.4")
     private Node createAddPlayerButton() {
-        // TODO: H3.4
-        return org.tudalgo.algoutils.student.Student.crash("H3.4 - Remove if implemented");
+        Button button = new Button("Add Player");
+        button.setOnAction(event -> observablePlayers.add(nextPlayerBuilder()));
+        return button;
     }
 
     /**
@@ -137,8 +139,9 @@ public class CreateGameBuilder extends MenuBuilder {
      */
     @StudentImplementationRequired("H3.4")
     private Button createRemovePlayerButton(final int id) {
-        // TODO: H3.4
-        return org.tudalgo.algoutils.student.Student.crash("H3.4 - Remove if implemented");
+        Button button = new Button("Remove Player");
+        button.setOnAction(event -> removePlayer(id));
+        return button;
     }
 
     /**
@@ -149,8 +152,7 @@ public class CreateGameBuilder extends MenuBuilder {
      */
     @StudentImplementationRequired("H3.4")
     private void removePlayer(final int id) {
-        // TODO: H3.4
-        org.tudalgo.algoutils.student.Student.crash("H3.4 - Remove if implemented");
+        this.observablePlayers.remove(this.observablePlayers.stream().map(Builder::getId).toList().indexOf(id));
     }
 
     /**
