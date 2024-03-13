@@ -16,7 +16,7 @@
 ### H3 ❌
 - H3.1 ✅
 - H3.2 🟨
-- H3.3 🟨
+- H3.3 ✅
 - H3.4 ❌
 ### H4 ❌
 - H4.1 ❌
@@ -27,7 +27,7 @@
 - H4.6 ❌
 ---
 ## sonstiges
-Sobalt ich Zeit finde, werde ich nen paar JUnit tests schreiben, welche so gut es geht jede einzelne Aufgabe testet.
+Sobald ich Zeit finde, werde ich nen paar JUnit tests schreiben, welche so gut es geht jede einzelne Aufgabe testet.
 So kann man dann nach jeder änderung die tests runnen um zu schauen ob man mit dieser Änderung nichts anders kaputt gemacht hat.
 
 Update: Ich werde prob keine JUnits schreiben weil das viel zu aufwändig ist. Anyway, für die ersten 5 Methoden oder so sind sie fertig.

@@ -111,6 +111,11 @@ public final class Config {
     public static final int MAX_CITIES = 4;
 
     /**
+     * How many different resources are there.
+     */
+    public static final int NUMBER_TYPES_RESOURCES = 5;
+
+    /**
      * The amount of resources needed to build each settlement type.
      */
     public static final Map<Settlement.Type, Map<ResourceType, Integer>> SETTLEMENT_BUILDING_COST = Map.of(

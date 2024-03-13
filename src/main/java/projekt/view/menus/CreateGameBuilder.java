@@ -133,9 +133,18 @@ public class CreateGameBuilder extends MenuBuilder {
      * @return a node to select whether the player is a bot or not
      */
     @StudentImplementationRequired("H3.4")
-    private Node createBotOrPlayerSelector(final Builder playerBuilder) {
-        // TODO: H3.4
-        return org.tudalgo.algoutils.student.Student.crash("H3.4 - Remove if implemented");
+    private Node createBotOrPlayerSelector(final Builder playerBuilder) { // ✅
+        // H3.4
+        CheckBox checkBox = new CheckBox("Ai?");
+        checkBox.setSelected(false);
+        checkBox.setOnAction(event -> {
+            if (!playerBuilder.isAi() && checkBox.isSelected()) {
+                playerBuilder.aiProperty().set(true);
+            } else {
+                playerBuilder.aiProperty().set(false);
+            }
+        });
+        return checkBox;
     }
 
     /**
