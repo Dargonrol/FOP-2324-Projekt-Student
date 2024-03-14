@@ -30,14 +30,17 @@ public class BackgroundMusicPlayer {
 
     public void init(URL url) {
         System.out.println("Initializing BackgroundMusicPlayer");
-        if (url != null) {
-            System.out.println("sound file found");;
-            this.media = new Media(url.toString());
-            this.mediaPlayer = new MediaPlayer(media);
-            this.mediaPlayer.volumeProperty().bindBidirectional(this.volume);
-        } else {
-            System.out.println("No music file found");
-        }
+        try {
+            if (url != null) {
+                System.out.println("sound file found");;
+                this.media = new Media(url.toString());
+                this.mediaPlayer = new MediaPlayer(media);
+                this.mediaPlayer.volumeProperty().bindBidirectional(this.volume);
+            } else {
+                this.mediaPlayer = null;
+                System.out.println("No music file found");
+            }
+        } catch ( Exception ignored) {}
     }
 
     public MediaPlayer getMediaPlayer() {
@@ -45,14 +48,17 @@ public class BackgroundMusicPlayer {
     }
 
     public void changeMedia(URL url) {
-        if (url != null) {
-            System.out.println("Changing music file");
-            this.media = new Media(url.toString());
-            this.mediaPlayer = new MediaPlayer(media);
-            this.mediaPlayer.setVolume(volume.get());
-        } else {
-            System.out.println("No music file found");
-        }
+        try {
+            if (url != null) {
+                System.out.println("Changing music file");
+                this.media = new Media(url.toString());
+                this.mediaPlayer = new MediaPlayer(media);
+                this.mediaPlayer.setVolume(volume.get());
+            } else {
+                this.mediaPlayer = null;
+                System.out.println("No music file found");
+            }
+        } catch ( Exception ignored) {}
     }
 
     public void changeVolume(double volume) {

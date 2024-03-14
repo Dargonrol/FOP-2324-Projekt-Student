@@ -9,6 +9,7 @@ import org.tudalgo.algoutils.student.annotation.StudentImplementationRequired;
 import projekt.Config;
 import projekt.controller.actions.AcceptTradeAction;
 import projekt.controller.actions.IllegalActionException;
+import projekt.controller.actions.PlayerAction;
 import projekt.model.DevelopmentCardType;
 import projekt.model.GameState;
 import projekt.model.HexGridImpl;
@@ -286,7 +287,7 @@ public class GameController {
     @StudentImplementationRequired("H2.1")
     private void regularTurn() { // ✅
         // H2.1
-        withActivePlayer(this.getActivePlayerController(), () -> this.getActivePlayerController().waitForNextAction(PlayerObjective.REGULAR_TURN));
+        this.getActivePlayerController().waitForNextAction(PlayerObjective.REGULAR_TURN);
     }
 
     /**
@@ -298,10 +299,16 @@ public class GameController {
     private void firstRound() { // ✅
         // H2.1
         this.playerControllers.forEach((player, controller) -> {
-            withActivePlayer(controller, () -> controller.waitForNextAction(PlayerObjective.PLACE_VILLAGE));
-            withActivePlayer(controller, () -> controller.waitForNextAction(PlayerObjective.PLACE_VILLAGE));
-            withActivePlayer(controller, () -> controller.waitForNextAction(PlayerObjective.PLACE_ROAD));
-            withActivePlayer(controller, () -> controller.waitForNextAction(PlayerObjective.PLACE_ROAD));
+            this.setActivePlayerControllerProperty(controller.getPlayer());
+            withActivePlayer(controller, () -> {
+                controller.waitForNextAction(PlayerObjective.PLACE_VILLAGE);
+                controller.waitForNextAction(PlayerObjective.PLACE_ROAD);
+            });
+            this.setActivePlayerControllerProperty(controller.getPlayer());
+            withActivePlayer(controller, () -> {
+                controller.waitForNextAction(PlayerObjective.PLACE_VILLAGE);
+                controller.waitForNextAction(PlayerObjective.PLACE_ROAD);
+            });
         });
     }
 
@@ -320,6 +327,8 @@ public class GameController {
     ) {
         // H2.3
         for (Map.Entry<Player, PlayerController> entry: this.playerControllers.entrySet()) {
+            if (entry.getKey().isAi()) { continue; } // skip AI players (they can't trade with themselves)
+            if (entry.getKey() == offeringPlayer) { continue; } // skip offering player (he can't trade with himself)
             Player player = entry.getKey();
             PlayerController controller = entry.getValue();
             if (controller.canAcceptTradeOffer(offeringPlayer, request)) {
@@ -330,16 +339,19 @@ public class GameController {
                 this.setActivePlayerControllerProperty(player);
                 AtomicBoolean hasAccepted = new AtomicBoolean(false);
                 withActivePlayer(controller, () -> {
-                    if (controller.waitForNextAction(PlayerObjective.ACCEPT_TRADE) instanceof AcceptTradeAction) {
+                    PlayerAction action = this.getActivePlayerController().waitForNextAction(PlayerObjective.ACCEPT_TRADE);
+                    if (action instanceof AcceptTradeAction) {
                         try {
                             controller.acceptTradeOffer(true);
                             this.setActivePlayerControllerProperty(offeringPlayer);
                         } catch (IllegalActionException e) {
                             System.out.println(e + "\n Something went wrong in Trade: offerTrade(): H2.3");
                         }
+
                         hasAccepted.set(true);
                     }
                 });
+                setActivePlayerControllerProperty(offeringPlayer);
                 if (hasAccepted.get()) { return; }
             }
         }

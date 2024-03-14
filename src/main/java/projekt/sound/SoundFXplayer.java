@@ -34,14 +34,16 @@ public class SoundFXplayer {
 
     public void playSound(URL url, boolean stopPrevious) {
         if (stopPrevious && this.mediaPlayer != null) { this.mediaPlayer.stop(); }
-        if (url != null) {
-            this.media = new Media(url.toString());
-            this.mediaPlayer = new MediaPlayer(media);
-            this.mediaPlayer.volumeProperty().bindBidirectional(this.volume);
-            this.mediaPlayer.play();
-        } else {
-            System.out.println("No sound file found");
-        }
+        try {
+            if (url != null) {
+                this.media = new Media(url.toString());
+                this.mediaPlayer = new MediaPlayer(media);
+                this.mediaPlayer.volumeProperty().bindBidirectional(this.volume);
+                this.mediaPlayer.play();
+            } else {
+                System.out.println("No sound file found");
+            }
+        } catch (Exception ignored) { }
     }
 
     public void changeVolume(double volume) {

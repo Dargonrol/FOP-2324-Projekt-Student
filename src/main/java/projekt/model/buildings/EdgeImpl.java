@@ -52,13 +52,8 @@ public record EdgeImpl(
     @Override
     @StudentImplementationRequired("H1.3")
     public boolean connectsTo(final Edge other) {
-        return !this.getIntersections().stream()
-            .filter(x -> x.getConnectedEdges()
-                .stream()
-                .anyMatch(y -> y.equals(other)))
-            .toList()
-            .isEmpty();
-       }
+        return !this.getIntersections().stream().filter(intersection -> other.getIntersections().contains(intersection)).toList().isEmpty();
+    }
 
     @Override
     @StudentImplementationRequired("H1.3")

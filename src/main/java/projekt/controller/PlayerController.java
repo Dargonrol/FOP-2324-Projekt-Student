@@ -418,12 +418,15 @@ public class PlayerController {
     public void upgradeVillage(final Intersection intersection) throws IllegalActionException { // ✅
         // H2.5
         if (this.player.getRemainingCities() == 0 ) { throw new IllegalActionException(this.player.getName() + " You cannot build any more Cities."); }
-        if (!intersection.hasSettlement()) { throw new IllegalActionException(this.player.getName() + " there is no Settlement here."); }
+        if (intersection.hasSettlement()) { throw new IllegalActionException(this.player.getName() + " there is no Settlement here."); }
         if (!this.player.hasResources(Config.SETTLEMENT_BUILDING_COST.get(Settlement.Type.CITY))) { throw new IllegalActionException(this.player.getName() + " you don't have enough resources to upgrade."); }
 
-        SoundFXplayer.getInstance().playSound(getClass().getResource(Config.UPGRADEVILLAGE_SOUND_PATH));
-        intersection.upgradeSettlement(this.player);
-        this.player.removeResources(Config.SETTLEMENT_BUILDING_COST.get(Settlement.Type.CITY));
+        if (intersection.upgradeSettlement(this.player)) {
+            SoundFXplayer.getInstance().playSound(getClass().getResource(Config.UPGRADEVILLAGE_SOUND_PATH));
+            this.player.removeResources(Config.SETTLEMENT_BUILDING_COST.get(Settlement.Type.CITY));
+        } else {
+            throw new IllegalActionException("Cannot upgrade Village to City");
+        }
     }
 
     /**
@@ -500,17 +503,10 @@ public class PlayerController {
         if (this.gameController.getState().getGrid().getEdge(position0, position1).hasRoad()) {
             throw new IllegalActionException("There is already a road here!"); }
 
-        if (this.isFirstRound()) {
-            boolean adjacentSettlement = false;
-            for (Intersection intersection: this.gameController.getState().getGrid().getEdge(position0, position1).getIntersections()) {
-                if (intersection.hasSettlement())
-                    if (intersection.getSettlement().owner() == this.player)
-                        adjacentSettlement = true;
-            }
-            if (!adjacentSettlement) { throw new IllegalActionException(this.player.getName() + " in the first round a road needs to be connected to a settlement!"); }
-        }
+        boolean checkVillages = this.isFirstRound();
+
         SoundFXplayer.getInstance().playSound(getClass().getResource(Config.PLACEROAD_SOUND_PATH));
-        this.gameController.getState().getGrid().addRoad(position0, position1, this.player, false);
+        this.gameController.getState().getGrid().addRoad(position0, position1, this.player, checkVillages);
         if (this.playerObjectiveProperty.getValue() != PlayerObjective.PLACE_ROAD)
             this.player.removeResources(Config.ROAD_BUILDING_COST);
     }
@@ -697,15 +693,17 @@ public class PlayerController {
     @StudentImplementationRequired("H2.3")
     public void acceptTradeOffer(final boolean accepted) throws IllegalActionException { // ✅
         // H2.3
-        if (this.playerTradingOffer.isEmpty()) { throw new IllegalActionException("No trade offer to accept"); } // TODO: not sure if this is correct
+        if (this.tradingPlayer == null) { throw new IllegalActionException("No trade offer to accept"); }
+        if (this.playerTradingOffer == null || this.playerTradingRequest == null) { throw new IllegalActionException("wrong resource selection"); }
+        if (this.playerTradingOffer.isEmpty() || this.playerTradingRequest.isEmpty()) { throw new IllegalActionException("wrong resource selection"); }
         if (!accepted) { this.setPlayerObjective(PlayerObjective.IDLE); return; }
 
         // check if both player have enough resources to trade
         if (!this.tradingPlayer.hasResources(this.playerTradingOffer)) {
-            throw new IllegalActionException(this.tradingPlayer.getName() + " does not have the offered resources");
+            throw new IllegalActionException("Other player does not have the offered resources");
         }
         if (!this.player.hasResources(this.playerTradingRequest)) {
-            throw new IllegalActionException(this.player.getName() + " does not have the requested resources");
+            throw new IllegalActionException("Player does not have the requested resources");
         }
 
         // transfer resources

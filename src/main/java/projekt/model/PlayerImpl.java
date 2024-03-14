@@ -11,6 +11,7 @@ import projekt.model.buildings.Settlement;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.stream.Collectors;
 
 import static projekt.Config.MAX_CITIES;
 import static projekt.Config.MAX_ROADS;
@@ -82,7 +83,7 @@ public class PlayerImpl implements Player {
     @Override
     @StudentImplementationRequired("H1.1") // ✅
     public void addResource(final ResourceType resourceType, final int amount) {
-        if(amount > 0) {
+        if(amount >= 0) {
             this.resources.merge(resourceType, amount, Integer::sum);
         }
     }
@@ -209,7 +210,7 @@ public class PlayerImpl implements Player {
     @Override
     @StudentImplementationRequired("H1.2") // ✅
     public int getTotalDevelopmentCards() {
-        return this.developmentCards.size();
+        return this.developmentCards.values().stream().mapToInt(Integer::intValue).sum();
     }
 
     @Override

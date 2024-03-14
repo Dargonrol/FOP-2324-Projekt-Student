@@ -239,11 +239,11 @@ public class HexGridImpl implements HexGrid {
     ) {
         // checking if a road is already present or if there is a village too close
         if(checkVillages) {
-            if(this.getEdge(position0, position1).getIntersections().stream().filter(x -> x.playerHasSettlement(player)).toList().isEmpty()) {
+            if((this.getEdge(position0, position1).getIntersections().stream().filter(x -> x.playerHasSettlement(player)).toList().isEmpty()) || this.getEdge(position0, position1).hasRoad()) {
                 return false;
             }
         } else {
-            if (this.getEdge(position0, position1).hasRoad() || (this.getEdge(position0, position1).getConnectedRoads(player).isEmpty() && this.getEdge(position0, position1).getIntersections().stream().filter(x -> x.playerHasSettlement(player)).toList().isEmpty())) {
+            if (this.getEdge(position0, position1).hasRoad() || (this.getEdge(position0, position1).getConnectedRoads(player).isEmpty() || this.getEdge(position0, position1).getIntersections().stream().filter(x -> x.playerHasSettlement(player)).toList().isEmpty())) {
                 return false;
             }
         }
