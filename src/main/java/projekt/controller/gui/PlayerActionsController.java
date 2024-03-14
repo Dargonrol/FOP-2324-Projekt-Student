@@ -4,6 +4,7 @@ import javafx.application.Platform;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
+import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Region;
 import javafx.util.Builder;
@@ -609,5 +610,41 @@ public class PlayerActionsController implements Controller {
             updateUIBasedOnObjective(getPlayerObjective());
         }
         return view;
+    }
+
+    public Button getBuildVillageButton() {
+        return this.builder.getBuildVillageButton();
+    }
+
+    public Button getUpgradeVillageButton() {
+        return this.builder.getUpgradeVillageButton();
+    }
+
+    public Button getBuildRoadButton() {
+        return this.builder.getBuildRoadButton();
+    }
+
+    public Button getBuyDevelopmentCardButton() {
+        return this.builder.getBuyDevelopmentCardButton();
+    }
+
+    public Button getPlayDevelopmentCardButton() {
+        return this.builder.getPlayDevelopmentCardButton();
+    }
+
+    public Button getEndTurnButton() {
+        return this.builder.getEndTurnButton();
+    }
+
+    public Button getRollDiceButton() {
+        return this.builder.getRollDiceButton();
+    }
+
+    public Button getTradeButton() {
+        return this.builder.getTradeButton();
+    }
+
+    public Button getAbortButton() {
+        return this.builder.getAbortButton();
     }
 }

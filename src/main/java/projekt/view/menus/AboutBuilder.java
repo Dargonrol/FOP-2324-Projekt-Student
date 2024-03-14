@@ -35,6 +35,11 @@ public class AboutBuilder extends MenuBuilder {
                     - Monopoly: Created by icon trip from Noun Project
                     - All settlement icons: Created by Per Göttlicher
                 All Icons from the Noun Project are licensed under CC BY 3.0
+
+                most sounds from pixabay.com (royalty-free)
+                music:
+                    - main menu: Copyright © BrunuhVille Song: The Prince of Skyguard
+                    - Title: Village Consort | free to use, no copyright
                 """);
         return textArea;
     }

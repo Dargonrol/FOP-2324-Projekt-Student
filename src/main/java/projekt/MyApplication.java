@@ -6,6 +6,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.tudalgo.algoutils.student.annotation.DoNotTouch;
 import projekt.controller.GameController;
+import projekt.controller.actions.BuildRoadAction;
 import projekt.controller.gui.SceneSwitcher;
 import projekt.controller.gui.SceneSwitcher.SceneType;
 import projekt.sound.BackgroundMusicPlayer;
@@ -46,8 +47,6 @@ public class MyApplication extends Application {
         backgroundMusicPlayer.init(getClass().getResource(Config.MAIN_MENU_MP3_PATH));
         backgroundMusicPlayer.getMediaPlayer().setCycleCount(MediaPlayer.INDEFINITE);
         backgroundMusicPlayer.getMediaPlayer().play();
-
-
 
         SceneSwitcher.getInstance(stage, gameLoopStart).loadScene(SceneType.MAIN_MENU);
     }

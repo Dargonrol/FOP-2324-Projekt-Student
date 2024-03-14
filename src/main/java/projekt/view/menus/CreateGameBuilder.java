@@ -7,6 +7,7 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.MediaPlayer;
 import org.tudalgo.algoutils.student.annotation.DoNotTouch;
 import org.tudalgo.algoutils.student.annotation.StudentImplementationRequired;
 import projekt.Config;
@@ -84,6 +85,7 @@ public class CreateGameBuilder extends MenuBuilder {
             } else {
                 BackgroundMusicPlayer.getInstance().fadeOut(2);
                 BackgroundMusicPlayer.getInstance().changeMedia(getClass().getResource(Config.GAME_LOOP_MP3_PATH));
+                BackgroundMusicPlayer.getInstance().getMediaPlayer().setCycleCount(MediaPlayer.INDEFINITE);
                 BackgroundMusicPlayer.getInstance().fadeIn(4);
                 SoundFXplayer.getInstance().playSound(getClass().getResource(Config.GAMESTART_WAV_PATH));
             }

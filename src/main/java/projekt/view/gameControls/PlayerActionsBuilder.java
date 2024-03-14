@@ -38,6 +38,15 @@ public class PlayerActionsBuilder implements Builder<Region> {
     private Node endTurnNode;
     private Node rollDiceNode;
     private Node tradeNode;
+    private final Button buildRoadButton = new Button("Build Road (1)");
+    private final Button buildVillageButton = new Button("Build Village (2)");
+    private final Button upgradeVillageButton = new Button("Build City");
+    private final Button buyDevelopmentCardButton = new Button("Buy Development Card");
+    private final Button playDevelopmentCardButton = new Button("Play Development Card");
+    private final Button endTurnButton = new Button("End Turn (Q)");
+    private final Button rollDiceButton = new Button("Roll Dice (R)");
+    private final Button tradeButton = new Button("Trade (T)");
+    private final Button abortButton = new Button("Cancel (C)");
 
     /**
      * Creates a new PlayerActionsBuilder with the given actions.
@@ -82,40 +91,40 @@ public class PlayerActionsBuilder implements Builder<Region> {
     public Region build() {
         mainBox.getChildren().clear();
 
-        final Button buildRoadButton = new Button("Build Road");
+        //final Button buildRoadButton = new Button("Build Road (1)");
         buildRoadButton.setOnAction(buildRoadButtonAction::accept);
         this.buildRoadNode = buildRoadButton;
 
-        final Button buildVillageButton = new Button("Build Village");
+        //final Button buildVillageButton = new Button("Build Village (2)");
         buildVillageButton.setOnAction(buildVillageButtonAction::accept);
         this.buildVillageNode = buildVillageButton;
 
-        final Button upgradeVillageButton = new Button("Build City");
+        //final Button upgradeVillageButton = new Button("Build City");
         upgradeVillageButton.setOnAction(upgradeVillageButtonAction::accept);
         this.upgradeVillageNode = upgradeVillageButton;
 
-        final Button buyDevelopmentCardButton = new Button("Buy Development Card");
+        //final Button buyDevelopmentCardButton = new Button("Buy Development Card");
         buyDevelopmentCardButton.setOnAction(buyDevelopmentCardButtonAction::accept);
         this.buyDevelopmentCardNode = buyDevelopmentCardButton;
 
-        final Button playDevelopmentCardButton = new Button("Play Development Card");
+        //final Button playDevelopmentCardButton = new Button("Play Development Card");
         playDevelopmentCardButton.setOnAction(playDevelopmentCardButtonAction::accept);
         this.playDevelopmentCardNode = playDevelopmentCardButton;
 
-        final Button endTurnButton = new Button("End Turn");
+        //final Button endTurnButton = new Button("End Turn (Q)");
         endTurnButton.setOnAction(endTurnButtonAction::accept);
         this.endTurnNode = endTurnButton;
 
-        final Button rollDiceButton = new Button("Roll Dice");
+        //final Button rollDiceButton = new Button("Roll Dice (R)");
         rollDiceButton.setOnAction(rollDiceButtonAction::accept);
         this.rollDiceNode = rollDiceButton;
 
-        final Button tradeButton = new Button("Trade");
+        //final Button tradeButton = new Button("Trade (T)");
         tradeButton.setDisable(true);
         tradeButton.setOnAction(tradeButtonAction::accept);
         this.tradeNode = tradeButton;
 
-        final Button abortButton = new Button("Cancel");
+        //final Button abortButton = new Button("Cancel (C)");
         abortButton.setDisable(true);
         abortButton.setOnAction(abortButtonAction::accept);
         this.abortNode = abortButton;
@@ -268,5 +277,41 @@ public class PlayerActionsBuilder implements Builder<Region> {
      */
     public void enableTradeButton() {
         tradeNode.setDisable(false);
+    }
+
+    public Button getBuildVillageButton() {
+        return buildVillageButton;
+    }
+
+    public Button getUpgradeVillageButton() {
+        return upgradeVillageButton;
+    }
+
+    public Button getBuildRoadButton() {
+        return buildRoadButton;
+    }
+
+    public Button getBuyDevelopmentCardButton() {
+        return buyDevelopmentCardButton;
+    }
+
+    public Button getPlayDevelopmentCardButton() {
+        return playDevelopmentCardButton;
+    }
+
+    public Button getEndTurnButton() {
+        return endTurnButton;
+    }
+
+    public Button getRollDiceButton() {
+        return rollDiceButton;
+    }
+
+    public Button getTradeButton() {
+        return tradeButton;
+    }
+
+    public Button getAbortButton() {
+        return abortButton;
     }
 }

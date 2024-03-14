@@ -124,6 +124,10 @@ public final class Config {
     public static final String LOGO_PATH = "/textures/Siedler_von_Catan_Logo.jpg";
     public static final String MENU_BACKGROUND_PATH = "/textures/menu_background.png";
     public static final String MAIN_MENU_BUTTON_PATH = "/textures/button.png";
+    public static final String PLACEVILLAGE_SOUND_PATH = "/sounds/placeVillage.mp3";
+    public static final String PLACEROAD_SOUND_PATH = "/sounds/placeRoad.mp3";
+    public static final String DICEROLL_SOUND_PATH = "/sounds/diceRoll.mp3";
+    public static final String UPGRADEVILLAGE_SOUND_PATH = "/sounds/upgradeVillage.mp3";
 
     /**
      * The amount of resources needed to build each settlement type.

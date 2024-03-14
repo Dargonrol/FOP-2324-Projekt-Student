@@ -18,6 +18,7 @@ import projekt.model.buildings.Edge;
 import projekt.model.buildings.Port;
 import projekt.model.buildings.Settlement;
 import projekt.model.tiles.Tile;
+import projekt.sound.SoundFXplayer;
 
 import java.util.*;
 import java.util.concurrent.BlockingDeque;
@@ -201,6 +202,7 @@ public class PlayerController {
      * Rolls the dice.
      */
     public void rollDice() {
+        SoundFXplayer.getInstance().playSound(getClass().getResource(Config.DICEROLL_SOUND_PATH));
         gameController.castDice();
     }
 
@@ -354,15 +356,19 @@ public class PlayerController {
         // H2.4
         if (intersection.hasSettlement()) { throw new IllegalActionException("Cannot built Village: Space already occupied"); }
         if (!this.canBuildVillage()) { throw new IllegalActionException(this.player.getName() + " cannot build a Village"); }
+        /*
         if (!this.isFirstRound()) {
             boolean hasConnectedRoad = false;
             for (Edge edge: intersection.getConnectedEdges()) {
-                if (edge.hasRoad())
+                if (edge.hasRoad()) {
+                    System.out.println(edge.getRoadOwner());
                     if (edge.getRoadOwner() == this.player)
                         hasConnectedRoad = true; break;
+                }
             }
             if (!hasConnectedRoad) { throw new IllegalActionException(this.player.getName() + " | A road you own is required to build a Village."); }
-        }
+        } */
+        SoundFXplayer.getInstance().playSound(getClass().getResource(Config.PLACEVILLAGE_SOUND_PATH));
         intersection.placeVillage(this.player, true);
 
         if (!(this.playerObjectiveProperty.getValue() == PlayerObjective.PLACE_VILLAGE)) {
@@ -415,6 +421,8 @@ public class PlayerController {
         if (!intersection.hasSettlement()) { throw new IllegalActionException(this.player.getName() + " there is no Settlement here."); }
         if (!this.player.hasResources(Config.SETTLEMENT_BUILDING_COST.get(Settlement.Type.CITY))) { throw new IllegalActionException(this.player.getName() + " you don't have enough resources to upgrade."); }
 
+        SoundFXplayer.getInstance().playSound(getClass().getResource(Config.UPGRADEVILLAGE_SOUND_PATH));
+        intersection.upgradeSettlement(this.player);
         this.player.removeResources(Config.SETTLEMENT_BUILDING_COST.get(Settlement.Type.CITY));
     }
 
@@ -501,6 +509,7 @@ public class PlayerController {
             }
             if (!adjacentSettlement) { throw new IllegalActionException(this.player.getName() + " in the first round a road needs to be connected to a settlement!"); }
         }
+        SoundFXplayer.getInstance().playSound(getClass().getResource(Config.PLACEROAD_SOUND_PATH));
         this.gameController.getState().getGrid().addRoad(position0, position1, this.player, false);
         if (this.playerObjectiveProperty.getValue() != PlayerObjective.PLACE_ROAD)
             this.player.removeResources(Config.ROAD_BUILDING_COST);

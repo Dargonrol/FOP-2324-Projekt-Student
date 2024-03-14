@@ -1,6 +1,9 @@
 package projekt.sound;
 
 
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.Property;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
@@ -10,7 +13,7 @@ public class SoundFXplayer {
     private static SoundFXplayer instance;
     private MediaPlayer mediaPlayer;
     private Media media;
-    private double volume = 1;
+    private DoubleProperty volume = new SimpleDoubleProperty(0.5);
 
     private SoundFXplayer() { }
 
@@ -34,7 +37,7 @@ public class SoundFXplayer {
         if (url != null) {
             this.media = new Media(url.toString());
             this.mediaPlayer = new MediaPlayer(media);
-            this.mediaPlayer.setVolume(volume);
+            this.mediaPlayer.volumeProperty().bindBidirectional(this.volume);
             this.mediaPlayer.play();
         } else {
             System.out.println("No sound file found");
@@ -42,6 +45,6 @@ public class SoundFXplayer {
     }
 
     public void changeVolume(double volume) {
-        this.mediaPlayer.setVolume(volume);
+        this.volume.set(volume);
     }
 }

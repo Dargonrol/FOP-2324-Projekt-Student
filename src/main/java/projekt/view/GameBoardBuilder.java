@@ -77,7 +77,7 @@ public class GameBoardBuilder implements Builder<Region> {
         diceRoll.textProperty()
             .bind(Bindings.createStringBinding(
                 () -> String.format(
-                    "Rolled Number: %s",
+                    "last dice roll: %s",
                     diceRollProperty.get() == 0 ? "" : diceRollProperty.get()
                 ),
                 diceRollProperty

@@ -163,9 +163,9 @@ public class SelectResourcesDialog extends Dialog<Map<ResourceType, Integer>> {
             spinner.getStyleClass().add(Spinner.STYLE_CLASS_SPLIT_ARROWS_HORIZONTAL);
             if (entry.getValue() == 0) { spinner.setDisable(true); }
             spinnersMap.put(entry.getKey(), spinner);
-
             ResourceCardPane resourceCardPane = new ResourceCardPane(entry.getKey(), entry.getValue());
             resourceCardPane.setEffect(ds);
+            resourceCardPane.setCache(true);
             resourceSelectGrid.add(resourceCardPane, entry.getKey().ordinal(), 0);
             resourceSelectGrid.add(spinner, entry.getKey().ordinal(), 1);
         }

@@ -5,6 +5,7 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.Property;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.Region;
+import javafx.stage.Stage;
 import javafx.util.Builder;
 import org.tudalgo.algoutils.student.annotation.DoNotTouch;
 import projekt.controller.PlayerController;
@@ -115,6 +116,22 @@ public class GameBoardController implements SceneController {
 
     @Override
     public Region buildView() {
-        return gameBoardBuilder.build();
+        Region view = gameBoardBuilder.build();
+        eventHandler(view);
+        return view;
+    }
+
+    public void eventHandler(Region view) {
+        view.setOnKeyPressed(e -> {
+            switch (e.getCode()) {
+                case DIGIT1 -> this.playerActionsController.getBuildRoadButton().fire();
+                case DIGIT2 -> this.playerActionsController.getBuildVillageButton().fire();
+                case Q -> this.playerActionsController.getEndTurnButton().fire();
+                case R -> this.playerActionsController.getRollDiceButton().fire();
+                case T -> this.playerActionsController.getTradeButton().fire();
+                case C, ESCAPE -> this.playerActionsController.getAbortButton().fire();
+            }
+        });
+        view.requestFocus();
     }
 }
