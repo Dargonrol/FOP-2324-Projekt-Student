@@ -44,8 +44,8 @@ public class MyApplication extends Application {
         stage.initStyle(StageStyle.DECORATED);
 
         BackgroundMusicPlayer backgroundMusicPlayer = BackgroundMusicPlayer.getInstance();
-        if (backgroundMusicPlayer.getMediaPlayer() != null) {
             backgroundMusicPlayer.init(getClass().getResource(Config.MAIN_MENU_MP3_PATH));
+        if (backgroundMusicPlayer.getMediaPlayer() != null) {
             backgroundMusicPlayer.getMediaPlayer().setCycleCount(MediaPlayer.INDEFINITE);
             backgroundMusicPlayer.getMediaPlayer().play();
         }
