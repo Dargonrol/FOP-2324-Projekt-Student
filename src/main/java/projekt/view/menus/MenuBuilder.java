@@ -24,6 +24,7 @@ public abstract class MenuBuilder implements Builder<Region> {
     private final String returnText;
     private final Runnable returnHandler;
     private final String title;
+    private boolean customStyle = false;
 
     /**
      * Creates a new MenuBuilder with the given title, return text and return
@@ -37,6 +38,14 @@ public abstract class MenuBuilder implements Builder<Region> {
         this.returnHandler = returnHandler;
         this.title = title;
         this.returnText = returnText;
+    }
+
+
+    public MenuBuilder(boolean customStyle) {
+        this.title = "";
+        this.returnText = "";
+        this.customStyle = true;
+        this.returnHandler = null;
     }
 
     /**
@@ -62,6 +71,12 @@ public abstract class MenuBuilder implements Builder<Region> {
      * @param title The title of the menu.
      */
     protected void init(final String title) {
+        if (customStyle) {
+            root.setTop(initHeader());
+            root.setCenter(initCenter());
+            root.setBottom(initFooter());
+            return;
+        }
         final Label titleLabel = new Label(title);
         titleLabel.setPadding(new Insets(20, 20, 20, 20));
         titleLabel.setId("Title");
@@ -93,4 +108,6 @@ public abstract class MenuBuilder implements Builder<Region> {
      * @return The Node to display in the center of the menu.
      */
     protected abstract Node initCenter();
+    protected abstract Node initFooter();
+    protected abstract Node initHeader();
 }

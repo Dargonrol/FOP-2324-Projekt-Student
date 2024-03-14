@@ -2,6 +2,7 @@ package projekt;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import org.tudalgo.algoutils.student.annotation.DoNotTouch;
 import projekt.controller.GameController;
 import projekt.controller.gui.SceneSwitcher;
@@ -34,8 +35,12 @@ public class MyApplication extends Application {
 
         stage.setMinWidth(1000);
         stage.setMinHeight(520);
-        stage.setWidth(1280);
+        stage.setWidth(1200);
         stage.setHeight(720);
+        stage.setResizable(false);
+        stage.initStyle(StageStyle.DECORATED);
+
+
 
         SceneSwitcher.getInstance(stage, gameLoopStart).loadScene(SceneType.MAIN_MENU);
     }

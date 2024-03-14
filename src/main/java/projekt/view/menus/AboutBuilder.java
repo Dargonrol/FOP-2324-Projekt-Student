@@ -39,4 +39,9 @@ public class AboutBuilder extends MenuBuilder {
         return textArea;
     }
 
+    @Override
+    protected Node initFooter() { return null;}
+    @Override
+    protected Node initHeader() { return null;}
+
 }

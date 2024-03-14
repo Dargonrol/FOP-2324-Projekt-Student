@@ -32,7 +32,6 @@ public class SoundFXplayer {
     public void playSound(URL url, boolean stopPrevious) {
         if (stopPrevious && this.mediaPlayer != null) { this.mediaPlayer.stop(); }
         if (url != null) {
-            System.out.println("Play sound file: " + url);
             this.media = new Media(url.toString());
             this.mediaPlayer = new MediaPlayer(media);
             this.mediaPlayer.setVolume(volume);

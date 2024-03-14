@@ -98,6 +98,11 @@ public class CreateGameBuilder extends MenuBuilder {
         return mainBox;
     }
 
+    @Override
+    protected Node initFooter() { return null;}
+    @Override
+    protected Node initHeader() { return null;}
+
     /**
      * Creates a button to add a new player to the game.
      * The button adds a new player to the list of players when clicked.

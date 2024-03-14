@@ -121,6 +121,9 @@ public final class Config {
     public static final String HOVER_BUTTON2_WAV_PATH = "/sounds/hoverButton2.wav";
     public static final String TRADE_ALERT_WAV_PATH = "/sounds/tradeAlert.wav";
     public static final String GAMESTART_WAV_PATH = "/sounds/gameStart.wav";
+    public static final String LOGO_PATH = "/textures/Siedler_von_Catan_Logo.jpg";
+    public static final String MENU_BACKGROUND_PATH = "/textures/menu_background.png";
+    public static final String MAIN_MENU_BUTTON_PATH = "/textures/button.png";
 
     /**
      * The amount of resources needed to build each settlement type.
