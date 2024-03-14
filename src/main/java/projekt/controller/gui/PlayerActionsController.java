@@ -137,6 +137,14 @@ public class PlayerActionsController implements Controller {
         this.updateBuyDevelopmentCardButtonState();
         this.updateUseDevelopmentCardButtonState();
 
+        // disable button to make it more intuitive for the user
+        if (!objective.getAllowedActions().contains(RollDiceAction.class)) {
+            this.builder.disableRollDiceButton();
+        }
+        if (!objective.getAllowedActions().contains(EndTurnAction.class)) {
+            this.builder.disableEndTurnButton();
+        }
+
         if (objective.getAllowedActions().contains(SelectRobberTileAction.class)) {
             getHexGridController().highlightTiles(this::selectRobberTileAction);
         }

@@ -59,17 +59,16 @@ public class SelectResourcesDialog extends Dialog<Map<ResourceType, Integer>> {
         final Map<ResourceType, Integer> resourcesToSelectFrom, final boolean dropCards
     ) {
         this.dialogPane = getDialogPane(); // modded -alex
-        //dialogPane.getButtonTypes().add(ButtonType.OK);
+        //dialogPane.getButtonTypes().add(ButtonType.OK); // needed to remove cause I wanted to implement my own Style
         dialogPane.setContent(init(amountToSelect, player, resourcesToSelectFrom, dropCards));
     }
 
     @StudentImplementationRequired("H3.4")
-    private Region init(
+    private Region init( // ✅
         final int amountToSelect, final Player player,
         Map<ResourceType, Integer> resourcesToSelectFrom, final boolean dropCards
     ) {
-        // TODO: H3.4
-
+        // H3.4
         ArrayList<ResourceType> resourceTypes = new ArrayList<>();
         resourceTypes.add(ResourceType.CLAY);
         resourceTypes.add(ResourceType.ORE);
