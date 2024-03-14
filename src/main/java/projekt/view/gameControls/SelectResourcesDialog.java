@@ -198,7 +198,7 @@ public class SelectResourcesDialog extends Dialog<Map<ResourceType, Integer>> {
         gridPane.add(hBoxFooter, 0, 3);
         gridPane.setVgap(10);
 
-        this.initStyle(StageStyle.UNDECORATED);
+        this.initStyle(StageStyle.DECORATED);
         dialogPane.setStyle("-fx-border-color: black; -fx-border-width: 4px; -fx-background-color: #C19A6B; -fx-padding: 2px;");
         return gridPane;
     }
