@@ -2,7 +2,6 @@ package projekt.sound;
 
 
 import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.Property;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -48,5 +47,9 @@ public class SoundFXplayer {
 
     public void changeVolume(double volume) {
         this.volume.set(volume);
+    }
+
+    public double getVolume() {
+        return this.volume.get();
     }
 }

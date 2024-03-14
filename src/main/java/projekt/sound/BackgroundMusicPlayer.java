@@ -65,6 +65,10 @@ public class BackgroundMusicPlayer {
         this.volume.set(volume);
     }
 
+    public double getVolume() {
+        return this.volume.get();
+    }
+
     public void fadeOut(int durationInSeconds) {
         if (this.mediaPlayer != null) {
             MediaPlayer oldMediaPlayer = this.mediaPlayer;
