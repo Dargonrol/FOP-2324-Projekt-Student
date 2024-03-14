@@ -243,7 +243,7 @@ public class HexGridImpl implements HexGrid {
                 return false;
             }
         } else {
-            if (this.getEdge(position0, position1).hasRoad() || (this.getEdge(position0, position1).getConnectedRoads(player).isEmpty() || this.getEdge(position0, position1).getIntersections().stream().filter(x -> x.playerHasSettlement(player)).toList().isEmpty())) {
+            if (this.getEdge(position0, position1).hasRoad() || this.getEdge(position0, position1).getConnectedRoads(player).isEmpty()) {
                 return false;
             }
         }

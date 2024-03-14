@@ -418,7 +418,7 @@ public class PlayerController {
     public void upgradeVillage(final Intersection intersection) throws IllegalActionException { // ✅
         // H2.5
         if (this.player.getRemainingCities() == 0 ) { throw new IllegalActionException(this.player.getName() + " You cannot build any more Cities."); }
-        if (intersection.hasSettlement()) { throw new IllegalActionException(this.player.getName() + " there is no Settlement here."); }
+        if (!intersection.hasSettlement()) { throw new IllegalActionException(this.player.getName() + " there is no Settlement here."); }
         if (!this.player.hasResources(Config.SETTLEMENT_BUILDING_COST.get(Settlement.Type.CITY))) { throw new IllegalActionException(this.player.getName() + " you don't have enough resources to upgrade."); }
 
         if (intersection.upgradeSettlement(this.player)) {
