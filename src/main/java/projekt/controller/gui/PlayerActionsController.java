@@ -115,7 +115,7 @@ public class PlayerActionsController implements Controller {
      */
     @StudentImplementationRequired("H3.2") // ✅
     private void updateUIBasedOnObjective(final PlayerObjective objective) {
-        // TODO: H3.2
+        // H3.2
         removeAllHighlights();
 
         getHexGridController().drawEdges();

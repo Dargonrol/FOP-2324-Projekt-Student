@@ -9,8 +9,11 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.tudalgo.algoutils.student.annotation.DoNotTouch;
 import org.tudalgo.algoutils.student.annotation.StudentImplementationRequired;
+import projekt.Config;
 import projekt.model.PlayerImpl;
 import projekt.model.PlayerImpl.Builder;
+import projekt.sound.BackgroundMusicPlayer;
+import projekt.sound.SoundFXplayer;
 
 import java.util.function.Supplier;
 
@@ -78,6 +81,11 @@ public class CreateGameBuilder extends MenuBuilder {
         startGameButton.setOnAction(e -> {
             if (!this.startGameHandler.get()) {
                 startGameErrorLabel.setText("Cannot start game");
+            } else {
+                BackgroundMusicPlayer.getInstance().fadeOut(2);
+                BackgroundMusicPlayer.getInstance().changeMedia(getClass().getResource(Config.GAME_LOOP_MP3_PATH));
+                BackgroundMusicPlayer.getInstance().fadeIn(4);
+                SoundFXplayer.getInstance().playSound(getClass().getResource(Config.GAMESTART_WAV_PATH));
             }
         });
 

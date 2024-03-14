@@ -114,6 +114,13 @@ public final class Config {
      * How many different resources are there.
      */
     public static final int NUMBER_TYPES_RESOURCES = 5;
+    public static final String MAIN_MENU_MP3_PATH = "/music/mainMenue.mp3";
+    public static final String GAME_LOOP_MP3_PATH = "/music/gameLoop.mp3";
+    public static final String BUTTON_CLICK_MP3_PATH = "/sounds/buttonClick.wav";
+    public static final String HOVER_BUTTON_WAV_PATH = "/sounds/hoverButton.wav";
+    public static final String HOVER_BUTTON2_WAV_PATH = "/sounds/hoverButton2.wav";
+    public static final String TRADE_ALERT_WAV_PATH = "/sounds/tradeAlert.wav";
+    public static final String GAMESTART_WAV_PATH = "/sounds/gameStart.wav";
 
     /**
      * The amount of resources needed to build each settlement type.
