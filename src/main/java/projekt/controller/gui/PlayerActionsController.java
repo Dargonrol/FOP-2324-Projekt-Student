@@ -145,6 +145,9 @@ public class PlayerActionsController implements Controller {
         if (!objective.getAllowedActions().contains(EndTurnAction.class)) {
             this.builder.disableEndTurnButton();
         }
+        if (!objective.getAllowedActions().contains(TradeAction.class)) {
+            this.builder.disableTradeButton();
+        }
 
         if (objective.getAllowedActions().contains(SelectRobberTileAction.class)) {
             getHexGridController().highlightTiles(this::selectRobberTileAction);
