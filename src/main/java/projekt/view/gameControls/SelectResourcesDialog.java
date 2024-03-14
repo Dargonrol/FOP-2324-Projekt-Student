@@ -13,6 +13,8 @@ import javafx.collections.ObservableMap;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -197,6 +199,10 @@ public class SelectResourcesDialog extends Dialog<Map<ResourceType, Integer>> {
         hBoxFooter.setSpacing(10);
         gridPane.add(hBoxFooter, 0, 3);
         gridPane.setVgap(10);
+
+        dialogPane.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.SPACE || event.getCode() == KeyCode.ENTER) { okButton.fire(); }
+        });
 
         this.initStyle(StageStyle.DECORATED);
         dialogPane.setStyle("-fx-border-color: black; -fx-border-width: 4px; -fx-background-color: #C19A6B; -fx-padding: 2px;");
