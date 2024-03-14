@@ -359,7 +359,7 @@ public class GameController {
             if (player.getResources().values().stream().mapToInt(Integer::intValue).sum() > 7) {
                 // get active pc to set it later again, cause withActivePlayer resets is
                 PlayerController activePc = this.getActivePlayerController();
-                controller.setCardsToSelect(4);
+                controller.setCardsToSelect(player.getResources().values().stream().mapToInt(Integer::intValue).sum() / 2);
                 withActivePlayer(controller, () -> controller.waitForNextAction(PlayerObjective.DROP_CARDS));
                 this.setActivePlayerControllerProperty(activePc.getPlayer());
             }
