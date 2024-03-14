@@ -35,11 +35,12 @@ public class SettingsMenuBuilder extends MenuBuilder {
         Slider volumeSlider = new Slider();
         volumeSlider.setMin(0);
         volumeSlider.setMax(100);
+        volumeSlider.setBlockIncrement(1);
         volumeSlider.setValue(Math.ceil(BackgroundMusicPlayer.getInstance().getVolume() * 100));
         volumeValue.setText(String.valueOf(volumeSlider.getValue()));
         volumeSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
             BackgroundMusicPlayer.getInstance().changeVolume(newValue.doubleValue() / 100);
-            volumeValue.setText(Math.ceil(newValue.doubleValue()) + "%");
+            volumeValue.setText((int) Math.ceil(newValue.doubleValue()) + "%");
         });
         volumeSliderBox.getChildren().addAll(volumeSlider, volumeValue);
         volumeBox.getChildren().addAll(volumeText, volumeSliderBox);
@@ -54,11 +55,12 @@ public class SettingsMenuBuilder extends MenuBuilder {
         Slider FXVolumeSlider = new Slider();
         FXVolumeSlider.setMin(0);
         FXVolumeSlider.setMax(100);
-        FXVolumeSlider.setValue(Math.ceil(SoundFXplayer.getInstance().getVolume() * 100));
+        FXVolumeSlider.setBlockIncrement(1);
+        FXVolumeSlider.setValue((Math.ceil(SoundFXplayer.getInstance().getVolume() * 100)));
         FXVolumeValue.setText(String.valueOf(FXVolumeSlider.getValue()));
         FXVolumeSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
             SoundFXplayer.getInstance().changeVolume(newValue.doubleValue() / 100);
-            FXVolumeValue.setText(Math.ceil(newValue.doubleValue()) + "%");
+            FXVolumeValue.setText((int) Math.ceil(newValue.doubleValue()) + "%");
         });
         FXVolumeVBox.getChildren().addAll(FXVolumeText, FXVolumeSliderHBox);
         FXVolumeSliderHBox.getChildren().addAll(FXVolumeSlider, FXVolumeValue);

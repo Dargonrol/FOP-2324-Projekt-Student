@@ -17,7 +17,7 @@ public class BackgroundMusicPlayer {
     private static BackgroundMusicPlayer instance;
     private MediaPlayer mediaPlayer;
     private Media media;
-    private DoubleProperty volume = new SimpleDoubleProperty(0.5);
+    private DoubleProperty volume = new SimpleDoubleProperty(0.35);
 
     private BackgroundMusicPlayer() { }
 
@@ -44,7 +44,9 @@ public class BackgroundMusicPlayer {
     }
 
     public MediaPlayer getMediaPlayer() {
-        return mediaPlayer;
+        if (this.mediaPlayer != null)
+            return mediaPlayer;
+        return null;
     }
 
     public void changeMedia(URL url) {
@@ -62,11 +64,14 @@ public class BackgroundMusicPlayer {
     }
 
     public void changeVolume(double volume) {
-        this.volume.set(volume);
+        if (this.mediaPlayer != null)
+            this.volume.set(volume);
     }
 
     public double getVolume() {
-        return this.volume.get();
+        if (this.mediaPlayer != null)
+            return this.volume.get();
+        return 0;
     }
 
     public void fadeOut(int durationInSeconds) {

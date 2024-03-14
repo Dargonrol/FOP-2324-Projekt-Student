@@ -40,13 +40,15 @@ public class MyApplication extends Application {
         stage.setMinHeight(520);
         stage.setWidth(1200);
         stage.setHeight(720);
-        stage.setResizable(false);
+        stage.setResizable(true);
         stage.initStyle(StageStyle.DECORATED);
 
         BackgroundMusicPlayer backgroundMusicPlayer = BackgroundMusicPlayer.getInstance();
-        backgroundMusicPlayer.init(getClass().getResource(Config.MAIN_MENU_MP3_PATH));
-        backgroundMusicPlayer.getMediaPlayer().setCycleCount(MediaPlayer.INDEFINITE);
-        backgroundMusicPlayer.getMediaPlayer().play();
+        if (backgroundMusicPlayer.getMediaPlayer() != null) {
+            backgroundMusicPlayer.init(getClass().getResource(Config.MAIN_MENU_MP3_PATH));
+            backgroundMusicPlayer.getMediaPlayer().setCycleCount(MediaPlayer.INDEFINITE);
+            backgroundMusicPlayer.getMediaPlayer().play();
+        }
 
         SceneSwitcher.getInstance(stage, gameLoopStart).loadScene(SceneType.MAIN_MENU);
     }

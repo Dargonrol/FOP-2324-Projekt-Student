@@ -12,7 +12,7 @@ public class SoundFXplayer {
     private static SoundFXplayer instance;
     private MediaPlayer mediaPlayer;
     private Media media;
-    private DoubleProperty volume = new SimpleDoubleProperty(0.5);
+    private DoubleProperty volume = new SimpleDoubleProperty(0.25);
 
     private SoundFXplayer() { }
 

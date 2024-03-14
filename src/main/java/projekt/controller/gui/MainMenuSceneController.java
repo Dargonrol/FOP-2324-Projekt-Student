@@ -22,7 +22,7 @@ public class MainMenuSceneController implements SceneController {
 
     @Override
     public String getTitle() {
-        return "Hauptmenü";
+        return "Siedler von Catan";
     }
 
     @Override

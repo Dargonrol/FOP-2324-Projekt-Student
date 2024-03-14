@@ -82,7 +82,7 @@ public class CreateGameBuilder extends MenuBuilder {
         startGameButton.setOnAction(e -> {
             if (!this.startGameHandler.get()) {
                 startGameErrorLabel.setText("Cannot start game");
-            } else {
+            } else if (BackgroundMusicPlayer.getInstance().getMediaPlayer() != null) {
                 BackgroundMusicPlayer.getInstance().fadeOut(2);
                 BackgroundMusicPlayer.getInstance().changeMedia(getClass().getResource(Config.GAME_LOOP_MP3_PATH));
                 BackgroundMusicPlayer.getInstance().getMediaPlayer().setCycleCount(MediaPlayer.INDEFINITE);
@@ -93,6 +93,7 @@ public class CreateGameBuilder extends MenuBuilder {
 
         mainBox.getChildren().addAll(
             playerListVBox,
+            createAddPlayerButton(),
             startGameButton,
             startGameErrorLabel
         );
