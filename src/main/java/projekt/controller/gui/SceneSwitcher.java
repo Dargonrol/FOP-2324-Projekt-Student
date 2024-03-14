@@ -81,6 +81,7 @@ public class SceneSwitcher {
                 getInstance().gameController.getRoundCounterProperty()
             );
         }),
+        SETTINGS(SettingsController::new),
         ABOUT(AboutController::new);
 
         private final Supplier<SceneController> controller;

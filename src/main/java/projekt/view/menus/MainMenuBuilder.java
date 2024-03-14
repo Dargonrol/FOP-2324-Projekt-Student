@@ -59,10 +59,6 @@ public class MainMenuBuilder extends MenuBuilder {
 
     @Override
     protected Node initCenter() {
-        BackgroundMusicPlayer backgroundMusicPlayer = BackgroundMusicPlayer.getInstance();
-        backgroundMusicPlayer.init(getClass().getResource(Config.MAIN_MENU_MP3_PATH));
-        backgroundMusicPlayer.getMediaPlayer().setCycleCount(MediaPlayer.INDEFINITE);
-        backgroundMusicPlayer.getMediaPlayer().play();
         SoundFXplayer soundFXplayer = SoundFXplayer.getInstance();
 
         final VBox mainBox = new VBox();

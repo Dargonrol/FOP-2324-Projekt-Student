@@ -1,12 +1,14 @@
 package projekt;
 
 import javafx.application.Application;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.tudalgo.algoutils.student.annotation.DoNotTouch;
 import projekt.controller.GameController;
 import projekt.controller.gui.SceneSwitcher;
 import projekt.controller.gui.SceneSwitcher.SceneType;
+import projekt.sound.BackgroundMusicPlayer;
 
 import java.io.OutputStream;
 import java.io.PrintStream;
@@ -39,6 +41,11 @@ public class MyApplication extends Application {
         stage.setHeight(720);
         stage.setResizable(false);
         stage.initStyle(StageStyle.DECORATED);
+
+        BackgroundMusicPlayer backgroundMusicPlayer = BackgroundMusicPlayer.getInstance();
+        backgroundMusicPlayer.init(getClass().getResource(Config.MAIN_MENU_MP3_PATH));
+        backgroundMusicPlayer.getMediaPlayer().setCycleCount(MediaPlayer.INDEFINITE);
+        backgroundMusicPlayer.getMediaPlayer().play();
 
 
 

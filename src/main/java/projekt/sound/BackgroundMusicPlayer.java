@@ -5,6 +5,8 @@ import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
@@ -15,7 +17,7 @@ public class BackgroundMusicPlayer {
     private static BackgroundMusicPlayer instance;
     private MediaPlayer mediaPlayer;
     private Media media;
-    private double volume = 1;
+    private DoubleProperty volume = new SimpleDoubleProperty(0.5);
 
     private BackgroundMusicPlayer() { }
 
@@ -29,10 +31,10 @@ public class BackgroundMusicPlayer {
     public void init(URL url) {
         System.out.println("Initializing BackgroundMusicPlayer");
         if (url != null) {
-            System.out.println("sound file found");
+            System.out.println("sound file found");;
             this.media = new Media(url.toString());
             this.mediaPlayer = new MediaPlayer(media);
-            this.mediaPlayer.setVolume(volume);
+            this.mediaPlayer.volumeProperty().bindBidirectional(this.volume);
         } else {
             System.out.println("No music file found");
         }
@@ -47,14 +49,14 @@ public class BackgroundMusicPlayer {
             System.out.println("Changing music file");
             this.media = new Media(url.toString());
             this.mediaPlayer = new MediaPlayer(media);
-            this.mediaPlayer.setVolume(volume);
+            this.mediaPlayer.setVolume(volume.get());
         } else {
             System.out.println("No music file found");
         }
     }
 
     public void changeVolume(double volume) {
-        this.volume = volume;
+        this.volume.set(volume);
     }
 
     public void fadeOut(int durationInSeconds) {
@@ -73,7 +75,7 @@ public class BackgroundMusicPlayer {
             this.mediaPlayer.setVolume(0);
             this.mediaPlayer.play();
             Timeline timeline = new Timeline(
-                new KeyFrame(Duration.seconds(durationInSeconds), new KeyValue(this.mediaPlayer.volumeProperty(), volume))
+                new KeyFrame(Duration.seconds(durationInSeconds), new KeyValue(this.mediaPlayer.volumeProperty(), volume.doubleValue()))
             );
             timeline.play();
         }
