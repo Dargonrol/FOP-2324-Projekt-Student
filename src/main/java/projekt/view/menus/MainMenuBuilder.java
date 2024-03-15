@@ -50,7 +50,7 @@ public class MainMenuBuilder extends MenuBuilder {
         final Runnable loadHighscoreScene, final Runnable loadAboutScene
     ) {
         //super("Main Menu", "Quit", quitHandler);
-        super(true);
+        super(true, quitHandler);
         this.loadGameScene = createGameScene;
         this.loadSettingsScene = loadSettingsScene;
         this.loadHighscoreScene = loadHighscoreScene;
@@ -63,7 +63,7 @@ public class MainMenuBuilder extends MenuBuilder {
 
         final VBox mainBox = new VBox();
         mainBox.setAlignment(Pos.CENTER);
-        mainBox.setPadding(new Insets(0, 0, 0, 0));
+        mainBox.setPadding(new Insets(20, 0, 0, 0));
         mainBox.setSpacing(10);
         if (getClass().getResource(Config.MENU_BACKGROUND_PATH) != null) {
             Image image = new Image(Objects.requireNonNull(getClass().getResource(Config.MENU_BACKGROUND_PATH)).toExternalForm());
@@ -93,17 +93,6 @@ public class MainMenuBuilder extends MenuBuilder {
             settingsButton.setTextFill(Color.GOLD);
         });
         settingsButton.setOnMouseExited(e -> settingsButton.setTextFill(Color.WHITE));
-
-        final Button scoresButton = new Button("Highscores");
-        scoresButton.setOnAction(e -> {
-            loadHighscoreScene.run();
-            soundFXplayer.playSound(getClass().getResource(Config.BUTTON_CLICK_MP3_PATH));
-        });
-        scoresButton.setOnMouseEntered(e -> {
-            soundFXplayer.playSound(getClass().getResource(Config.HOVER_BUTTON_WAV_PATH));
-            scoresButton.setTextFill(Color.GOLD);
-        });
-        scoresButton.setOnMouseExited(e -> scoresButton.setTextFill(Color.WHITE));
 
         final Button aboutButton = new Button("About");
         aboutButton.setOnAction(e -> {
@@ -138,14 +127,6 @@ public class MainMenuBuilder extends MenuBuilder {
             settingsButton.setMaxSize(buttonWidth, buttonHeight);
             settingsButton.setStyle("-fx-background-color: transparent; -fx-border-width: 0; -fx-font-size: 1.7em;");
 
-            ImageView scoresImageView = new ImageView(buttonBackground);
-            scoresButton.setGraphic(scoresImageView);
-            scoresButton.contentDisplayProperty().set(ContentDisplay.CENTER);
-            scoresImageView.fitWidthProperty().set(buttonWidth);
-            scoresImageView.setPreserveRatio(true);
-            scoresButton.setMaxSize(buttonWidth, buttonHeight);
-            scoresButton.setStyle("-fx-background-color: transparent; -fx-border-width: 0; -fx-font-size: 1.7em;");
-
             ImageView aboutImageView = new ImageView(buttonBackground);
             aboutButton.setGraphic(aboutImageView);
             aboutButton.contentDisplayProperty().set(ContentDisplay.CENTER);
@@ -156,11 +137,10 @@ public class MainMenuBuilder extends MenuBuilder {
 
             startButton.setTextFill(Color.WHITE);
             settingsButton.setTextFill(Color.WHITE);
-            scoresButton.setTextFill(Color.WHITE);
             aboutButton.setTextFill(Color.WHITE);
         }
 
-        mainBox.getChildren().addAll(startButton, settingsButton, scoresButton, aboutButton);
+        mainBox.getChildren().addAll(startButton, settingsButton, aboutButton);
 
         return mainBox;
     }
@@ -179,10 +159,47 @@ public class MainMenuBuilder extends MenuBuilder {
 
     @Override
     protected Node initFooter(Runnable returnHandler) {
-        final GridPane footer = new GridPane();
-        footer.setAlignment(Pos.CENTER);
-        footer.setHgap(10);
-        footer.setVgap(10);
-        return footer;
+        boolean buttonTextureExists = getClass().getResource(Config.MAIN_MENU_BUTTON_PATH) != null;
+
+        Button cancelButton = new Button("Quit");
+        if (buttonTextureExists) {
+            Image buttonBackground = new Image(Objects.requireNonNull(getClass().getResourceAsStream(Config.MAIN_MENU_BUTTON_PATH)));
+            double buttonWidth = buttonBackground.getWidth() * Config.bigButtonSize;
+            double buttonHeight = buttonBackground.getHeight() * Config.bigButtonSize;
+            ImageView startImageView = new ImageView(buttonBackground);
+            cancelButton.setGraphic(startImageView);
+            cancelButton.contentDisplayProperty().set(ContentDisplay.CENTER);
+            startImageView.fitWidthProperty().set(buttonWidth);
+            startImageView.setPreserveRatio(true);
+            cancelButton.setMaxSize(buttonWidth, buttonHeight);
+            cancelButton.setStyle("-fx-background-color: transparent; -fx-border-width: 0; -fx-font-size: 1.7em;");
+            cancelButton.setTextFill(Color.WHITE);
+        }
+
+        HBox buttonBox = new HBox();
+        buttonBox.setAlignment(Pos.BOTTOM_RIGHT);
+        buttonBox.setPadding(new Insets(0, 0, 10, 10));
+        buttonBox.getChildren().add(cancelButton);
+
+        cancelButton.setOnAction(event -> {
+            SoundFXplayer.getInstance().playSound(getClass().getResource(Config.BUTTON_CLICK_MP3_PATH));
+            returnHandler.run();
+        });
+        cancelButton.setOnMouseEntered(e -> {
+            SoundFXplayer.getInstance().playSound(getClass().getResource(Config.HOVER_BUTTON_WAV_PATH));
+            if (buttonTextureExists) {
+                cancelButton.setTextFill(Color.GOLD);
+            } else {
+                cancelButton.setTextFill(Color.AQUAMARINE);
+            }
+        });
+        cancelButton.setOnMouseExited(e -> {
+            if (buttonTextureExists) {
+                cancelButton.setTextFill(Color.WHITE);
+            } else {
+                cancelButton.setTextFill(Color.BLACK);
+            }
+        });
+        return buttonBox;
     }
 }
