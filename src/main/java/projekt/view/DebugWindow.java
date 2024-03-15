@@ -102,6 +102,7 @@ public class DebugWindow extends Application {
         Button removeGrainButton = new Button("-1 Grain");
         Button removeWoolButton = new Button("-1 Wool");
         GridPane addRemoveResourcesGrid = new GridPane();
+        addRemoveResourcesGrid.setAlignment(Pos.CENTER);
         addRemoveResourcesGrid.add(addClayButton, 1, 0);
         addRemoveResourcesGrid.add(removeClayButton, 0, 0);
         addRemoveResourcesGrid.add(addWoodButton, 1, 1);
@@ -168,6 +169,7 @@ public class DebugWindow extends Application {
         Button removeMonopolyButton = new Button("-1 Monopoly");
         Button removeVictoryPointButton = new Button("-1 Victory Point");
         GridPane addRemoveDevelopmentCardsGrid = new GridPane();
+        addRemoveDevelopmentCardsGrid.setAlignment(Pos.CENTER);
         addRemoveDevelopmentCardsGrid.add(addKnightButton, 1, 5);
         addRemoveDevelopmentCardsGrid.add(removeKnightButton, 0, 5);
         addRemoveDevelopmentCardsGrid.add(addBuildRoadButton, 1, 6);
@@ -277,6 +279,7 @@ public class DebugWindow extends Application {
 
         VBox vBox = new VBox();
         vBox.setSpacing(10);
+        vBox.setAlignment(Pos.CENTER);
         vBox.getChildren().addAll(playerSelectText, playerSelectComboBox, selectedPlayerText);
         return vBox;
     }
