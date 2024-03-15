@@ -117,44 +117,44 @@ public class DebugWindow extends Application {
 
         addClayButton.setOnAction(event -> {
             if (this.selectedPlayerController != null) { this.selectedPlayerController.getPlayer().addResource(ResourceType.CLAY, 1); System.out.println("gave " + this.selectedPlayerController.getPlayer().getName() + " 1 Clay"); }
-            this.gameBoardController.getPlayerActionsController().updateUIBasedOnObjective(this.gameController.getActivePlayerController().getPlayerObjectiveProperty().getValue());
+            this.gameBoardController.getPlayerActionsController().updateUIBasedOnObjective(this.gameController.getActivePlayerController().getPlayerObjective());
         });
         addWoodButton.setOnAction(event -> {
             if (this.selectedPlayerController != null) { this.selectedPlayerController.getPlayer().addResource(ResourceType.WOOD, 1); System.out.println("gave " + this.selectedPlayerController.getPlayer().getName() + " 1 Wood"); }
-            this.gameBoardController.getPlayerActionsController().updateUIBasedOnObjective(this.gameController.getActivePlayerController().getPlayerObjectiveProperty().getValue());
+            this.gameBoardController.getPlayerActionsController().updateUIBasedOnObjective(this.gameController.getActivePlayerController().getPlayerObjective());
         });
         addOreButton.setOnAction(event -> {
             if (this.selectedPlayerController != null) { this.selectedPlayerController.getPlayer().addResource(ResourceType.ORE, 1); System.out.println("gave " + this.selectedPlayerController.getPlayer().getName() + " 1 Ore"); }
-            this.gameBoardController.getPlayerActionsController().updateUIBasedOnObjective(this.gameController.getActivePlayerController().getPlayerObjectiveProperty().getValue());
+            this.gameBoardController.getPlayerActionsController().updateUIBasedOnObjective(this.gameController.getActivePlayerController().getPlayerObjective());
         });
         addGrainButton.setOnAction(event -> {
             if (this.selectedPlayerController != null) { this.selectedPlayerController.getPlayer().addResource(ResourceType.GRAIN, 1); System.out.println("gave " + this.selectedPlayerController.getPlayer().getName() + " 1 Grain"); }
-            this.gameBoardController.getPlayerActionsController().updateUIBasedOnObjective(this.gameController.getActivePlayerController().getPlayerObjectiveProperty().getValue());
+            this.gameBoardController.getPlayerActionsController().updateUIBasedOnObjective(this.gameController.getActivePlayerController().getPlayerObjective());
         });
         addWoolButton.setOnAction(event -> {
             if (this.selectedPlayerController != null) { this.selectedPlayerController.getPlayer().addResource(ResourceType.WOOL, 1); System.out.println("gave " + this.selectedPlayerController.getPlayer().getName() + " 1 Wool"); }
-            this.gameBoardController.getPlayerActionsController().updateUIBasedOnObjective(this.gameController.getActivePlayerController().getPlayerObjectiveProperty().getValue());
+            this.gameBoardController.getPlayerActionsController().updateUIBasedOnObjective(this.gameController.getActivePlayerController().getPlayerObjective());
         });
 
         removeClayButton.setOnAction(event -> {
             if (this.selectedPlayerController != null) { this.selectedPlayerController.getPlayer().removeResource(ResourceType.CLAY, 1); System.out.println("took 1 Clay from " + this.selectedPlayerController.getPlayer().getName()); }
-            this.gameBoardController.getPlayerActionsController().updateUIBasedOnObjective(this.gameController.getActivePlayerController().getPlayerObjectiveProperty().getValue());
+            this.gameBoardController.getPlayerActionsController().updateUIBasedOnObjective(this.gameController.getActivePlayerController().getPlayerObjective());
         });
         removedWoodButton.setOnAction(event -> {
             if (this.selectedPlayerController != null) { this.selectedPlayerController.getPlayer().removeResource(ResourceType.WOOD, 1); System.out.println("took 1 Wood from " + this.selectedPlayerController.getPlayer().getName()); }
-            this.gameBoardController.getPlayerActionsController().updateUIBasedOnObjective(this.gameController.getActivePlayerController().getPlayerObjectiveProperty().getValue());
+            this.gameBoardController.getPlayerActionsController().updateUIBasedOnObjective(this.gameController.getActivePlayerController().getPlayerObjective());
         });
         removeOreButton.setOnAction(event -> {
             if (this.selectedPlayerController != null) { this.selectedPlayerController.getPlayer().removeResource(ResourceType.ORE, 1); System.out.println("took 1 Ore from " + this.selectedPlayerController.getPlayer().getName()); }
-            this.gameBoardController.getPlayerActionsController().updateUIBasedOnObjective(this.gameController.getActivePlayerController().getPlayerObjectiveProperty().getValue());
+            this.gameBoardController.getPlayerActionsController().updateUIBasedOnObjective(this.gameController.getActivePlayerController().getPlayerObjective());
         });
         removeGrainButton.setOnAction(event -> {
             if (this.selectedPlayerController != null) { this.selectedPlayerController.getPlayer().removeResource(ResourceType.GRAIN, 1); System.out.println("took 1 Grain from " + this.selectedPlayerController.getPlayer().getName()); }
-            this.gameBoardController.getPlayerActionsController().updateUIBasedOnObjective(this.gameController.getActivePlayerController().getPlayerObjectiveProperty().getValue());
+            this.gameBoardController.getPlayerActionsController().updateUIBasedOnObjective(this.gameController.getActivePlayerController().getPlayerObjective());
         });
         removeWoolButton.setOnAction(event -> {
             if (this.selectedPlayerController != null) { this.selectedPlayerController.getPlayer().removeResource(ResourceType.WOOL, 1); System.out.println("took 1 Wool from " + this.selectedPlayerController.getPlayer().getName()); }
-            this.gameBoardController.getPlayerActionsController().updateUIBasedOnObjective(this.gameController.getActivePlayerController().getPlayerObjectiveProperty().getValue());
+            this.gameBoardController.getPlayerActionsController().updateUIBasedOnObjective(this.gameController.getActivePlayerController().getPlayerObjective());
         });
 
         //DevelopmentCards
@@ -184,43 +184,43 @@ public class DebugWindow extends Application {
 
         addKnightButton.setOnAction(event -> {
             if (this.selectedPlayerController != null) { this.selectedPlayerController.getPlayer().addDevelopmentCard(DevelopmentCardType.KNIGHT); System.out.println("gave " + this.selectedPlayerController.getPlayer().getName() + " 1 Knight"); }
-            this.gameBoardController.getPlayerActionsController().updateUIBasedOnObjective(this.gameController.getActivePlayerController().getPlayerObjectiveProperty().getValue());
+            this.gameBoardController.getPlayerActionsController().updateUIBasedOnObjective(this.gameController.getActivePlayerController().getPlayerObjective());
         });
         addBuildRoadButton.setOnAction(event -> {
             if (this.selectedPlayerController != null) { this.selectedPlayerController.getPlayer().addDevelopmentCard(DevelopmentCardType.ROAD_BUILDING); System.out.println("gave " + this.selectedPlayerController.getPlayer().getName() + " 1 Build Road"); }
-            this.gameBoardController.getPlayerActionsController().updateUIBasedOnObjective(this.gameController.getActivePlayerController().getPlayerObjectiveProperty().getValue());
+            this.gameBoardController.getPlayerActionsController().updateUIBasedOnObjective(this.gameController.getActivePlayerController().getPlayerObjective());
         });
         addInventionButton.setOnAction(event -> {
             if (this.selectedPlayerController != null) { this.selectedPlayerController.getPlayer().addDevelopmentCard(DevelopmentCardType.INVENTION); System.out.println("gave " + this.selectedPlayerController.getPlayer().getName() + " 1 Invention"); }
-            this.gameBoardController.getPlayerActionsController().updateUIBasedOnObjective(this.gameController.getActivePlayerController().getPlayerObjectiveProperty().getValue());
+            this.gameBoardController.getPlayerActionsController().updateUIBasedOnObjective(this.gameController.getActivePlayerController().getPlayerObjective());
         });
         addMonopolyButton.setOnAction(event -> {
             if (this.selectedPlayerController != null) { this.selectedPlayerController.getPlayer().addDevelopmentCard(DevelopmentCardType.MONOPOLY); System.out.println("gave " + this.selectedPlayerController.getPlayer().getName() + " 1 Monopoly"); }
-            this.gameBoardController.getPlayerActionsController().updateUIBasedOnObjective(this.gameController.getActivePlayerController().getPlayerObjectiveProperty().getValue());
+            this.gameBoardController.getPlayerActionsController().updateUIBasedOnObjective(this.gameController.getActivePlayerController().getPlayerObjective());
         });
         addVictoryPointButton.setOnAction(event -> {
             if (this.selectedPlayerController != null) { this.selectedPlayerController.getPlayer().addDevelopmentCard(DevelopmentCardType.VICTORY_POINTS); System.out.println("gave " + this.selectedPlayerController.getPlayer().getName() + " 1 Victory Point"); }
-            this.gameBoardController.getPlayerActionsController().updateUIBasedOnObjective(this.gameController.getActivePlayerController().getPlayerObjectiveProperty().getValue());
+            this.gameBoardController.getPlayerActionsController().updateUIBasedOnObjective(this.gameController.getActivePlayerController().getPlayerObjective());
         });
         removeKnightButton.setOnAction(event -> {
             if (this.selectedPlayerController != null) { this.selectedPlayerController.getPlayer().removeDevelopmentCard(DevelopmentCardType.KNIGHT); System.out.println("took 1 Knight from " + this.selectedPlayerController.getPlayer().getName()); }
-            this.gameBoardController.getPlayerActionsController().updateUIBasedOnObjective(this.gameController.getActivePlayerController().getPlayerObjectiveProperty().getValue());
+            this.gameBoardController.getPlayerActionsController().updateUIBasedOnObjective(this.gameController.getActivePlayerController().getPlayerObjective());
         });
         removeBuildRoadButton.setOnAction(event -> {
             if (this.selectedPlayerController != null) { this.selectedPlayerController.getPlayer().removeDevelopmentCard(DevelopmentCardType.ROAD_BUILDING); System.out.println("took 1 Build Road from " + this.selectedPlayerController.getPlayer().getName()); }
-            this.gameBoardController.getPlayerActionsController().updateUIBasedOnObjective(this.gameController.getActivePlayerController().getPlayerObjectiveProperty().getValue());
+            this.gameBoardController.getPlayerActionsController().updateUIBasedOnObjective(this.gameController.getActivePlayerController().getPlayerObjective());
         });
         removeInventionButton.setOnAction(event -> {
             if (this.selectedPlayerController != null) { this.selectedPlayerController.getPlayer().removeDevelopmentCard(DevelopmentCardType.INVENTION); System.out.println("took 1 Invention from " + this.selectedPlayerController.getPlayer().getName()); }
-            this.gameBoardController.getPlayerActionsController().updateUIBasedOnObjective(this.gameController.getActivePlayerController().getPlayerObjectiveProperty().getValue());
+            this.gameBoardController.getPlayerActionsController().updateUIBasedOnObjective(this.gameController.getActivePlayerController().getPlayerObjective());
         });
         removeMonopolyButton.setOnAction(event -> {
             if (this.selectedPlayerController != null) { this.selectedPlayerController.getPlayer().removeDevelopmentCard(DevelopmentCardType.MONOPOLY); System.out.println("took 1 Monopoly from " + this.selectedPlayerController.getPlayer().getName()); }
-            this.gameBoardController.getPlayerActionsController().updateUIBasedOnObjective(this.gameController.getActivePlayerController().getPlayerObjectiveProperty().getValue());
+            this.gameBoardController.getPlayerActionsController().updateUIBasedOnObjective(this.gameController.getActivePlayerController().getPlayerObjective());
         });
         removeVictoryPointButton.setOnAction(event -> {
             if (this.selectedPlayerController != null) { this.selectedPlayerController.getPlayer().removeDevelopmentCard(DevelopmentCardType.VICTORY_POINTS); System.out.println("took 1 Victory Point from " + this.selectedPlayerController.getPlayer().getName()); }
-            this.gameBoardController.getPlayerActionsController().updateUIBasedOnObjective(this.gameController.getActivePlayerController().getPlayerObjectiveProperty().getValue());
+            this.gameBoardController.getPlayerActionsController().updateUIBasedOnObjective(this.gameController.getActivePlayerController().getPlayerObjective());
         });
 
         CheckBox activateDiceRollSevenCheckBox = new CheckBox("activate dice roll seven");
@@ -246,7 +246,7 @@ public class DebugWindow extends Application {
                 this.selectedPlayerController.getPlayer().addDevelopmentCard(DevelopmentCardType.VICTORY_POINTS);
                 System.out.println("gave " + this.selectedPlayerController.getPlayer().getName() + " everything");
             }
-            this.gameBoardController.getPlayerActionsController().updateUIBasedOnObjective(this.gameController.getActivePlayerController().getPlayerObjectiveProperty().getValue());
+            this.gameBoardController.getPlayerActionsController().updateUIBasedOnObjective(this.gameController.getActivePlayerController().getPlayerObjective());
         });
         debugSettingsBox.getChildren().add(giveAllButton);
 

@@ -114,7 +114,7 @@ public class PlayerController {
     }
 
     /**
-     * Sets the value of the {@link #playerObjectiveProperty} to the given
+     * Sets the value of the {@link #playerObjective} to the given
      * objective.
      *
      * @param nextObjective the objective to set
@@ -332,7 +332,7 @@ public class PlayerController {
     @StudentImplementationRequired("H2.4")
     public boolean canBuildVillage() { // ✅
         // H2.4
-        return (this.playerObjectiveProperty.getValue() == PlayerObjective.PLACE_VILLAGE ||
+        return (this.playerObjective == PlayerObjective.PLACE_VILLAGE ||
                 this.player.hasResources(Config.SETTLEMENT_BUILDING_COST.get(Settlement.Type.VILLAGE))) &&
                 this.player.getRemainingVillages() > 0;
     }
@@ -367,7 +367,7 @@ public class PlayerController {
         SoundFXplayer.getInstance().playSound(getClass().getResource(Config.PLACEVILLAGE_SOUND_PATH));
         intersection.placeVillage(this.player, true);
 
-        if (!(this.playerObjectiveProperty.getValue() == PlayerObjective.PLACE_VILLAGE)) {
+        if (!(this.playerObjective == PlayerObjective.PLACE_VILLAGE)) {
             this.player.removeResources(Config.SETTLEMENT_BUILDING_COST.get(Settlement.Type.VILLAGE));
         }
     }
@@ -463,7 +463,7 @@ public class PlayerController {
     @StudentImplementationRequired("H2.4")
     public boolean canBuildRoad() { // ✅
         // H2.4
-        return (this.playerObjectiveProperty.getValue() == PlayerObjective.PLACE_ROAD ||
+        return (this.playerObjective == PlayerObjective.PLACE_ROAD ||
                 this.player.hasResources(Config.ROAD_BUILDING_COST)) && this.player.getRemainingRoads() > 0;
     }
 
@@ -503,7 +503,7 @@ public class PlayerController {
 
         SoundFXplayer.getInstance().playSound(getClass().getResource(Config.PLACEROAD_SOUND_PATH));
         this.gameController.getState().getGrid().addRoad(position0, position1, this.player, checkVillages);
-        if (this.playerObjectiveProperty.getValue() != PlayerObjective.PLACE_ROAD)
+        if (this.playerObjective != PlayerObjective.PLACE_ROAD)
             this.player.removeResources(Config.ROAD_BUILDING_COST);
     }
 
