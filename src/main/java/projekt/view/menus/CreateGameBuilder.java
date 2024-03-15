@@ -73,7 +73,8 @@ public class CreateGameBuilder extends MenuBuilder {
                 });
                 playerListingHBox.getChildren().addAll(
                     playerNameTextField,
-                    createPlayerColorPicker(playerBuilder)
+                    createPlayerColorPicker(playerBuilder),
+                    createRemovePlayerButton(playerBuilder.getId())
                 );
                 playerListVBox.getChildren().add(playerListingHBox);
             }
@@ -134,7 +135,7 @@ public class CreateGameBuilder extends MenuBuilder {
     @StudentImplementationRequired("H3.4")
     private Node createPlayerColorPicker(final Builder playerBuilder) {
         ColorPicker picker = new ColorPicker(playerBuilder.getColor());
-        Alert alert = new Alert(Alert.AlertType.ERROR, "Another Player already picked this colour");
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Another Player already picked this colour");
 
         picker.setOnAction(event -> {
             if(!observablePlayers.stream().map(Builder::getColor).filter(x -> x == picker.getValue()).toList().isEmpty()) { // another player already has the colour?
