@@ -22,6 +22,7 @@ import projekt.Config;
 import projekt.controller.GameController;
 import projekt.controller.PlayerController;
 import projekt.controller.gui.GameBoardController;
+import projekt.model.DevelopmentCardType;
 import projekt.model.Player;
 import projekt.model.ResourceType;
 
@@ -83,6 +84,7 @@ public class DebugWindow extends Application {
         debugSettingsBox.setSpacing(10);
         debugSettingsBox.setAlignment(Pos.CENTER);
 
+        //Resources
         Button addClayButton = new Button("+1 Clay");
         Button addWoodButton = new Button("+1 Wood");
         Button addOreButton = new Button("+1 Ore");
@@ -145,6 +147,59 @@ public class DebugWindow extends Application {
         });
         removeWoolButton.setOnAction(event -> {
             if (this.selectedPlayerController != null) { this.selectedPlayerController.getPlayer().removeResource(ResourceType.WOOL, 1); System.out.println("took 1 Wool from " + this.selectedPlayerController.getPlayer().getName()); }
+            this.gameBoardController.getPlayerActionsController().updateUIBasedOnObjective(this.gameController.getActivePlayerController().getPlayerObjectiveProperty().getValue());
+        });
+
+        //DevelopmentCards
+        Button addKnightButton = new Button("+1 Knight");
+        Button addBuildRoadButton = new Button("+1 Build Road");
+        Button addInventionButton = new Button("+1 Invention");
+        Button addMonopolyButton = new Button("+1 Monopoly");
+        Button removeKnightButton = new Button("-1 Knight");
+        Button removeBuildRoadButton = new Button("-1 Build Road");
+        Button removeInventionButton = new Button("-1 Invention");
+        Button removeMonopolyButton = new Button("-1 Monopoly");
+        GridPane addRemoveDevelopmentCardsGrid = new GridPane();
+        addRemoveDevelopmentCardsGrid.add(addKnightButton, 1, 5);
+        addRemoveDevelopmentCardsGrid.add(removeKnightButton, 0, 5);
+        addRemoveDevelopmentCardsGrid.add(addBuildRoadButton, 1, 6);
+        addRemoveDevelopmentCardsGrid.add(removeBuildRoadButton, 0, 6);
+        addRemoveDevelopmentCardsGrid.add(addInventionButton, 1, 7);
+        addRemoveDevelopmentCardsGrid.add(removeInventionButton, 0, 7);
+        addRemoveDevelopmentCardsGrid.add(addMonopolyButton, 1, 8);
+        addRemoveDevelopmentCardsGrid.add(removeMonopolyButton, 0, 8);
+        debugSettingsBox.getChildren().add(addRemoveDevelopmentCardsGrid);
+
+        addKnightButton.setOnAction(event -> {
+            if (this.selectedPlayerController != null) { this.selectedPlayerController.getPlayer().addDevelopmentCard(DevelopmentCardType.KNIGHT); System.out.println("gave " + this.selectedPlayerController.getPlayer().getName() + " 1 Knight"); }
+            this.gameBoardController.getPlayerActionsController().updateUIBasedOnObjective(this.gameController.getActivePlayerController().getPlayerObjectiveProperty().getValue());
+        });
+        addBuildRoadButton.setOnAction(event -> {
+            if (this.selectedPlayerController != null) { this.selectedPlayerController.getPlayer().addDevelopmentCard(DevelopmentCardType.ROAD_BUILDING); System.out.println("gave " + this.selectedPlayerController.getPlayer().getName() + " 1 Build Road"); }
+            this.gameBoardController.getPlayerActionsController().updateUIBasedOnObjective(this.gameController.getActivePlayerController().getPlayerObjectiveProperty().getValue());
+        });
+        addInventionButton.setOnAction(event -> {
+            if (this.selectedPlayerController != null) { this.selectedPlayerController.getPlayer().addDevelopmentCard(DevelopmentCardType.INVENTION); System.out.println("gave " + this.selectedPlayerController.getPlayer().getName() + " 1 Invention"); }
+            this.gameBoardController.getPlayerActionsController().updateUIBasedOnObjective(this.gameController.getActivePlayerController().getPlayerObjectiveProperty().getValue());
+        });
+        addMonopolyButton.setOnAction(event -> {
+            if (this.selectedPlayerController != null) { this.selectedPlayerController.getPlayer().addDevelopmentCard(DevelopmentCardType.MONOPOLY); System.out.println("gave " + this.selectedPlayerController.getPlayer().getName() + " 1 Monopoly"); }
+            this.gameBoardController.getPlayerActionsController().updateUIBasedOnObjective(this.gameController.getActivePlayerController().getPlayerObjectiveProperty().getValue());
+        });
+        removeKnightButton.setOnAction(event -> {
+            if (this.selectedPlayerController != null) { this.selectedPlayerController.getPlayer().removeDevelopmentCard(DevelopmentCardType.KNIGHT); System.out.println("took 1 Knight from " + this.selectedPlayerController.getPlayer().getName()); }
+            this.gameBoardController.getPlayerActionsController().updateUIBasedOnObjective(this.gameController.getActivePlayerController().getPlayerObjectiveProperty().getValue());
+        });
+        removeBuildRoadButton.setOnAction(event -> {
+            if (this.selectedPlayerController != null) { this.selectedPlayerController.getPlayer().removeDevelopmentCard(DevelopmentCardType.ROAD_BUILDING); System.out.println("took 1 Build Road from " + this.selectedPlayerController.getPlayer().getName()); }
+            this.gameBoardController.getPlayerActionsController().updateUIBasedOnObjective(this.gameController.getActivePlayerController().getPlayerObjectiveProperty().getValue());
+        });
+        removeInventionButton.setOnAction(event -> {
+            if (this.selectedPlayerController != null) { this.selectedPlayerController.getPlayer().removeDevelopmentCard(DevelopmentCardType.INVENTION); System.out.println("took 1 Invention from " + this.selectedPlayerController.getPlayer().getName()); }
+            this.gameBoardController.getPlayerActionsController().updateUIBasedOnObjective(this.gameController.getActivePlayerController().getPlayerObjectiveProperty().getValue());
+        });
+        removeMonopolyButton.setOnAction(event -> {
+            if (this.selectedPlayerController != null) { this.selectedPlayerController.getPlayer().removeDevelopmentCard(DevelopmentCardType.MONOPOLY); System.out.println("took 1 Monopoly from " + this.selectedPlayerController.getPlayer().getName()); }
             this.gameBoardController.getPlayerActionsController().updateUIBasedOnObjective(this.gameController.getActivePlayerController().getPlayerObjectiveProperty().getValue());
         });
 
