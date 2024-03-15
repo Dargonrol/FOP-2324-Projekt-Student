@@ -10,6 +10,7 @@ import projekt.controller.actions.BuildRoadAction;
 import projekt.controller.gui.SceneSwitcher;
 import projekt.controller.gui.SceneSwitcher.SceneType;
 import projekt.sound.BackgroundMusicPlayer;
+import projekt.view.DebugWindow;
 
 import java.io.OutputStream;
 import java.io.PrintStream;
@@ -49,6 +50,12 @@ public class MyApplication extends Application {
             backgroundMusicPlayer.getMediaPlayer().setCycleCount(MediaPlayer.INDEFINITE);
             backgroundMusicPlayer.getMediaPlayer().play();
         }
+
+        // initialize debug window
+        DebugWindow debugWindow = DebugWindow.getInstance();
+        debugWindow.start(new Stage());
+
+        stage.setOnCloseRequest(event -> DebugWindow.getInstance().close());
 
         SceneSwitcher.getInstance(stage, gameLoopStart).loadScene(SceneType.MAIN_MENU);
     }

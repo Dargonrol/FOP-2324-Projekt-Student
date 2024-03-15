@@ -4,6 +4,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.tudalgo.algoutils.student.annotation.DoNotTouch;
 import projekt.controller.GameController;
+import projekt.view.DebugWindow;
 
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -69,17 +70,20 @@ public class SceneSwitcher {
         MAIN_MENU(MainMenuSceneController::new),
         CREATE_GAME(() -> {
             SceneSwitcher.getInstance().gameController = new GameController();
+            DebugWindow.getInstance().setGameController(SceneSwitcher.getInstance().gameController);
             return new CreateGameController(SceneSwitcher.getInstance().gameController.getState());
         }),
         GAME_BOARD(() -> {
             SceneSwitcher.getInstance().gameLoopStarter.accept(SceneSwitcher.getInstance().gameController);
-            return new GameBoardController(
+            GameBoardController gameBoardController = new GameBoardController(
                 getInstance().gameController.getState(),
                 getInstance().gameController.getActivePlayerControllerProperty(),
                 getInstance().gameController.getCurrentDiceRollProperty(),
                 getInstance().gameController.getState().getWinnerProperty(),
                 getInstance().gameController.getRoundCounterProperty()
             );
+            DebugWindow.getInstance().setGameBoardController(gameBoardController);
+            return gameBoardController;
         }),
         SETTINGS(SettingsController::new),
         ABOUT(AboutController::new);

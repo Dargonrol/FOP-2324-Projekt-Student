@@ -5,10 +5,12 @@ import javafx.beans.value.ObservableValue;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import projekt.Config;
 import projekt.sound.BackgroundMusicPlayer;
 import projekt.sound.SoundFXplayer;
 
@@ -21,9 +23,24 @@ public class SettingsMenuBuilder extends MenuBuilder {
 
     @Override
     protected Node initCenter() {
-
         VBox mainBox = new VBox();
+        mainBox.setAlignment(Pos.CENTER);
         mainBox.setSpacing(10);
+
+
+        Button returnButton = new Button("Return");
+        returnButton.setOnAction(e -> loadGameScene.run());
+
+        mainBox.getChildren().addAll(
+            buildMusicVolumeSlider(),
+            buildFXVolumeSlider(),
+            buildDebugModeCheckBox(),
+            returnButton);
+
+        return mainBox;
+    }
+
+    private Node buildMusicVolumeSlider() {
         HBox volumeSliderBox = new HBox();
         volumeSliderBox.setAlignment(Pos.CENTER);
         VBox volumeBox = new VBox();
@@ -44,7 +61,10 @@ public class SettingsMenuBuilder extends MenuBuilder {
         });
         volumeSliderBox.getChildren().addAll(volumeSlider, volumeValue);
         volumeBox.getChildren().addAll(volumeText, volumeSliderBox);
+        return volumeBox;
+    }
 
+    private Node buildFXVolumeSlider() {
         VBox FXVolumeVBox = new VBox();
         FXVolumeVBox.setAlignment(Pos.CENTER);
         FXVolumeVBox.setSpacing(5);
@@ -64,15 +84,14 @@ public class SettingsMenuBuilder extends MenuBuilder {
         });
         FXVolumeVBox.getChildren().addAll(FXVolumeText, FXVolumeSliderHBox);
         FXVolumeSliderHBox.getChildren().addAll(FXVolumeSlider, FXVolumeValue);
+        return FXVolumeVBox;
+    }
 
-        Button returnButton = new Button("Return");
-        returnButton.setOnAction(e -> loadGameScene.run());
-
-        mainBox.getChildren().addAll(volumeBox, FXVolumeVBox, returnButton);
-        mainBox.setAlignment(Pos.CENTER);
-
-
-        return mainBox;
+    private Node buildDebugModeCheckBox() {
+        CheckBox debugModeCheckbox = new CheckBox("Activate Debug Mode");
+        debugModeCheckbox.setSelected(Config.debugModeProperty.get());
+        debugModeCheckbox.setOnAction(e -> Config.debugModeProperty.set(debugModeCheckbox.isSelected()));
+        return debugModeCheckbox;
     }
 
     @Override

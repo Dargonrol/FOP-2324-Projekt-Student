@@ -1,9 +1,8 @@
 package projekt.controller;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.Property;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableMap;
 import org.tudalgo.algoutils.student.annotation.DoNotTouch;
 import org.tudalgo.algoutils.student.annotation.StudentImplementationRequired;
 import projekt.Config;
@@ -16,6 +15,7 @@ import projekt.model.HexGridImpl;
 import projekt.model.Player;
 import projekt.model.ResourceType;
 import projekt.model.buildings.Settlement;
+import projekt.view.DebugWindow;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -110,6 +110,7 @@ public class GameController {
                 ));
             }
         }
+        DebugWindow.getInstance().updatePlayers();
     }
 
     /**
@@ -128,6 +129,12 @@ public class GameController {
      */
     public Map<Player, PlayerController> getPlayerControllers() {
         return playerControllers;
+    }
+
+    public ObservableMap<Player, PlayerController> getObservablePlayerControllers() {
+        ObservableMap<Player, PlayerController> observableMap = FXCollections.observableHashMap();
+        observableMap.putAll(playerControllers);
+        return observableMap;
     }
 
     /**
@@ -367,17 +374,20 @@ public class GameController {
     @StudentImplementationRequired("H2.1")
     private void diceRollSeven() { // ✅
         // H2.1
-        this.playerControllers.forEach((player, controller) -> {
-            if (player.getResources().values().stream().mapToInt(Integer::intValue).sum() > 7) {
-                // get active pc to set it later again, cause withActivePlayer resets is
-                PlayerController activePc = this.getActivePlayerController();
-                controller.setCardsToSelect(player.getResources().values().stream().mapToInt(Integer::intValue).sum() / 2);
-                withActivePlayer(controller, () -> controller.waitForNextAction(PlayerObjective.DROP_CARDS));
-                this.setActivePlayerControllerProperty(activePc.getPlayer());
-            }
-        });
-        this.getActivePlayerController().waitForNextAction(PlayerObjective.SELECT_ROBBER_TILE);
-        this.getActivePlayerController().waitForNextAction(PlayerObjective.SELECT_CARD_TO_STEAL);
+        if (Config.activateDiceRollSeven)
+        {
+            this.playerControllers.forEach((player, controller) -> {
+                if (player.getResources().values().stream().mapToInt(Integer::intValue).sum() > 7) {
+                    // get active pc to set it later again, cause withActivePlayer resets is
+                    PlayerController activePc = this.getActivePlayerController();
+                    controller.setCardsToSelect(player.getResources().values().stream().mapToInt(Integer::intValue).sum() / 2);
+                    withActivePlayer(controller, () -> controller.waitForNextAction(PlayerObjective.DROP_CARDS));
+                    this.setActivePlayerControllerProperty(activePc.getPlayer());
+                }
+            });
+            this.getActivePlayerController().waitForNextAction(PlayerObjective.SELECT_ROBBER_TILE);
+            this.getActivePlayerController().waitForNextAction(PlayerObjective.SELECT_CARD_TO_STEAL);
+        }
     }
 
     /**

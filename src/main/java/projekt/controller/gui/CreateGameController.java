@@ -8,6 +8,7 @@ import javafx.util.Builder;
 import projekt.Config;
 import projekt.model.GameState;
 import projekt.model.PlayerImpl;
+import projekt.view.DebugWindow;
 import projekt.view.menus.CreateGameBuilder;
 
 /**

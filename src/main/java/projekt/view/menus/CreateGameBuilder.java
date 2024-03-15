@@ -15,6 +15,7 @@ import projekt.model.PlayerImpl;
 import projekt.model.PlayerImpl.Builder;
 import projekt.sound.BackgroundMusicPlayer;
 import projekt.sound.SoundFXplayer;
+import projekt.view.DebugWindow;
 
 import java.util.function.Supplier;
 
@@ -115,7 +116,9 @@ public class CreateGameBuilder extends MenuBuilder {
     @StudentImplementationRequired("H3.4")
     private Node createAddPlayerButton() {
         Button button = new Button("Add Player");
-        button.setOnAction(event -> observablePlayers.add(nextPlayerBuilder()));
+        button.setOnAction(event -> {
+            observablePlayers.add(nextPlayerBuilder());
+        });
         return button;
     }
 

@@ -115,7 +115,7 @@ public class PlayerActionsController implements Controller {
      * @param objective the objective to check
      */
     @StudentImplementationRequired("H3.2") // ✅
-    private void updateUIBasedOnObjective(final PlayerObjective objective) {
+    public void updateUIBasedOnObjective(final PlayerObjective objective) {
         // H3.2
         removeAllHighlights();
 

@@ -1,5 +1,7 @@
 package projekt;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import org.tudalgo.algoutils.student.io.PropertyUtils;
 import projekt.model.DevelopmentCardType;
 import projekt.model.ResourceType;
@@ -128,6 +130,8 @@ public final class Config {
     public static final String PLACEROAD_SOUND_PATH = "/sounds/placeRoad.mp3";
     public static final String DICEROLL_SOUND_PATH = "/sounds/diceRoll.mp3";
     public static final String UPGRADEVILLAGE_SOUND_PATH = "/sounds/upgradeVillage.mp3";
+    public static BooleanProperty debugModeProperty = new SimpleBooleanProperty(false);
+    public static boolean activateDiceRollSeven = true;
 
     /**
      * The amount of resources needed to build each settlement type.

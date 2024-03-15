@@ -4,10 +4,14 @@ import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.Property;
 import javafx.scene.control.Alert;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 import javafx.util.Builder;
 import org.tudalgo.algoutils.student.annotation.DoNotTouch;
+import projekt.Config;
 import projekt.controller.PlayerController;
 import projekt.model.GameState;
 import projekt.model.Player;
@@ -122,8 +126,12 @@ public class GameBoardController implements SceneController {
     }
 
     public void eventHandler(Region view) {
-        view.setOnKeyPressed(e -> {
-            switch (e.getCode()) {
+        view.setOnKeyPressed(keyEvent -> {
+            KeyCodeCombination combination = new KeyCodeCombination(KeyCode.F10, KeyCombination.SHIFT_DOWN);
+            if (combination.match(keyEvent)) {
+                Config.debugModeProperty.set(!Config.debugModeProperty.get());
+            }
+            switch (keyEvent.getCode()) {
                 case DIGIT1 -> this.playerActionsController.getBuildRoadButton().fire();
                 case DIGIT2 -> this.playerActionsController.getBuildVillageButton().fire();
                 case Q -> this.playerActionsController.getEndTurnButton().fire();
@@ -133,5 +141,9 @@ public class GameBoardController implements SceneController {
             }
         });
         view.requestFocus();
+    }
+
+    public PlayerActionsController getPlayerActionsController() {
+        return playerActionsController;
     }
 }

@@ -6,6 +6,7 @@ import javafx.scene.paint.Color;
 import org.jetbrains.annotations.Nullable;
 import org.tudalgo.algoutils.student.annotation.DoNotTouch;
 import projekt.Config;
+import projekt.view.DebugWindow;
 
 import java.util.Collections;
 import java.util.List;
