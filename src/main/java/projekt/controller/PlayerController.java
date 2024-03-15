@@ -216,6 +216,8 @@ public class PlayerController {
      */
     public void processSelectedResources(final Map<ResourceType, Integer> selectedResources)
     throws IllegalActionException {
+        System.out.println("Entered processSelectedResources");
+        System.out.println("Selected Resources: " + selectedResources);
         if (selectedResources.values().stream().mapToInt(Integer::intValue).sum() != getCardsToSelect()) {
             throw new IllegalActionException("Wrong amount of cards selected");
         }

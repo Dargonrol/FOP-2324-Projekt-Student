@@ -72,14 +72,16 @@ public class SelectResourcesDialog extends Dialog<Map<ResourceType, Integer>> {
     ) {
         // H3.4
         ArrayList<ResourceType> resourceTypes = new ArrayList<>();
-        resourceTypes.add(ResourceType.CLAY);
-        resourceTypes.add(ResourceType.ORE);
-        resourceTypes.add(ResourceType.GRAIN);
         resourceTypes.add(ResourceType.WOOD);
+        resourceTypes.add(ResourceType.CLAY);
         resourceTypes.add(ResourceType.WOOL);
+        resourceTypes.add(ResourceType.GRAIN);
+        resourceTypes.add(ResourceType.ORE);
 
-        Map<ResourceType, Integer> modifiableResourcesToSelectFrom = new HashMap<>(resourcesToSelectFrom);
-        modifiableResourcesToSelectFrom.putAll(resourcesToSelectFrom);
+        Map<ResourceType, Integer> modifiableResourcesToSelectFrom = new HashMap<>();
+        if (resourcesToSelectFrom != null) {
+            modifiableResourcesToSelectFrom.putAll(resourcesToSelectFrom);
+        }
         for (ResourceType resourceType: resourceTypes) {
             if (!modifiableResourcesToSelectFrom.containsKey(resourceType)) {
                 modifiableResourcesToSelectFrom.put(resourceType, 0);
@@ -146,7 +148,7 @@ public class SelectResourcesDialog extends Dialog<Map<ResourceType, Integer>> {
                 int newSpinnerValue = (amountToSelect - sum) + entry.getValue().getValue();
                 SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(
                     0,
-                    newSpinnerValue <= modifiableResourcesToSelectFrom.get(entry.getKey()) ? newSpinnerValue : modifiableResourcesToSelectFrom.get(entry.getKey()),
+                    dropCards ? newSpinnerValue <= modifiableResourcesToSelectFrom.get(entry.getKey()) ? newSpinnerValue : modifiableResourcesToSelectFrom.get(entry.getKey()) : newSpinnerValue,
                     entry.getValue().getValue()
                 );
                 entry.getValue().setValueFactory(valueFactory);
@@ -158,12 +160,17 @@ public class SelectResourcesDialog extends Dialog<Map<ResourceType, Integer>> {
 
 
         for (Map.Entry<ResourceType, Integer> entry: modifiableResourcesToSelectFrom.entrySet()) {
-            Spinner<Integer> spinner = new Spinner<>(0, entry.getValue(), 0);
+            int maxValue;
+            if (dropCards)
+                maxValue = entry.getValue();
+            else
+                maxValue = amountToSelect;
+            Spinner<Integer> spinner = new Spinner<>(0, maxValue, 0);
             spinner.setEditable(false);
             spinner.valueProperty().addListener(spinnerChangeListener);
             spinner.setStyle("-fx-font-weight: BOLD;");
             spinner.getStyleClass().add(Spinner.STYLE_CLASS_SPLIT_ARROWS_HORIZONTAL);
-            if (entry.getValue() == 0) { spinner.setDisable(true); }
+            if (entry.getValue() == 0 && dropCards) { spinner.setDisable(true); }
             spinnersMap.put(entry.getKey(), spinner);
             ResourceCardPane resourceCardPane = new ResourceCardPane(entry.getKey(), entry.getValue());
             resourceCardPane.setEffect(ds);
@@ -189,6 +196,14 @@ public class SelectResourcesDialog extends Dialog<Map<ResourceType, Integer>> {
         okButton.disableProperty().bind(AllResourcesSelected);
         okButton.setText("confirm");
         okButton.setOnAction(event -> {
+            Map<ResourceType, Integer> tempMap = new HashMap<>(resultResources); //tmp map cause cannot remove things while iterating
+            for (Map.Entry<ResourceType, Integer> entry: resultResources.entrySet()) {
+                if (entry.getValue() == 0) {
+                    tempMap.remove(entry.getKey());
+                }
+            }
+            resultResources.clear();
+            resultResources.putAll(tempMap);
             setResult(resultResources.getValue());
             this.close();
         });

@@ -22,6 +22,7 @@ import projekt.Config;
 import projekt.controller.GameController;
 import projekt.controller.PlayerController;
 import projekt.controller.gui.GameBoardController;
+import projekt.controller.gui.SceneSwitcher;
 import projekt.model.DevelopmentCardType;
 import projekt.model.Player;
 import projekt.model.ResourceType;
@@ -54,6 +55,11 @@ public class DebugWindow extends Application {
         primaryStage.setTitle("Debug Window");
         primaryStage.setMinHeight(500);
         primaryStage.setMinWidth(250);
+
+        if (Config.debugModeProperty.getValue())
+            primaryStage.show();
+        else
+            primaryStage.hide();
 
         Config.debugModeProperty.addListener((observable, oldValue, newValue) -> {
             if (newValue) {
@@ -222,6 +228,32 @@ public class DebugWindow extends Application {
             System.out.println("DEBUG: activateDiceRollSeven: " + Config.activateDiceRollSeven);
         });
         debugSettingsBox.getChildren().add(activateDiceRollSevenCheckBox);
+
+        Button giveAllButton = new Button("Give Everything");
+        giveAllButton.setOnAction(event -> {
+            if (this.selectedPlayerController != null) {
+                this.selectedPlayerController.getPlayer().addResource(ResourceType.CLAY, 1);
+                this.selectedPlayerController.getPlayer().addResource(ResourceType.WOOD, 1);
+                this.selectedPlayerController.getPlayer().addResource(ResourceType.ORE, 1);
+                this.selectedPlayerController.getPlayer().addResource(ResourceType.GRAIN, 1);
+                this.selectedPlayerController.getPlayer().addResource(ResourceType.WOOL, 1);
+                this.selectedPlayerController.getPlayer().addDevelopmentCard(DevelopmentCardType.KNIGHT);
+                this.selectedPlayerController.getPlayer().addDevelopmentCard(DevelopmentCardType.ROAD_BUILDING);
+                this.selectedPlayerController.getPlayer().addDevelopmentCard(DevelopmentCardType.INVENTION);
+                this.selectedPlayerController.getPlayer().addDevelopmentCard(DevelopmentCardType.MONOPOLY);
+                this.selectedPlayerController.getPlayer().addDevelopmentCard(DevelopmentCardType.VICTORY_POINTS);
+                System.out.println("gave " + this.selectedPlayerController.getPlayer().getName() + " everything");
+            }
+            this.gameBoardController.getPlayerActionsController().updateUIBasedOnObjective(this.gameController.getActivePlayerController().getPlayerObjectiveProperty().getValue());
+        });
+        debugSettingsBox.getChildren().add(giveAllButton);
+
+        Button restartGameButton = new Button("Restart Game");
+        restartGameButton.setOnAction(event -> {
+            SceneSwitcher.getInstance().loadScene(SceneSwitcher.SceneType.CREATE_GAME);
+            System.out.println("DEBUG: restarted game");
+        });
+        debugSettingsBox.getChildren().add(restartGameButton);
 
         return debugSettingsBox;
     }

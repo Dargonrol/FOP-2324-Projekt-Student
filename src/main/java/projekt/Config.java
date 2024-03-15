@@ -130,7 +130,7 @@ public final class Config {
     public static final String PLACEROAD_SOUND_PATH = "/sounds/placeRoad.mp3";
     public static final String DICEROLL_SOUND_PATH = "/sounds/diceRoll.mp3";
     public static final String UPGRADEVILLAGE_SOUND_PATH = "/sounds/upgradeVillage.mp3";
-    public static BooleanProperty debugModeProperty = new SimpleBooleanProperty(false);
+    public static BooleanProperty debugModeProperty = new SimpleBooleanProperty(true);
     public static boolean activateDiceRollSeven = true;
 
     /**
