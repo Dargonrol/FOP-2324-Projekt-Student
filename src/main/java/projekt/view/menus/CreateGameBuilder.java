@@ -176,7 +176,7 @@ public class CreateGameBuilder extends MenuBuilder {
      */
     @StudentImplementationRequired("H3.4")
     private Button createRemovePlayerButton(final int id) {
-        Button button = new Button("Remove Player");
+        Button button = new Button("Remove");
         button.setOnAction(event -> removePlayer(id));
         return button;
     }
