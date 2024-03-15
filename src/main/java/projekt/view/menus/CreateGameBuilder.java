@@ -72,7 +72,8 @@ public class CreateGameBuilder extends MenuBuilder {
                     }
                 });
                 playerListingHBox.getChildren().addAll(
-                    playerNameTextField
+                    playerNameTextField,
+                    createPlayerColorPicker(playerBuilder)
                 );
                 playerListVBox.getChildren().add(playerListingHBox);
             }
