@@ -125,13 +125,20 @@ public final class Config {
     public static final String GAMESTART_WAV_PATH = "/sounds/gameStart.wav";
     public static final String LOGO_PATH = "/textures/Siedler_von_Catan_Logo.jpg";
     public static final String MENU_BACKGROUND_PATH = "/textures/menu_background.png";
+    public static final String BACKGROUND_PATH = "/textures/background.png";
+    public static final String BACKGROUND2_PATH = "/textures/wooden-background.jpg";
     public static final String MAIN_MENU_BUTTON_PATH = "/textures/button.png";
     public static final String PLACEVILLAGE_SOUND_PATH = "/sounds/placeVillage.mp3";
     public static final String PLACEROAD_SOUND_PATH = "/sounds/placeRoad.mp3";
     public static final String DICEROLL_SOUND_PATH = "/sounds/diceRoll.mp3";
     public static final String UPGRADEVILLAGE_SOUND_PATH = "/sounds/upgradeVillage.mp3";
-    public static BooleanProperty debugModeProperty = new SimpleBooleanProperty(true);
+    public static final String WINSOUND = "/sounds/winSound.mp3";
+    public static BooleanProperty debugModeProperty = new SimpleBooleanProperty(false);
     public static boolean activateDiceRollSeven = true;
+
+    public static final double bigButtonSize = 0.15;
+    public static final double smallButtonSize = 0.1;
+    public static final String ANANDA_FONT_PATH = "/fonts/AnandaBlackPersonalUseRegular-rg9Rx.ttf";
 
     /**
      * The amount of resources needed to build each settlement type.

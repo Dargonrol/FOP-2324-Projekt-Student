@@ -17,7 +17,7 @@ public class BackgroundMusicPlayer {
     private static BackgroundMusicPlayer instance;
     private MediaPlayer mediaPlayer;
     private Media media;
-    private DoubleProperty volume = new SimpleDoubleProperty(0); //0.35
+    private DoubleProperty volume = new SimpleDoubleProperty(0.35); //0.35
 
     private BackgroundMusicPlayer() { }
 

@@ -67,7 +67,8 @@ public class MainMenuBuilder extends MenuBuilder {
         mainBox.setSpacing(10);
         if (getClass().getResource(Config.MENU_BACKGROUND_PATH) != null) {
             Image image = new Image(Objects.requireNonNull(getClass().getResource(Config.MENU_BACKGROUND_PATH)).toExternalForm());
-            BackgroundImage backgroundImage = new BackgroundImage(image, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
+            BackgroundSize backgroundSize = new BackgroundSize(100, 100, true, true, true, false);
+            BackgroundImage backgroundImage = new BackgroundImage(image, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, backgroundSize);
             root.setBackground(new Background(backgroundImage));
         }
 
@@ -118,8 +119,8 @@ public class MainMenuBuilder extends MenuBuilder {
         if (getClass().getResource(Config.MAIN_MENU_BUTTON_PATH) != null) {
             Image buttonBackground = new Image(Objects.requireNonNull(getClass().getResourceAsStream(Config.MAIN_MENU_BUTTON_PATH)));
 
-            double buttonWidth = buttonBackground.getWidth() * 0.15;
-            double buttonHeight = buttonBackground.getHeight() * 0.15;
+            double buttonWidth = buttonBackground.getWidth() * Config.bigButtonSize;
+            double buttonHeight = buttonBackground.getHeight() * Config.bigButtonSize;
 
             ImageView startImageView = new ImageView(buttonBackground);
             startButton.setGraphic(startImageView);

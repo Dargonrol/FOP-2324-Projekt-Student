@@ -48,6 +48,13 @@ public abstract class MenuBuilder implements Builder<Region> {
         this.returnHandler = null;
     }
 
+    public MenuBuilder(boolean customStyle, final Runnable returnHandler) {
+        this.title = "";
+        this.returnText = "";
+        this.customStyle = true;
+        this.returnHandler = returnHandler;
+    }
+
     /**
      * Creates a new MenuBuilder with the given title and return handler.
      * The return text is "Return".
@@ -72,9 +79,9 @@ public abstract class MenuBuilder implements Builder<Region> {
      */
     protected void init(final String title) {
         if (customStyle) {
-            root.setTop(initHeader());
             root.setCenter(initCenter());
             root.setBottom(initFooter(returnHandler));
+            root.setTop(initHeader());
             return;
         }
         final Label titleLabel = new Label(title);

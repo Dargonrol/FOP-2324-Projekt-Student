@@ -8,9 +8,11 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import projekt.Config;
 import projekt.model.Player;
 import projekt.model.ResourceType;
 import projekt.model.TradePayload;
+import projekt.sound.SoundFXplayer;
 import projekt.view.CardPane;
 import projekt.view.ResourceCardPane;
 
@@ -29,6 +31,7 @@ public class AcceptTradeDialog extends Dialog<Boolean> {
      * @param player The player that is prompted to accept or decline the trade.
      */
     public AcceptTradeDialog(final TradePayload trade, final Player player) {
+        SoundFXplayer.getInstance().playSound(getClass().getResource(Config.TRADE_ALERT_WAV_PATH));
         setTitle("Accept trade offer");
         setHeaderText(
             String.format("%s wants to trade with you (%s).", trade.player().getName(), player.getName()));

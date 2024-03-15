@@ -2,12 +2,19 @@ package projekt.view.menus;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.InnerShadow;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.*;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import org.tudalgo.algoutils.student.annotation.DoNotTouch;
 import org.tudalgo.algoutils.student.annotation.StudentImplementationRequired;
 import projekt.Config;
@@ -17,6 +24,8 @@ import projekt.sound.BackgroundMusicPlayer;
 import projekt.sound.SoundFXplayer;
 import projekt.view.DebugWindow;
 
+import java.io.InputStream;
+import java.util.Objects;
 import java.util.function.Supplier;
 
 /**
@@ -44,15 +53,25 @@ public class CreateGameBuilder extends MenuBuilder {
         final Runnable returnHandler,
         final Supplier<Boolean> startGameHandler
     ) {
-        super("Start new Game", returnHandler);
+        super(true, returnHandler);
         this.startGameHandler = startGameHandler;
         this.observablePlayers = players;
     }
 
     @Override
     protected Node initCenter() {
+        boolean buttonTextureExists = getClass().getResource(Config.MAIN_MENU_BUTTON_PATH) != null;
+
         final VBox mainBox = new VBox();
         mainBox.setStyle("-fx-font-size: 2em");
+        if (getClass().getResource(Config.BACKGROUND2_PATH) != null) {
+            Image image = new Image(Objects.requireNonNull(getClass().getResource(Config.BACKGROUND2_PATH)).toExternalForm());
+            BackgroundSize backgroundSize = new BackgroundSize(100, 100, true, true, true, false);
+            BackgroundImage backgroundImage = new BackgroundImage(image, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, backgroundSize);
+            root.setBackground(new Background(backgroundImage));
+        }
+        GridPane gridPane = new GridPane();
+        gridPane.setAlignment(Pos.CENTER);
         // For icons see https://pictogrammers.com/library/mdi/
         final VBox playerListVBox = new VBox();
         this.observablePlayers.subscribe(() -> {
@@ -61,6 +80,13 @@ public class CreateGameBuilder extends MenuBuilder {
                 final HBox playerListingHBox = new HBox();
                 playerListingHBox.setAlignment(Pos.CENTER);
                 final TextField playerNameTextField = new TextField(playerBuilder.nameOrDefault());
+                if (getClass().getResource(Config.BACKGROUND_PATH) != null) {
+                    Image image = new Image(Objects.requireNonNull(getClass().getResource(Config.BACKGROUND_PATH)).toExternalForm());
+                    BackgroundSize backgroundSize = new BackgroundSize(100, 100, true, true, false, true);
+                    BackgroundImage backgroundImage = new BackgroundImage(image, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize);
+                    playerNameTextField.setBackground(new Background(backgroundImage));
+                    playerNameTextField.setStyle(" -fx-border-width: 4px; -fx-font-size: 1.7em; -fx-border-color: BLACK; -fx-text-fill: WHITE;");
+                }
                 playerNameTextField.setOnKeyPressed(e -> {
                     final String newName = playerNameTextField.getText();
                     if (newName.isBlank()) {
@@ -80,36 +106,128 @@ public class CreateGameBuilder extends MenuBuilder {
             }
         });
 
+        mainBox.getChildren().addAll(
+            playerListVBox,
+            createAddPlayerButton()
+        );
+        mainBox.alignmentProperty().set(Pos.TOP_CENTER);
+
         final Button startGameButton = new Button("Start Game");
         final Label startGameErrorLabel = new Label();
+        VBox startGameButtonBox = new VBox();
+        startGameButtonBox.setPadding(new Insets(10, 0, 1, 0));
+        startGameButtonBox.setAlignment(Pos.CENTER);
+        startGameButtonBox.getChildren().addAll(startGameButton, startGameErrorLabel);
         startGameButton.setOnAction(e -> {
             if (!this.startGameHandler.get()) {
                 startGameErrorLabel.setText("Cannot start game");
             } else if (BackgroundMusicPlayer.getInstance().getMediaPlayer() != null) {
-                BackgroundMusicPlayer.getInstance().fadeOut(2);
-                BackgroundMusicPlayer.getInstance().changeMedia(getClass().getResource(Config.GAME_LOOP_MP3_PATH));
-                BackgroundMusicPlayer.getInstance().getMediaPlayer().setCycleCount(MediaPlayer.INDEFINITE);
-                BackgroundMusicPlayer.getInstance().fadeIn(4);
                 SoundFXplayer.getInstance().playSound(getClass().getResource(Config.GAMESTART_WAV_PATH));
             }
         });
+        startGameButton.setOnMouseEntered(e -> {
+            SoundFXplayer.getInstance().playSound(getClass().getResource(Config.HOVER_BUTTON_WAV_PATH));
+            if (buttonTextureExists) {
+                startGameButton.setTextFill(Color.GOLD);
+            } else {
+                startGameButton.setTextFill(Color.AQUAMARINE);
+            }
+        });
+        startGameButton.setOnMouseExited(e -> {
+            if (buttonTextureExists) {
+                startGameButton.setTextFill(Color.WHITE);
+            } else {
+                startGameButton.setTextFill(Color.BLACK);
+            }
+        });
 
-        mainBox.getChildren().addAll(
-            playerListVBox,
-            createAddPlayerButton(),
-            startGameButton,
-            startGameErrorLabel
-        );
-        mainBox.alignmentProperty().set(Pos.TOP_CENTER);
-        return mainBox;
+        if (buttonTextureExists) {
+            Image buttonBackground = new Image(Objects.requireNonNull(getClass().getResourceAsStream(Config.MAIN_MENU_BUTTON_PATH)));
+            double buttonWidth = buttonBackground.getWidth() * Config.bigButtonSize;
+            double buttonHeight = buttonBackground.getHeight() * Config.bigButtonSize;
+            ImageView startImageView = new ImageView(buttonBackground);
+            startGameButton.setGraphic(startImageView);
+            startGameButton.contentDisplayProperty().set(ContentDisplay.CENTER);
+            startImageView.fitWidthProperty().set(buttonWidth);
+            startImageView.setPreserveRatio(true);
+            startGameButton.setMaxSize(buttonWidth, buttonHeight);
+            startGameButton.setStyle("-fx-background-color: transparent; -fx-border-width: 0; -fx-font-size: 1.7em; -fx-border-color: GOLD;");
+            startGameButton.setTextFill(Color.WHITE);
+        }
+
+        gridPane.add(mainBox, 0, 0);
+        gridPane.add(startGameButtonBox, 0, 1);
+        gridPane.setAlignment(Pos.CENTER);
+
+        return gridPane;
     }
 
     @Override
     protected Node initFooter(Runnable returnHandler) {
-        return null;
+        boolean buttonTextureExists = getClass().getResource(Config.MAIN_MENU_BUTTON_PATH) != null;
+
+        Button cancelButton = new Button("Cancel");
+        if (buttonTextureExists) {
+            Image buttonBackground = new Image(Objects.requireNonNull(getClass().getResourceAsStream(Config.MAIN_MENU_BUTTON_PATH)));
+            double buttonWidth = buttonBackground.getWidth() * Config.bigButtonSize;
+            double buttonHeight = buttonBackground.getHeight() * Config.bigButtonSize;
+            ImageView startImageView = new ImageView(buttonBackground);
+            cancelButton.setGraphic(startImageView);
+            cancelButton.contentDisplayProperty().set(ContentDisplay.CENTER);
+            startImageView.fitWidthProperty().set(buttonWidth);
+            startImageView.setPreserveRatio(true);
+            cancelButton.setMaxSize(buttonWidth, buttonHeight);
+            cancelButton.setStyle("-fx-background-color: transparent; -fx-border-width: 0; -fx-font-size: 1.7em;");
+            cancelButton.setTextFill(Color.WHITE);
+        }
+
+        HBox buttonBox = new HBox();
+        buttonBox.setAlignment(Pos.BOTTOM_RIGHT);
+        buttonBox.setPadding(new Insets(0, 0, 10, 10));
+        buttonBox.getChildren().add(cancelButton);
+
+        cancelButton.setOnAction(event -> {
+            SoundFXplayer.getInstance().playSound(getClass().getResource(Config.BUTTON_CLICK_MP3_PATH));
+            returnHandler.run();
+        });
+        cancelButton.setOnMouseEntered(e -> {
+            SoundFXplayer.getInstance().playSound(getClass().getResource(Config.HOVER_BUTTON_WAV_PATH));
+            if (buttonTextureExists) {
+                cancelButton.setTextFill(Color.GOLD);
+            } else {
+                cancelButton.setTextFill(Color.AQUAMARINE);
+            }
+        });
+        cancelButton.setOnMouseExited(e -> {
+            if (buttonTextureExists) {
+                cancelButton.setTextFill(Color.WHITE);
+            } else {
+                cancelButton.setTextFill(Color.BLACK);
+            }
+        });
+        return buttonBox;
     }
     @Override
-    protected Node initHeader() { return null;}
+    protected Node initHeader() {
+        Text createGameTitle = new Text("Create a new Game");
+        InnerShadow is = new InnerShadow();
+        is.setOffsetX(4.0f);
+        is.setOffsetY(4.0f);
+        if (getClass().getResource(Config.ANANDA_FONT_PATH) != null && (getClass().getResource("/css/CreateGameBuilder.css")) != null) {
+            System.out.println("Font found");
+            createGameTitle.getStyleClass().add("createGameTitle");
+        } else {
+            createGameTitle.setStyle("-fx-font-size: 8em");
+            System.out.println("Font not found");
+        }
+        createGameTitle.setFill(Color.valueOf("#ffc72b"));
+        createGameTitle.setEffect(is);
+        HBox titleBox = new HBox();
+        titleBox.setPadding(new Insets(40, 20, 0, 20));
+        titleBox.setAlignment(Pos.CENTER);
+        titleBox.getChildren().add(createGameTitle);
+        return titleBox;
+    }
 
     /**
      * Creates a button to add a new player to the game.

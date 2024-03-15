@@ -16,6 +16,8 @@ import projekt.controller.PlayerController;
 import projekt.model.GameState;
 import projekt.model.Player;
 import projekt.model.ResourceType;
+import projekt.sound.BackgroundMusicPlayer;
+import projekt.sound.SoundFXplayer;
 import projekt.view.GameBoardBuilder;
 
 import java.util.Map;
@@ -74,8 +76,12 @@ public class GameBoardController implements SceneController {
                 return;
             }
             Platform.runLater(() -> {
+                SoundFXplayer.getInstance().playSound(getClass().getResource(Config.WINSOUND));
                 new Alert(Alert.AlertType.INFORMATION, String.format("Player %s won!", newValue.getName()))
                     .showAndWait();
+                BackgroundMusicPlayer.getInstance().fadeOut(4);
+                BackgroundMusicPlayer.getInstance().changeMedia(getClass().getResource(Config.MAIN_MENU_MP3_PATH));
+                BackgroundMusicPlayer.getInstance().fadeIn(1);
                 SceneController.loadMainMenuScene();
             });
         });

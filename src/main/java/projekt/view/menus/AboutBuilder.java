@@ -40,6 +40,12 @@ public class AboutBuilder extends MenuBuilder {
                 music:
                     - main menu: Copyright © BrunuhVille Song: The Prince of Skyguard
                     - Title: Village Consort | free to use, no copyright
+
+                    Font: license: Freeware, Non-Commercial
+                          link: https://www.fontspace.com/ananda-black-font-f85089
+                Textures:
+                    - https://www.freepik.com/free-photos-vectors/wood-texture
+                    - selfmade
                 """);
         return textArea;
     }

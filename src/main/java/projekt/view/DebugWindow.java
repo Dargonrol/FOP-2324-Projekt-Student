@@ -26,6 +26,7 @@ import projekt.controller.gui.SceneSwitcher;
 import projekt.model.DevelopmentCardType;
 import projekt.model.Player;
 import projekt.model.ResourceType;
+import projekt.sound.BackgroundMusicPlayer;
 
 import java.util.List;
 

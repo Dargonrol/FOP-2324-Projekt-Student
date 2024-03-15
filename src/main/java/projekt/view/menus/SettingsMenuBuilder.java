@@ -9,6 +9,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import projekt.Config;
 import projekt.sound.BackgroundMusicPlayer;
@@ -31,10 +32,14 @@ public class SettingsMenuBuilder extends MenuBuilder {
         Button returnButton = new Button("Return");
         returnButton.setOnAction(e -> loadGameScene.run());
 
+        Text debugHint = new Text("(SHIFT+F10 to toggle in game)");
+        debugHint.setFill(Color.rgb(150, 150, 150));
+
         mainBox.getChildren().addAll(
             buildMusicVolumeSlider(),
             buildFXVolumeSlider(),
             buildDebugModeCheckBox(),
+            debugHint,
             returnButton);
 
         return mainBox;

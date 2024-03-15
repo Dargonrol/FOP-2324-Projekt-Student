@@ -1,0 +1,13 @@
+@font-face {
+    -fx-font-family: "Ananda Black Personal Use";
+    src: url("/fonts/AnandaBlackPersonalUseRegular-rg9Rx.ttf");
+}
+
+.createGameTitle {
+    -fx-font-family: "Ananda Black Personal Use";
+    -fx-font-size: 8em;
+    color: #FFFFFF;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 40px;
+}

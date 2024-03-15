@@ -6,6 +6,7 @@ import org.tudalgo.algoutils.student.annotation.DoNotTouch;
 import projekt.controller.GameController;
 import projekt.view.DebugWindow;
 
+import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -111,6 +112,7 @@ public class SceneSwitcher {
         final SceneController controller = sceneType.controller.get();
         final Scene scene = new Scene(controller.buildView());
         scene.getStylesheets().add("css/hexmap.css");
+        scene.getStylesheets().add("css/CreateGameBuilder.css");
         stage.setScene(scene);
         stage.setTitle(controller.getTitle());
         stage.show();

@@ -41,7 +41,7 @@ public class MyApplication extends Application {
         stage.setMinHeight(520);
         stage.setWidth(1200);
         stage.setHeight(720);
-        stage.setResizable(true);
+        stage.setResizable(false);
         stage.initStyle(StageStyle.DECORATED);
 
         BackgroundMusicPlayer backgroundMusicPlayer = BackgroundMusicPlayer.getInstance();
