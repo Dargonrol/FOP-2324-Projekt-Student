@@ -45,7 +45,7 @@ public class AboutBuilder extends MenuBuilder {
     }
 
     @Override
-    protected Node initFooter() { return null;}
+    protected Node initFooter(Runnable returnHandler) { return null;}
     @Override
     protected Node initHeader() { return null;}
 

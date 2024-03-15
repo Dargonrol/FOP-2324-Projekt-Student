@@ -177,7 +177,7 @@ public class MainMenuBuilder extends MenuBuilder {
     }
 
     @Override
-    protected Node initFooter() {
+    protected Node initFooter(Runnable returnHandler) {
         final GridPane footer = new GridPane();
         footer.setAlignment(Pos.CENTER);
         footer.setHgap(10);

@@ -95,7 +95,7 @@ public class SettingsMenuBuilder extends MenuBuilder {
     }
 
     @Override
-    protected Node initFooter() {
+    protected Node initFooter(Runnable returnHandler) {
         return null;
     }
 

@@ -74,7 +74,7 @@ public abstract class MenuBuilder implements Builder<Region> {
         if (customStyle) {
             root.setTop(initHeader());
             root.setCenter(initCenter());
-            root.setBottom(initFooter());
+            root.setBottom(initFooter(returnHandler));
             return;
         }
         final Label titleLabel = new Label(title);
@@ -108,6 +108,6 @@ public abstract class MenuBuilder implements Builder<Region> {
      * @return The Node to display in the center of the menu.
      */
     protected abstract Node initCenter();
-    protected abstract Node initFooter();
+    protected abstract Node initFooter(Runnable returnHandler);
     protected abstract Node initHeader();
 }
