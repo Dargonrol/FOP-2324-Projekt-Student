@@ -1,11 +1,13 @@
 package projekt.model;
 
-import org.tudalgo.algoutils.student.annotation.DoNotTouch;
-import projekt.model.buildings.Edge;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import org.tudalgo.algoutils.student.annotation.DoNotTouch;
+
+import projekt.controller.PlayerObjective;
+import projekt.model.buildings.Edge;
 
 /**
  * Holds information on a player's state.
@@ -20,12 +22,12 @@ import java.util.Set;
  */
 @DoNotTouch
 public record PlayerState(
-    Set<Intersection> buildableVillageIntersections,
-    Set<Intersection> upgradableVillageIntersections,
-    Set<Edge> buildableRoadEdges,
-    List<Player> playersToStealFrom,
-    TradePayload offeredTrade,
-    int cardsToSelect,
-    Map<ResourceType, Integer> changedResources
-) {
+        Set<Intersection> buildableVillageIntersections,
+        Set<Intersection> upgradableVillageIntersections,
+        Set<Edge> buildableRoadEdges,
+        List<Player> playersToStealFrom,
+        TradePayload offeredTrade,
+        int cardsToSelect,
+        Map<ResourceType, Integer> changedResources,
+        PlayerObjective playerObjective) {
 }

@@ -45,7 +45,7 @@ public class PlayerController {
 
     private final Property<PlayerState> playerStateProperty = new SimpleObjectProperty<>();
 
-    private final Property<PlayerObjective> playerObjectiveProperty = new SimpleObjectProperty<>(PlayerObjective.IDLE);
+    private PlayerObjective playerObjective = PlayerObjective.IDLE;
 
     private Player tradingPlayer;
 
@@ -72,9 +72,6 @@ public class PlayerController {
     public PlayerController(final GameController gameController, final Player player) {
         this.gameController = gameController;
         this.player = player;
-        this.playerObjectiveProperty.addListener((observable, oldValue, newValue) -> {
-            updatePlayerState();
-        });
     }
 
     /**
@@ -112,8 +109,8 @@ public class PlayerController {
      * @return a {@link Property} with the current {@link PlayerObjective}
      */
     @DoNotTouch
-    public Property<PlayerObjective> getPlayerObjectiveProperty() {
-        return playerObjectiveProperty;
+    public PlayerObjective getPlayerObjective() {
+        return playerObjective;
     }
 
     /**
@@ -124,7 +121,7 @@ public class PlayerController {
      */
     @DoNotTouch
     public void setPlayerObjective(final PlayerObjective nextObjective) {
-        playerObjectiveProperty.setValue(nextObjective);
+        playerObjective = nextObjective;
     }
 
     /**
@@ -144,10 +141,9 @@ public class PlayerController {
     @DoNotTouch
     private void updatePlayerState() {
         playerStateProperty
-            .setValue(new PlayerState(getBuildableVillageIntersections(), getUpgradeableVillageIntersections(),
-                                      getBuildableRoadEdges(), getPlayersToStealFrom(), getPlayerTradingPayload(),
-                                      getCardsToSelect(), getChangedResources()
-            ));
+                .setValue(new PlayerState(getBuildableVillageIntersections(), getUpgradeableVillageIntersections(),
+                        getBuildableRoadEdges(), getPlayersToStealFrom(), getPlayerTradingPayload(),
+                        getCardsToSelect(), getChangedResources(), getPlayerObjective()));
     }
 
     /**
@@ -221,7 +217,7 @@ public class PlayerController {
         if (selectedResources.values().stream().mapToInt(Integer::intValue).sum() != getCardsToSelect()) {
             throw new IllegalActionException("Wrong amount of cards selected");
         }
-        if (PlayerObjective.DROP_CARDS.equals(playerObjectiveProperty.getValue())) {
+        if (PlayerObjective.DROP_CARDS.equals(getPlayerObjective())) {
             dropSelectedResources(selectedResources);
         }
         this.selectedResources = selectedResources;
@@ -283,11 +279,9 @@ public class PlayerController {
 
             System.out.println("TRIGGER " + action + " [" + player.getName() + "]");
 
-
-            if (!playerObjectiveProperty.getValue().allowedActions.contains(action.getClass())) {
+            if (!getPlayerObjective().allowedActions.contains(action.getClass())) {
                 throw new IllegalActionException(String.format("Illegal Action %s performed. Allowed Actions: %s",
-                                                               action, playerObjectiveProperty.getValue().getAllowedActions()
-                ));
+                        action, getPlayerObjective().getAllowedActions()));
             }
             action.execute(this);
             updatePlayerState();
@@ -731,7 +725,7 @@ public class PlayerController {
         if (!player.hasResources(resourcesToDrop)) {
             return;
         }
-        playerObjectiveProperty.setValue(PlayerObjective.IDLE);
+        setPlayerObjective(PlayerObjective.IDLE);
         // remove resources from player
         player.removeResources(resourcesToDrop);
         cardsToSelect = 0;
@@ -750,7 +744,7 @@ public class PlayerController {
         if (!playerToStealFrom.removeResource(resourceToSteal, 1)) {
             throw new IllegalActionException("Player does not have the selected resource");
         }
-        playerObjectiveProperty.setValue(PlayerObjective.IDLE);
+        setPlayerObjective(PlayerObjective.IDLE);
         // add resource to player
         player.addResource(resourceToSteal, 1);
     }
