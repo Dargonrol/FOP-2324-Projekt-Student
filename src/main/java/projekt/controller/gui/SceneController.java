@@ -61,10 +61,12 @@ public interface SceneController extends Controller {
      * Loads the game scene.
      */
     static void loadGameScene() {
-        BackgroundMusicPlayer.getInstance().fadeOut(2);
-        BackgroundMusicPlayer.getInstance().changeMedia(SceneController.class.getResource(Config.GAME_LOOP_MP3_PATH));
-        BackgroundMusicPlayer.getInstance().getMediaPlayer().setCycleCount(MediaPlayer.INDEFINITE);
-        BackgroundMusicPlayer.getInstance().fadeIn(4);
+        if (BackgroundMusicPlayer.getInstance().getMediaPlayer() != null) {
+            BackgroundMusicPlayer.getInstance().fadeOut(2);
+            BackgroundMusicPlayer.getInstance().changeMedia(SceneController.class.getResource(Config.GAME_LOOP_MP3_PATH));
+            BackgroundMusicPlayer.getInstance().getMediaPlayer().setCycleCount(MediaPlayer.INDEFINITE);
+            BackgroundMusicPlayer.getInstance().fadeIn(4);
+        }
         SceneSwitcher.getInstance().loadScene(SceneSwitcher.SceneType.GAME_BOARD);
     }
 
