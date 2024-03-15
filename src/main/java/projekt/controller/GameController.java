@@ -374,11 +374,12 @@ public class GameController {
     @StudentImplementationRequired("H2.1")
     private void diceRollSeven() { // ✅
         // H2.1
+        System.out.println(Config.activateDiceRollSeven);
         if (Config.activateDiceRollSeven)
         {
             this.playerControllers.forEach((player, controller) -> {
                 if (player.getResources().values().stream().mapToInt(Integer::intValue).sum() > 7) {
-                    // get active pc to set it later again, cause withActivePlayer resets is
+                    // get active pc to set it later again, cause withActivePlayer resets it
                     PlayerController activePc = this.getActivePlayerController();
                     controller.setCardsToSelect(player.getResources().values().stream().mapToInt(Integer::intValue).sum() / 2);
                     withActivePlayer(controller, () -> controller.waitForNextAction(PlayerObjective.DROP_CARDS));

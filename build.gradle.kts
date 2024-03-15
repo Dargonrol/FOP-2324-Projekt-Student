@@ -14,9 +14,9 @@ submission {
     // ACHTUNG!
     // Setzen Sie im folgenden Bereich Ihre TU-ID (NICHT Ihre Matrikelnummer!), Ihren Nachnamen und Ihren Vornamen
     // in Anführungszeichen (z.B. "ab12cdef" für Ihre TU-ID) ein!
-    studentId = "nul22l"
-    firstName = "nul22l"
-    lastName = "222"
+    studentId = "ab34mibu"
+    firstName = "Alexander"
+    lastName = "Bach"
 
     // Optionally require own tests for mainBuildSubmission task. Default is false
     requireTests = false

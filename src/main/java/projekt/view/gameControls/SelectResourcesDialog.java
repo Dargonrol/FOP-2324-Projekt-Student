@@ -71,6 +71,7 @@ public class SelectResourcesDialog extends Dialog<Map<ResourceType, Integer>> {
         Map<ResourceType, Integer> resourcesToSelectFrom, final boolean dropCards
     ) {
         // H3.4
+        System.out.println("SelectResourcesDialog.init() called");
         ArrayList<ResourceType> resourceTypes = new ArrayList<>();
         resourceTypes.add(ResourceType.WOOD);
         resourceTypes.add(ResourceType.CLAY);

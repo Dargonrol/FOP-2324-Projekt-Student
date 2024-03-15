@@ -149,19 +149,19 @@ public class PlayerActionsController implements Controller {
             this.builder.disableTradeButton();
         }
 
-        if (getPlayerController().getPlayerObjectiveProperty().getValue() == PlayerObjective.SELECT_ROBBER_TILE) {
+        if (objective.getAllowedActions().contains(SelectRobberTileAction.class)) {
             getHexGridController().highlightTiles(this::selectRobberTileAction);
         }
 
-        if (getPlayerController().getPlayerObjectiveProperty().getValue() == PlayerObjective.SELECT_CARD_TO_STEAL) {
+        if (objective.getAllowedActions().contains(StealCardAction.class)) {
             selectCardToStealAction();
         }
 
-        if(getPlayerController().getPlayerObjectiveProperty().getValue() == PlayerObjective.SELECT_CARDS) {
+        if(objective.getAllowedActions().contains(SelectCardsAction.class)) {
             selectResources(getPlayerState().cardsToSelect());
         }
 
-        if (getPlayerController().getPlayerObjectiveProperty().getValue() == PlayerObjective.ACCEPT_TRADE) {
+        if (objective.getAllowedActions().contains(AcceptTradeAction.class)) {
             acceptTradeOffer();
         }
 
