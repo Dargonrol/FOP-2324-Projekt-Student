@@ -258,7 +258,7 @@ public class CreateGameBuilder extends MenuBuilder {
         Alert alert = new Alert(Alert.AlertType.INFORMATION, "Another Player already picked this colour");
 
         picker.setOnAction(event -> {
-            if(!observablePlayers.stream().map(Builder::getColor).filter(x -> x == picker.getValue()).toList().isEmpty()) { // another player already has the colour?
+            if(!observablePlayers.stream().map(Builder::getColor).filter(x -> x.equals(picker.getValue())).toList().isEmpty()) { // another player already has the colour?
                 alert.showAndWait();
             } else { // no-one already has the colour
                 playerBuilder.color(picker.getValue());
